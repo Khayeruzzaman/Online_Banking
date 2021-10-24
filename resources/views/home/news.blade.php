@@ -28,12 +28,14 @@
     .flex-item {
         -webkit-flex-direction: column;
         flex-direction: column;
-        flex: 1 1 550px;
+        flex: 1 1 100%;
         background-color: #EEEEEE;
         width: auto;
         height: auto;
-        max-height: 65vh;
+        max-height: 100vh;
         margin: 10px;
+        margin-left: 50px;
+        margin-right: 50px;
         overflow-y: auto;
         box-shadow: 2px 3px 8px #888888;
         border-radius: 4px;
@@ -72,6 +74,15 @@
         font-family: Roboto-Regular;
     }
 
+    img[id="news_body_img"] {
+        width: 650px;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 2px solid black;
+        border-radius: 10px;
+    }
+
 </style>
 
 @section('content')
@@ -82,6 +93,23 @@
             </div>
             <div class="flex-container-title">
                 <p id="date">2021-10-25</p>
+            </div>
+            <div class="flex-container-body">
+                <img src="{{ asset('sysimages/bank_home.jpg') }}" id="news_body_img">
+            </div>
+            <div class="flex-container-body">
+                <p id="news_body">Hello Brother!</p>
+            </div>
+        </div>
+        <div class="flex-item">
+            <div class="flex-container-title">
+                <h1 id="title"> News<br></h1>
+            </div>
+            <div class="flex-container-title">
+                <p id="date">2021-10-25</p>
+            </div>
+            <div class="flex-container-body">
+                <img src="{{ asset('sysimages/bank_about.jpg') }}" id="news_body_img">
             </div>
             <div class="flex-container-body">
                 <p id="news_body">Hello Brother!</p>

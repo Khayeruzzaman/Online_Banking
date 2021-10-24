@@ -38,7 +38,7 @@
     .flex-item-0 {
         margin: auto;
         width: 100%;
-        background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
+        background: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0));
     }
 
     .flex-item-1 {
@@ -131,6 +131,11 @@
         opacity: 0.8;
     }
 
+    span[id="validation_msg"]{
+        color: red;
+        margin-left: 20px;
+    }
+
 </style>
 
 @section('content')
@@ -143,17 +148,30 @@
 
         <div class="flex-container">
             <div class="flex-item-1">
-                <form action="model/customer_login_action.php" method="post">
+                <form action="{{ route('home.login') }}" method="post">
+                    {{ csrf_field() }}
                     <div class="flex-item-login">
                         <h2>Welcome Sir/Madam!</h2>
                     </div>
 
                     <div class="flex-item">
-                        <input type="text" name="cust_uname" placeholder="Enter your Username" required>
+                        <input type="text" name="username" placeholder="Enter your Username">
                     </div>
 
                     <div class="flex-item">
-                        <input type="password" name="cust_psw" placeholder="Enter your Password" required>
+                        @error('username')
+                            <span class="text text-danger" id="validation_msg">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="flex-item">
+                        <input type="password" name="password" placeholder="Enter your Password">
+                    </div>
+
+                    <div class="flex-item">
+                        @error('password')
+                            <span class="text text-danger" id="validation_msg">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="flex-item">
