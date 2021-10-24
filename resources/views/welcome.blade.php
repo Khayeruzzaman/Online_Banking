@@ -197,30 +197,16 @@
                                         <h4>Rate of Interests</h4>
                                     </th>
                                 </tr>
+                                @foreach ($loantypes as $loan)
                                 <tr>
                                     <td>
-                                        <h4>Home Loan</h4>
+                                        <h4>{{ $loan->type }}</h4>
                                     </td>
                                     <td>
-                                        <h4>20%</h4>
+                                        <h4>{{ $loan->rate }}%</h4>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <h4>Car Loan</h4>
-                                    </td>
-                                    <td>
-                                        <h4>15%</h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h4>Educational Loan</h4>
-                                    </td>
-                                    <td>
-                                        <h4>10%</h4>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </table>
                         </h4>
                     </div>

@@ -6,13 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Account;
 use App\Models\Employee;
+use App\Models\News;
+use App\Models\LoanType;
 
 
 class HomeController extends Controller
 {
     public function welcome()
     {
-        return view('welcome');
+        $loan=LoanType::all();
+        return view('welcome')->with('loantypes', $loan);
     }
 
     public function contactus()
@@ -27,7 +30,9 @@ class HomeController extends Controller
 
     public function news()
     {
-        return view('home.news');
+        $news=News::all();
+                  //->orderby('created_at','desc');
+        return view('home.news')->with('news', $news);
     }
 
     public function login()

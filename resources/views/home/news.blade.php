@@ -115,5 +115,21 @@
                 <p id="news_body">Hello Brother!</p>
             </div>
         </div>
+        @foreach ($news as $n)
+        <div class="flex-item">
+            <div class="flex-container-title">
+                <h1 id="title">{{ $n->newstitle }}<br></h1>
+            </div>
+            <div class="flex-container-title">
+                <p id="date">{{ $n->updated_at }}</p>
+            </div>
+            <div class="flex-container-body">
+                <img src="/newsimg/{{ $n->newspicture }}" id="news_body_img">
+            </div>
+            <div class="flex-container-body">
+                <p id="news_body">{{ $n->newsbody }}</p>
+            </div>
+        </div>
+        @endforeach
     </div>
 @endsection
