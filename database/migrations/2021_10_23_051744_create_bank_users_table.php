@@ -22,7 +22,7 @@ class CreateBankUsersTable extends Migration
             $table->string('phone', 14);
             $table->string('email', 50);
             $table->string('userprofilepicture')->nullable();
-            $table->string('nid', 15);
+            $table->string('nid', 15)->unique();
             $table->timestamps();
         });
     }
