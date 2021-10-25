@@ -63,7 +63,8 @@ class HomeController extends Controller
         if($admin)
         {
             $rqst->session()->put('adminid', $admin->id);
-            return redirect()->route('home.news');
+            $rqst->session()->put('adminName', $admin->adminname);
+            return redirect()->route('AdminDashboard');
         }
         elseif($employee)
         {
@@ -95,6 +96,7 @@ class HomeController extends Controller
     public function logout()
     {
         session()->forget('adminid');
+        session()->forget('adminName');
         session()->forget('empid');
         session()->forget('accountid');
         return redirect()->route('home.home');
