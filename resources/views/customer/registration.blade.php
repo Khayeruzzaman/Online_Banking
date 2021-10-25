@@ -261,8 +261,8 @@
 
                     <div class="flex-item">
                         <br>
-                        <input type="text" name="firstname" placeholder="Enter your First Name">
-                        <input type="text" name="lastname" placeholder="Enter your Last Name">
+                        <input type="text" name="firstname" placeholder="Enter your First Name" value="{{old('firstname')}}">
+                        <input type="text" name="lastname" placeholder="Enter your Last Name" value="{{old('lastname')}}">
                     </div>
 
                     <div class="flex-item">
@@ -287,7 +287,7 @@
                     </div>
 
                     <div class="flex-item">
-                        <input placeholder="Date Of Birth" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="dateofbirth">
+                        <input placeholder="Date Of Birth" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="dateofbirth" value="{{old('dateofbirth')}}">
                     </div>
 
                     <div class="flex-item">
@@ -297,7 +297,7 @@
                     </div>
 
                     <div class="flex-item">
-                        <input type="text" name="phone" placeholder="Enter your Phone No">
+                        <input type="text" name="phone" placeholder="Enter your Phone No" value="{{old('phone')}}">
                     </div>
 
                     <div class="flex-item">
@@ -307,7 +307,7 @@
                     </div>
 
                     <div class="flex-item">
-                        <input type="text" name="email" placeholder="Enter your Email">
+                        <input type="text" name="email" placeholder="Enter your Email" value="{{old('email')}}">
                     </div>
 
                     <div class="flex-item">
@@ -317,7 +317,7 @@
                     </div>
 
                     <div class="flex-item">
-                        <input type="text" name="nid" placeholder="Enter your NID No">
+                        <input type="text" name="nid" placeholder="Enter your NID No" value="{{old('nid')}}">
                     </div>
 
                     <div class="flex-item">
@@ -340,7 +340,7 @@
 
                     <div class="flex-item">
                         <br>
-                        <input type="text" name="accountname" placeholder="Enter your Account Username">
+                        <input type="text" name="accountname" placeholder="Enter your Account Username" value="{{old('accountname')}}">
                     </div>
 
                     <div class="flex-item">
