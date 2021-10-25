@@ -163,7 +163,15 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <h4>Personal Savings Account</h4>
+                                        <h4>Savings Account</h4>
+                                    </td>
+                                    <td>
+                                        <h4>7.5%</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h4>Business Account</h4>
                                     </td>
                                     <td>
                                         <h4>5%</h4>
@@ -174,7 +182,7 @@
                                         <h4>Student Account</h4>
                                     </td>
                                     <td>
-                                        <h4>7%</h4>
+                                        <h4>10.5%</h4>
                                     </td>
                                 </tr>
                             </table>

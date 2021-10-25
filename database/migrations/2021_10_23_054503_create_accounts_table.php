@@ -20,7 +20,7 @@ class CreateAccountsTable extends Migration
             $table->string('accounttype', 20);
             $table->string('password');
             $table->double('accountbalance', 15, 8)->default(0.0000);
-            $table->double('accountinterestrate', 3, 2)->default(0.0000);
+            $table->double('accountinterestrate', 5, 3)->default(0.0000);
             $table->string('accountdocument')->nullable();
             $table->string('accountstate');
             $table->foreignIdFor(BankUser::class)->constrained();

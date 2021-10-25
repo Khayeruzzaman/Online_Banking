@@ -104,7 +104,7 @@
         <a href="{{ route('home.news') }}" id="news">NEWS</a>
         <a href="{{ route('home.contactus') }}" id="contactus">CONTACT</a>
         <a href="{{ route('home.aboutus') }}" id="aboutus">ABOUT US</a>
-        <a href="{{ route('home.login') }}" id="login">LOGIN</a>
+        <a href="{{ route('home.login') }}" id="login">LOGIN/SIGNUP</a>
         <a href="javascript:void(0);" class="icon" onclick="respFunc()">&#9776;</a>
     </div>
     </div>

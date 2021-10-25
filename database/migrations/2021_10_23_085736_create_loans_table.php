@@ -18,7 +18,7 @@ class CreateLoansTable extends Migration
             $table->id();
             $table->string('loantype');
             $table->double('loanamount', 15, 8)->default(0.0000);
-            $table->double('loaninterestrate', 3, 2)->default(0.00);
+            $table->double('loaninterestrate', 5, 3)->default(0.00);
             $table->double('amountpaid', 15, 8)->default(0.0000);
             $table->date('loanapprovedate');
             $table->string('loandocument');

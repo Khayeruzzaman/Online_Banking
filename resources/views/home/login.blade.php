@@ -3,6 +3,16 @@
     Login
 @endsection
 
+@if (Session::get('accountid')||Session::get('adminid')||Session::get('empid'))
+    @if (Session::get('adminid'))
+        <script>window.location="{{ route('home.news') }}";</script>
+    @elseif (Session::get('empid'))
+        <script>window.location="{{ route('home.home') }}";</script>
+    @elseif (Session::get('accountid'))
+        <script>window.location="{{ route('home.aboutus') }}";</script>
+    @endif
+@endif
+
 <style>
     #login{
         background-color: #2c6966;
@@ -74,6 +84,8 @@
 
     /* Bordered form */
     form {
+        margin-top: 0px;
+        margin-bottom: 0px;
         border: 2px solid #f1f1f1;
         border-radius: 10px;
     }
@@ -136,6 +148,24 @@
         margin-left: 20px;
     }
 
+    span[id="register"]{
+        text-align: center;
+        color: white;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    a[id="create"]:hover {
+        font-size: 23px;
+        border: 1px solid white;
+        border-radius: 5px;
+    }
+
+    strong[id="validation_msg"]{
+        color: red;
+        margin-left: 20px;
+    }
+
 </style>
 
 @section('content')
@@ -152,6 +182,12 @@
                     {{ csrf_field() }}
                     <div class="flex-item-login">
                         <h2>Welcome Sir/Madam!</h2>
+                    </div>
+
+                    <div class="flex-item">
+                        @if ($message = Session::get('loginerror'))
+                            <strong id="validation_msg">{{ $message }}</strong>
+                        @endif
                     </div>
 
                     <div class="flex-item">
@@ -176,6 +212,7 @@
 
                     <div class="flex-item">
                         <button type="submit">Login</button>
+                        <span class="text text-info" id="register">Don't have an account? <a href="{{ route('account.register') }}" style="color: cyan" id="create">Create One!</a></span>
                     </div>
                 </form>
             </div>

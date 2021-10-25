@@ -87,35 +87,7 @@
 
 @section('content')
     <div class="flex-container">
-        <div class="flex-item">
-            <div class="flex-container-title">
-                <h1 id="title"> News<br></h1>
-            </div>
-            <div class="flex-container-title">
-                <p id="date">2021-10-25</p>
-            </div>
-            <div class="flex-container-body">
-                <img src="{{ asset('sysimages/bank_home.jpg') }}" id="news_body_img">
-            </div>
-            <div class="flex-container-body">
-                <p id="news_body">Hello Brother!</p>
-            </div>
-        </div>
-        <div class="flex-item">
-            <div class="flex-container-title">
-                <h1 id="title"> News<br></h1>
-            </div>
-            <div class="flex-container-title">
-                <p id="date">2021-10-25</p>
-            </div>
-            <div class="flex-container-body">
-                <img src="{{ asset('sysimages/bank_about.jpg') }}" id="news_body_img">
-            </div>
-            <div class="flex-container-body">
-                <p id="news_body">Hello Brother!</p>
-            </div>
-        </div>
-        @foreach ($news as $n)
+        {{-- @foreach ($news as $n)
         <div class="flex-item">
             <div class="flex-container-title">
                 <h1 id="title">{{ $n->newstitle }}<br></h1>
@@ -130,6 +102,34 @@
                 <p id="news_body">{{ $n->newsbody }}</p>
             </div>
         </div>
-        @endforeach
+        @endforeach --}}
+        @forelse ($news as $n)
+        <div class="flex-item">
+            <div class="flex-container-title">
+                <h1 id="title">{{ $n->newstitle }}<br></h1>
+            </div>
+            <div class="flex-container-title">
+                <p id="date">{{ $n->updated_at }}</p>
+            </div>
+            <div class="flex-container-body">
+                <img src="/newsimg/{{ $n->newspicture }}" id="news_body_img">
+            </div>
+            <div class="flex-container-body">
+                <p id="news_body">{{ $n->newsbody }}</p>
+            </div>
+        </div>
+        @empty
+        <div class="flex-item">
+            <div class="flex-container-title">
+                <h1 id="title">No News<br></h1>
+            </div>
+            <div class="flex-container-title">
+                <p id="date">00-00-0000</p>
+            </div>
+            <div class="flex-container-body">
+                <p id="news_body">No News!</p>
+            </div>
+        </div>
+        @endforelse
     </div>
 @endsection

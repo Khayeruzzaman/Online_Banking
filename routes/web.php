@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,6 @@ Route::get('/news', [HomeController::class, 'news'])->name('home.news');
 Route::get('/login', [HomeController::class, 'login'])->name('home.login');
 Route::post('/login', [HomeController::class, 'loginSubmit'])->name('home.login');
 Route::get('/logout', [HomeController::class, 'logout'])->name('all.logout');
+
+Route::get('/create-account', [AccountController::class, 'registration'])->name('account.register');
+Route::post('/create-account', [AccountController::class, 'register'])->name('account.register');

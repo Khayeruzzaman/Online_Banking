@@ -30,8 +30,7 @@ class HomeController extends Controller
 
     public function news()
     {
-        $news=News::all();
-                  //->orderby('created_at','desc');
+        $news=News::orderby('created_at','desc')->get();
         return view('home.news')->with('news', $news);
     }
 
@@ -73,10 +72,20 @@ class HomeController extends Controller
         }
         elseif($customer)
         {
-            $rqst->session()->put('accountid', $customer->id);
-            return redirect()->route('home.news');
+            if($customer->accountstate=="ACTIVE")
+            {
+                $rqst->session()->put('accountid', $customer->id);
+                return redirect()->route('home.news');
+            }
+            // elseif($customer->accountstate=="INACTIVE")
+            // {
+                
+            // }
         }
-        return back();
+        else {
+            return back()->with('loginerror', '*Please Enter Valid Credentials!');
+        }
+        
     }
 
     public function logout()
