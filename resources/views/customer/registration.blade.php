@@ -155,7 +155,7 @@
         border-radius: 3px;
     }
 
-    input[name="gender"], input[name="accounttype"] {
+    input[name="gender"], input[name="accounttype"], input[name="privacy"] {
         font-family: Roboto-Regular;
         color: #212121;
         font-size: 18px;
@@ -368,6 +368,18 @@
 
                     <div class="flex-item">
                         @error('password')
+                            <span class="text text-danger" id="validation_msg">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="flex-item">
+                        <br>
+                        <input type="checkbox" name="privacy" id="privacy" value="yes">
+                        <label for="privacy"><strong id="gender-text" style="color: red; margin-left: 0">*I agree to the Castle Bank's privacy policy and Financial Agreement.</strong></label>
+                    </div>
+
+                    <div class="flex-item">
+                        @error('privacy')
                             <span class="text text-danger" id="validation_msg">{{ $message }}</span>
                         @enderror
                     </div>

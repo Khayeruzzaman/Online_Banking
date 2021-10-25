@@ -77,10 +77,14 @@ class HomeController extends Controller
                 $rqst->session()->put('accountid', $customer->id);
                 return redirect()->route('home.news');
             }
-            // elseif($customer->accountstate=="INACTIVE")
-            // {
-                
-            // }
+            elseif($customer->accountstate=="INACTIVE")
+            {
+                return back()->with('loginerror', 'Your Request is processing. Please check back again after a while!');
+            }
+            elseif($customer->accountstate=="DISABLE")
+            {
+                return back()->with('loginerror', 'Your account has been disabled by admin. Please contact to Account Relationship Manager!');
+            }
         }
         else {
             return back()->with('loginerror', '*Please Enter Valid Credentials!');

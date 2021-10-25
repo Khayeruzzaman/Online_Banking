@@ -29,6 +29,7 @@ class AccountController extends Controller
                 'accountname'=>'required|min:5|string',
                 'accounttype'=>'required',
                 'password'=>'required|min:8|alpha_num|confirmed',
+                'privacy'=>'required',
             ],
             [
                 'profilepicture.image'=>'Profile Picture must be an image.',
@@ -36,6 +37,7 @@ class AccountController extends Controller
                 'niddoc.required'=>'NID picture must be uploaded.',
                 'niddoc.image'=>'NID picture must be an image.',
                 'niddoc.max'=>'NID picture must be within 2MB.',
+                'privacy.required'=>'***You should be agreed with the Policy Statement and check the above box!'
             ]
         );
 
@@ -62,46 +64,56 @@ class AccountController extends Controller
             $nidPath = $rqst->file('niddoc')->storeAs('public/account/accountdocuments', $nidPicToUpload);
         }
 
-        $var= new BankUser();
-        $var->firstname=$rqst->firstname;
-        $var->lastname=$rqst->lastname;
-        $var->gender=$rqst->gender;
-        $var->dateofbirth=$rqst->dateofbirth;
-        $var->phone=$rqst->phone;
-        $var->email=$rqst->email;
-        $var->userprofilepicture=$profilePicToUpload;
-        $var->nid=$rqst->nid;
-        $var->save();
+        $checkuser=BankUser::where('nid', $rqst->nid)->first();
 
-        $bankuserid = BankUser::where('nid', $rqst->nid)->first();
-
-        if($bankuserid)
+        if($checkuser)
         {
-            $varacc = new Account();
-            $varacc->accountname=$rqst->accountname;
-            $varacc->accounttype=$rqst->accounttype;
-            $varacc->password=md5($rqst->password);
-            $varacc->accountbalance=5000.00;
-            if($rqst->accounttype=="Savings Account")
-            {
-                $varacc->accountinterestrate=7.50;
-            }
-            elseif($rqst->accounttype=="Business Account")
-            {
-                $varacc->accountinterestrate=5.00;
-            }
-            elseif($rqst->accounttype=="Student Account")
-            {
-                $varacc->accountinterestrate=10.50;
-            }
-            if($rqst->hasFile('niddoc'))
-            {
-                $varacc->accountdocument=$nidPicToUpload;
-            }
-            $varacc->accountstate="INACTIVE";
-            $varacc->bank_user_id=$bankuserid->id;
-            $varacc->save();
+            return back()->with('registererror', '*You already have an account!');
         }
-        return redirect()->route('home.news');
+
+        else
+        {
+            $var= new BankUser();
+            $var->firstname=$rqst->firstname;
+            $var->lastname=$rqst->lastname;
+            $var->gender=$rqst->gender;
+            $var->dateofbirth=$rqst->dateofbirth;
+            $var->phone=$rqst->phone;
+            $var->email=$rqst->email;
+            $var->userprofilepicture=$profilePicToUpload;
+            $var->nid=$rqst->nid;
+            $var->save();
+
+            $bankuserid = BankUser::where('nid', $rqst->nid)->first();
+
+            if($bankuserid)
+            {
+                $varacc = new Account();
+                $varacc->accountname=$rqst->accountname;
+                $varacc->accounttype=$rqst->accounttype;
+                $varacc->password=md5($rqst->password);
+                $varacc->accountbalance=5000.00;
+                if($rqst->accounttype=="Savings Account")
+                {
+                    $varacc->accountinterestrate=7.50;
+                }
+                elseif($rqst->accounttype=="Business Account")
+                {
+                    $varacc->accountinterestrate=5.00;
+                }
+                elseif($rqst->accounttype=="Student Account")
+                {
+                    $varacc->accountinterestrate=10.50;
+                }
+                if($rqst->hasFile('niddoc'))
+                {
+                    $varacc->accountdocument=$nidPicToUpload;
+                }
+                $varacc->accountstate="INACTIVE";
+                $varacc->bank_user_id=$bankuserid->id;
+                $varacc->save();
+            }
+            return redirect()->route('home.news');
+        }
     }
 }
