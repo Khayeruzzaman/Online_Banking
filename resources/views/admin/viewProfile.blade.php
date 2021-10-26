@@ -21,6 +21,24 @@
     
 
 	}
+
+	.btn1 {
+
+	font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: #373b8b;
+    color: white;
+    border-radius: 5px;
+    width: 100px;
+    height: 40px;
+
+	}
+
+	.btn1:hover{
+		background-color: white;
+		color: black;
+	}
 	
 </style>
 
@@ -86,7 +104,7 @@
 	</table>
 
 
-	<a class=" btn btn-primary" href="{{ route('AdminEdit') }}" style="text-transform: uppercase; text-align: center; margin-right: 01px; float: right;"> Edit </a>
+	<a href="{{ route('AdminEdit') }}" style="text-transform: uppercase; text-align: center; margin-right: 01px; float: right;"> <input class="btn1" type="submit" name="Edit" value="edit"> </a>
 	<br>
 	<br>
 </div>
