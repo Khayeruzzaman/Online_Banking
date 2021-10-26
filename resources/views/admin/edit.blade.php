@@ -49,17 +49,17 @@
 .btn1 {
 
 	font-weight: bold;
-    text-transform: uppercase;\
+    text-transform: uppercase;
     cursor: pointer;
     background-color: #373b8b;
+    color: white;
+    border-radius: 10px;
 
 }
 
 .btn1:hover{
 	background-color: white;
-
-
-
+	color: black;
 }
 
 #gen{
@@ -77,7 +77,7 @@
 			<img src=  "{{url('storage/admin/admin_cover_images/'.$bank->userprofilepicture)}}" 
 			style="width: 200px; height:200px;">
 			<br>
-			<a href="/admin/editpicture/{{$bank->id}}">Update Profile Pictrue</a>
+			<a style="text-decoration: none;" href="/admin/editpicture/{{$bank->id}}">Update Profile Pictrue</a>
 		</center>
 		
 		<br>
