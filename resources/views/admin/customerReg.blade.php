@@ -5,14 +5,12 @@
 @endsection
 
 @section('content')
-
-
 <style type="text/css">
-
-.form legend{
+	.form legend{
     font-size: 20px;
     font-weight: bold;
     text-align: center;
+    text-transform: uppercase;
     
 
 }
@@ -52,7 +50,7 @@
 .btn1 {
 
 	font-weight: bold;
-    text-transform: uppercase;\
+    text-transform: uppercase;
     cursor: pointer;
     background-color: #373b8b;
     color: white;
@@ -63,24 +61,20 @@
 .btn1:hover{
 	background-color: white;
 	color: black;
-
-
-
 }
 
 #gen{
 	display: inline-block; width: 15%;
 }
-
-
 </style>
 
-<div class= "form">
+<div class="form">
 	<fieldset>
 
-	<form action="{{route ('CreateAdmin') }}" method="post" enctype="multipart/form-data" >
+	<form action="{{route('CreateCustomer')}}" method="post" enctype="multipart/form-data" >
 		{{csrf_field()}}
-		<legend>Admin Registration</legend>
+
+		<legend>Customer Registration</legend>
 		<br>
 		<br>
 
@@ -103,7 +97,7 @@
 
 
 		<label>Gender</label>
-		<input type="radio" name="gender" id="gen" value="Male"> Male
+		<input type="radio" name="gender" id="gen" value="Male" > Male
 		<input type="radio" name="gender" id="gen" value="Female"> Female
 		<input type="radio" name="gender" id="gen" value="Others"> Others
 
@@ -144,7 +138,6 @@
 		<label>Upload Picture</label>
 		<input class="from-control" type="file" name="pic"><br>
 
-
 		<label>Nid No</label>
 		<input class="form-control" type="text" name="nid"  value="{{old('nid')}}">
 		@if($errors->has('nid'))
@@ -154,32 +147,74 @@
 		@endif <br>
 
 
-		<label>Admin Name</label>
-		<input class="form-control" type="text" name="ad_name"  value="{{old('ad_name')}}">
-		@if($errors->has('ad_name'))
+
+		<label>Upload Nid</label>
+		<input class="from-control" type="file" name="doc"><br>
+
+		@if($errors->has('doc'))
 			<span class="text-danger">
-				<strong> {{$errors->first('ad_name')}} </strong>
+				<strong> {{$errors->first('doc')}} </strong>
 			</span>
 		@endif <br>
 
+		<label>Account Type</label>
+		<input type="radio" name="type" id="gen" value="Savings Account"> Savings Account
+		<input type="radio" name="type" id="gen" value="Student Account"> Student Account
+		<input type="radio" name="type" id="gen" value="Business Account"> Business Account
+
+		@if($errors->has('type'))
+			<span class="text-danger">
+				<strong> {{$errors->first('type')}} </strong>
+			</span>
+		@endif <br> <br>
+
+
+		<label>Account Name</label>
+		<input class="form-control" type="text" name="acc_name"  value="{{old('accountname')}}">
+		@if($errors->has('acc_name'))
+			<span class="text-danger">
+				<strong> {{$errors->first('acc_name')}} </strong>
+			</span>
+		@endif <br>
+
+		
+
 		<label>Password</label>
-		<input class="form-control" type="text" name="password"  value="{{old('password')}}">
+		<input class="form-control" type="text" name="password">
+
 		@if($errors->has('password'))
 			<span class="text-danger">
 				<strong> {{$errors->first('password')}} </strong>
 			</span>
 		@endif <br>
 
-		<label>Salary</label>
-		<input class="form-control" type="text" name="sal"  value="{{old('sal')}}">
-		@if($errors->has('sal'))
+		<label>Balance</label>
+		<input class="form-control" type="text" name="bal"  value="{{old('bal')}}">
+		@if($errors->has('bal'))
 			<span class="text-danger">
-				<strong> {{$errors->first('sal')}} </strong>
+				<strong> {{$errors->first('bal')}} </strong>
 			</span>
 		@endif 
 		<br>
 
-		<input class= "btn1" type="Submit"  name="submit">
+		
+
+		<label>Account State </label>
+
+		<select class="form-select" name="state">
+		      <option selected disabled>Select State</option>
+		      <option value="ACTIVE">ACTIVE</option>
+		      <option value="INACTIVE">INACTIVE</option>
+		</select>
+		@if($errors->has('state'))
+			<span class="text-danger">
+				<strong> {{$errors->first('state')}} </strong>
+			</span>
+		@endif <br>
+
+		
+
+		<input class= "btn1" type="Submit"  name="update" value="update">
 		<br>
 
 
@@ -188,5 +223,4 @@
 </fieldset>
 </div>
 
-	
 @endsection

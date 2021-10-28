@@ -7,16 +7,22 @@
 	}
 
 	#navA a:hover{
-		color:#a1a7d3;	}
+		color:#a1a7d3;	
+ 
+	}
+	
+
+	
 </style>
 
-<nav class="navbar" style=" text-transform: uppercase; background-color: #252525" >
+<nav class="navbar" style=" text-transform: uppercase; background-color: #252525; " >
 	
 	<div class="container-fluid" style="justify-content: end;">
 		
 		<ul class="nav justify-content-end" id="navA">
+
 		  <li class="nav-item">
-		  	<a class = "nav-link active"  href="{{route('AdminProfile')}}">Welcome {{Session()->get('adminName')}}</a>
+		  	<a class = "nav-link"  href="{{route('AdminProfile')}}">{{Session()->get('adminName')}}</a>
 		  </li>
 
 		  <li class="nav-item">

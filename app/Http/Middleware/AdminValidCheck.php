@@ -21,6 +21,6 @@ class AdminValidCheck
             return $next($request);
         }
 
-         return redirect()->route('Login');
+         return redirect()->route('home.login');
     }
 }

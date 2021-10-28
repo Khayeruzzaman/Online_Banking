@@ -1,7 +1,7 @@
 @extends('Layouts.admin.admin')
 
 @section('title')
-{{'Edit Profile'}}
+{{'Edit Picture'}}
 @endsection
 
 @section('content')
@@ -34,24 +34,6 @@
 
       }
 
-    .btn{
-
-    	font-weight: bold;
-	    text-transform: uppercase;
-	    cursor: pointer;
-	    background-color: #373b8b;
-	    color: white;
-	   	border-radius: 100px;
-
-    }
-
-    .btn:hover{
-
-    	color: black;
-    	background-color: white;
-
-    }
-
 </style>
 
 <div class="updatePro">
@@ -66,7 +48,7 @@
 
 			<br>
 
-			<input type="submit" class="btn" name="Upload" value="upload">
+			<input type="submit" class="btn btn-primary" name="Upload" value="upload">
 		
 </form>
 

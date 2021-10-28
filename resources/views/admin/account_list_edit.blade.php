@@ -1,7 +1,7 @@
 @extends('Layouts.admin.admin')
 
 @section('title')
-{{'Edit Profile'}}
+{{'Account - '.$cus->accountname .' Profile'}}
 @endsection
 
 @section('content')
@@ -70,14 +70,14 @@
 <div class="form">
 	<fieldset>
 
-	<form action="/admin/editprofile/{{$bank->id}}/{{$admin->id}}" method="post" enctype="multipart/form-data" >
+	<form action="/admin/customerlist/edit/{{$bank->id}}" method="post" enctype="multipart/form-data" >
 		{{csrf_field()}}
 
 		<center>
-			<img src=  "{{url('storage/admin/admin_cover_images/'.$bank->userprofilepicture)}}" 
+			<img src=  "{{url('storage/account/profilepictures/'.$bank->userprofilepicture)}}" 
 			style="width: 200px; height:200px;">
 			<br>
-			<a style="text-decoration: none;" href="/admin/editpicture/{{$bank->id}}">Update Profile Pictrue</a>
+			<a style="text-decoration: none;" href="/admin/customerlist/edit/picture/{{$bank->id}}">Update Profile Pictrue</a>
 		</center>
 		
 		<br>
@@ -151,30 +151,56 @@
 		@endif <br>
 
 
-		<label>Admin Name</label>
-		<input class="form-control" type="text" name="ad_name"  value="{{$admin->adminname}}">
-		@if($errors->has('ad_name'))
+		<label>Account Name</label>
+		<input class="form-control" type="text" name="acc_name"  value="{{$cus->accountname}}">
+		@if($errors->has('acc_name'))
 			<span class="text-danger">
-				<strong> {{$errors->first('ad_name')}} </strong>
+				<strong> {{$errors->first('acc_name')}} </strong>
 			</span>
 		@endif <br>
 
+		<label>Account Type</label>
+		<input type="radio" name="type" id="gen" value="Savings Account" @if ($cus->accounttype == "Savings Account") checked @endif> Savings Account
+		<input type="radio" name="type" id="gen" value="Student Account" @if ($cus->accounttype == "Student Account") checked @endif> Student Account
+		<input type="radio" name="type" id="gen" value="Business Account" @if ($cus->accounttype == "Business Account") checked @endif> Business Account
+
+		@if($errors->has('type'))
+			<span class="text-danger">
+				<strong> {{$errors->first('type')}} </strong>
+			</span>
+		@endif <br> <br>
+
 		<label>Password</label>
-		<input class="form-control" type="text" name="password"  value="{{$admin->password}}">
+		<input class="form-control" type="text" name="password">
 		@if($errors->has('password'))
 			<span class="text-danger">
 				<strong> {{$errors->first('password')}} </strong>
 			</span>
 		@endif <br>
 
-		<label>Salary</label>
-		<input class="form-control" type="text" name="sal"  value="{{$admin->adminsalary}}">
-		@if($errors->has('sal'))
+		<label>Balance</label>
+		<input class="form-control" type="text" name="bal"  value="{{$cus->accountbalance}}">
+		@if($errors->has('bal'))
 			<span class="text-danger">
-				<strong> {{$errors->first('sal')}} </strong>
+				<strong> {{$errors->first('bal')}} </strong>
 			</span>
 		@endif 
 		<br>
+
+		
+
+		<label>Upload Nid</label>
+		<input class="from-control" type="file" name="doc"><br>
+
+		<label>Account State </label>
+		<input class="form-control" type="text" name="state"  value="{{$cus->accountstate}}">
+		@if($errors->has('state'))
+			<span class="text-danger">
+				<strong> {{$errors->first('state')}} </strong>
+			</span>
+		@endif <br>
+
+		
 
 		<input class= "btn1" type="Submit"  name="update" value="update">
 		<br>
