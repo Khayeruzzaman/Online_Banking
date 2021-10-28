@@ -12,6 +12,7 @@
     @yield('title')
 </title>
 
+
 <style>
     .flex-container {
         display: -webkit-flex;
@@ -31,6 +32,7 @@
         margin: 10px;
         margin-left: auto;
         margin-right: auto;
+        padding-top: 15%;
     }
 
     h1[id="customer"] {
@@ -52,7 +54,7 @@
         font-family: Roboto-Regular;
         color: #212121;
         line-height: 42px;
-        padding: 10px 100px;
+        padding: 10px 0px;
     }
 
     @media screen and (max-width: 1080px) {
@@ -73,8 +75,9 @@
 
 </style>
 
+
 <body>
-    <div>
+    <div style="position:fixed;width:100%">
         @include('includes.customer.accountnavbartop')
         @include('includes.customer.accountnavbarleft')
     </div>

@@ -76,7 +76,7 @@ class HomeController extends Controller
             if($customer->accountstate=="ACTIVE")
             {
                 $rqst->session()->put('accountid', $customer->id);
-                return redirect()->route('home.news');
+                return redirect()->route('account.dashboard');
             }
             elseif($customer->accountstate=="INACTIVE")
             {

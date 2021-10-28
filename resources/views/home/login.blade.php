@@ -5,11 +5,11 @@
 
 @if (Session::get('accountid')||Session::get('adminid')||Session::get('empid'))
     @if (Session::get('adminid'))
-        <script>window.location="{{ route('home.news') }}";</script>
+        <script>window.location="{{ route('AdminDashboard') }}";</script>
     @elseif (Session::get('empid'))
         <script>window.location="{{ route('home.home') }}";</script>
     @elseif (Session::get('accountid'))
-        <script>window.location="{{ route('home.aboutus') }}";</script>
+        <script>window.location="{{ route('account.dashboard') }}";</script>
     @endif
 @endif
 

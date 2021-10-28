@@ -43,10 +43,11 @@ Route::get('/create-account', [AccountController::class, 'registration'])->name(
 Route::post('/create-account', [AccountController::class, 'register'])->name('account.register');
 
 //account dashboard
-Route::get('/account/dashboard', [AccountOperationController::class, 'dashboard'])->name('account.dashboard');
+Route::get('/account/dashboard', [AccountOperationController::class, 'dashboard'])->name('account.dashboard')->middleware('CustomerLoginCheck');
 
 //account history
 Route::get('/account/my-transections', [AccountOperationController::class, 'history'])->name('account.history');
+Route::get('/account/my-transections/{name}', [AccountOperationController::class, 'history']);
 
 //admin Dashboard
 Route::get('/admin/dashboard',[AdminController::class , 'adminDashboard'])->name('AdminDashboard')

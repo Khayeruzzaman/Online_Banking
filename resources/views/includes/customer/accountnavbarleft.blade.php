@@ -131,12 +131,12 @@
         <li> <a href= "{{ route('account.history') }}"> <i class="fa fa-history"> &nbsp; My Transections </i> </a> </li>
         <li> 
             <a herf="" class="feat-btn">
-                <i class="fa fa-money"> &nbsp; Transfers <span class="fa fa-caret-down first"> </span> </i> 
+                <i class="fa fa-money"> &nbsp; <b>Transfers</b> <span class="fa fa-caret-down first"> </span> </i> 
             </a>
             <ul class="feat-show">
                 <li>
                     <a href= "#" class="user-btn"> 
-                        <i class="fa fa-address-book-o"> &nbsp; My Beneficiaries <span class="fa fa-caret-down second"> 
+                        <i class="fa fa-address-book-o"> &nbsp; <b>My Beneficiaries</b> <span class="fa fa-caret-down second"> 
                         </span> </i> 
                     </a> 
                     <ul class="user-show">

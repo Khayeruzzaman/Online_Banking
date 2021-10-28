@@ -94,7 +94,7 @@
 		  </li>
 
 		  <li class="nav-item">
-		  	<a class="nav-link" href="#"><i class="fa fa-sign-out" id="navlogout">&nbspLog Out</i></a>
+		  	<a class="nav-link" href="{{ route('all.logout') }}"><i class="fa fa-sign-out" id="navlogout">&nbspLog Out</i></a>
 		  </li>
 		</ul>
 		

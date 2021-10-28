@@ -27,9 +27,9 @@ class AccountController extends Controller
                 'email'=>'required|email',
                 'nid'=>'required|max:15',
                 'niddoc'=>'required|image|max:1999',
-                'accountname'=>'required|min:5|string',
+                'accountname'=>'required|min:5|unique:accounts,accountname|unique:employees,empname|unique:admins,adminname|string',
                 'accounttype'=>'required',
-                'password'=>'required|min:8|alpha_num|confirmed',
+                'password'=>'required|min:8|string|confirmed',
                 'privacy'=>'required',
             ],
             [
