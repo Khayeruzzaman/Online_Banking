@@ -1,7 +1,7 @@
 @extends('layouts.admin.admin')
 
 @section('title')
-    {{'Admin List'}}
+    {{'Account List'}}
 @endsection
 
 @section('content')
@@ -93,10 +93,11 @@
 			<tr>
 				
 				<th>Account Name</th>
+				<th>Picture</th>
 				<th>Account Type</th>
-				<th>Password</th>
 				<th>Balance</th>
 				<th>Interest Rate</th>
+				<th>Document</th>
 				<th>State</th>
 				<th>Actions</th>
 			</tr>
@@ -107,10 +108,21 @@
 			
 			<tr>
 				<td>{{$customer->accountname}}</td>
+				<td>
+					<a href="{{url('storage/account/profilepictures/'.$customer->userprofilepicture)}}">
+						<img src="{{url('storage/account/profilepictures/'.$customer->userprofilepicture)}}" 
+					style="width: 30px; height: 30px;">
+					</a>
+				</td>
 				<td>{{$customer->accounttype}}</td>
-				<td>{{$customer->password}}</td>
 				<td>{{$customer->accountbalance}}</td>
 				<td>{{$customer->accountinterestrate}}</td>
+				<td>
+					<a href="{{url('storage/account/accountdocuments/'.$customer->accountdocument)}}">
+						<img src="{{url('storage/account/accountdocuments/'.$customer->accountdocument)}}" 
+					style="width: 30px; height: 30px;">
+					</a>
+				</td>
 				<td>{{$customer->accountstate}}</td>
 				<td>
 					<a href="/admin/customerlist/edit/{{$customer->id}}"><img src=" {{ url('admin/admin_dashboard/edit (1).png') }}" style="width: 30px; height: 30px"></a>

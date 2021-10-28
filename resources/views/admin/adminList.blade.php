@@ -93,7 +93,7 @@
 			<tr>
 				<th> Admin Id </th>
 				<th>Admin Name</th>
-				<th>Password</th>
+				<th>Admin Picture</th>
 				<th>Salary</th>
 				<th>Actions</th>
 			</tr>
@@ -104,7 +104,13 @@
 			<tr>
 				<td>{{ $admin->id}}</td>
 				<td>{{$admin->adminname}}</td>
-				<td>{{$admin->password}}</td>
+				<td>
+					<a href="{{url('storage/admin/admin_cover_images/'.$admin->userprofilepicture)}}">
+						<img src="{{url('storage/admin/admin_cover_images/'.$admin->userprofilepicture)}}" 
+					style="width: 30px; height: 30px;">
+					</a>
+					
+				</td>
 				<td>{{$admin->adminsalary}}</td>
 				
 				<td>
