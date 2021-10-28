@@ -52,7 +52,8 @@
 	<tr>
 		<th>First Name</th>
 		<td>{{$bank->firstname}}</td>
-		<td rowspan="5" style="text-align: center"><img src=  "{{url('storage/admin/admin_cover_images/'.$bank->userprofilepicture)}}" 
+		<td rowspan="5" style="text-align: center">
+			<img src=  "{{url('storage/admin/admin_cover_images/'.$bank->userprofilepicture)}}" 
 			style="width: 200px; height:200px;"></td>
 	</tr>
 

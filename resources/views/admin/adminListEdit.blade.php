@@ -1,15 +1,12 @@
 @extends('Layouts.admin.admin')
 
 @section('title')
-{{'Registration'}}
+{{$admin->adminname.' Profile'}}
 @endsection
 
 @section('content')
-
-
 <style type="text/css">
-
-.form legend{
+	.form legend{
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -52,40 +49,42 @@
 .btn1 {
 
 	font-weight: bold;
-    text-transform: uppercase;\
+    text-transform: uppercase;
     cursor: pointer;
     background-color: #373b8b;
     color: white;
-    border-radius: 100px;
+    border-radius: 10px;
 
 }
 
 .btn1:hover{
 	background-color: white;
 	color: black;
-
-
-
 }
 
 #gen{
 	display: inline-block; width: 15%;
 }
-
-
 </style>
 
-<div class= "form">
+<div class="form">
 	<fieldset>
 
-	<form action="{{route ('CreateAdmin') }}" method="post" enctype="multipart/form-data" >
+	<form action="/admin/adminlist/edit/{{$admin->id}}" method="post" enctype="multipart/form-data" >
 		{{csrf_field()}}
-		<legend>Admin Registration</legend>
+
+		<center>
+			<img src=  "{{url('storage/admin/admin_cover_images/'.$bank->userprofilepicture)}}" 
+			style="width: 200px; height:200px;">
+			<br>
+			<a style="text-decoration: none;" href="/admin/adminlist/edit/picture/{{$bank->id}}">Update Profile Pictrue</a>
+		</center>
+		
 		<br>
 		<br>
 
 		<label>First Name</label>
-		<input class="form-control" type="text" name="f_name"  value="{{old('f_name')}}">
+		<input class="form-control" type="text" name="f_name"  value="{{$bank->firstname}}">
 		@if($errors->has('f_name'))
 			<span class="text-danger">
 				<strong> {{$errors->first('f_name')}} </strong>
@@ -93,7 +92,7 @@
 		@endif <br>
 
 		<label>Last Name</label>
-		<input class="form-control" type="text" name="l_name"  value="{{old('l_name')}}">
+		<input class="form-control" type="text" name="l_name"  value="{{$bank->lastname}}">
 		@if($errors->has('l_name'))
 			<span class="text-danger">
 				<strong> {{$errors->first('l_name')}} </strong>
@@ -103,9 +102,9 @@
 
 
 		<label>Gender</label>
-		<input type="radio" name="gender" id="gen" value="Male"> Male
-		<input type="radio" name="gender" id="gen" value="Female"> Female
-		<input type="radio" name="gender" id="gen" value="Others"> Others
+		<input type="radio" name="gender" id="gen" value="Male" @if ($bank->gender == "Male") checked @endif> Male
+		<input type="radio" name="gender" id="gen" value="Female" @if ($bank->gender == "Female") checked @endif> Female
+		<input type="radio" name="gender" id="gen" value="Others" @if ($bank->gender == "Others") checked @endif> Others
 
 		@if($errors->has('gender'))
 			<span class="text-danger">
@@ -117,7 +116,7 @@
 		<br>
 
 		<label> Date of Birth </label>
-		<input class="form-control" type="date" name="dob"  value="{{old('dob')}}">
+		<input class="form-control" type="date" name="dob"  value="{{$bank->dateofbirth}}">
 		@if($errors->has('dob'))
 			<span class="text-danger">
 				<strong> {{$errors->first('dob')}} </strong>
@@ -125,7 +124,7 @@
 		@endif <br>
 
 		<label> Phone </label>
-		<input class="form-control" type="text" name="phone"  value="{{old('phone')}}">
+		<input class="form-control" type="text" name="phone"  value="{{$bank->phone}}">
 		@if($errors->has('phone'))
 			<span class="text-danger">
 				<strong> {{$errors->first('phone')}} </strong>
@@ -134,19 +133,17 @@
 
 
 		<label>Email</label>
-		<input class="form-control" type="text" name="email"  value="{{old('email')}}">
+		<input class="form-control" type="text" name="email"  value="{{$bank->email}}">
 		@if($errors->has('email'))
 			<span class="text-danger">
 				<strong> {{$errors->first('email')}} </strong>
 			</span>
 		@endif <br>
 
-		<label>Upload Picture</label>
-		<input class="from-control" type="file" name="pic"><br>
 
 
 		<label>Nid No</label>
-		<input class="form-control" type="text" name="nid"  value="{{old('nid')}}">
+		<input class="form-control" type="text" name="nid"  value="{{$bank->nid}}">
 		@if($errors->has('nid'))
 			<span class="text-danger">
 				<strong> {{$errors->first('nid')}} </strong>
@@ -155,7 +152,7 @@
 
 
 		<label>Admin Name</label>
-		<input class="form-control" type="text" name="ad_name"  value="{{old('ad_name')}}">
+		<input class="form-control" type="text" name="ad_name"  value="{{$admin->adminname}}">
 		@if($errors->has('ad_name'))
 			<span class="text-danger">
 				<strong> {{$errors->first('ad_name')}} </strong>
@@ -163,7 +160,7 @@
 		@endif <br>
 
 		<label>Password</label>
-		<input class="form-control" type="text" name="password"  value="{{old('password')}}">
+		<input class="form-control" type="text" name="password" >
 		@if($errors->has('password'))
 			<span class="text-danger">
 				<strong> {{$errors->first('password')}} </strong>
@@ -171,7 +168,7 @@
 		@endif <br>
 
 		<label>Salary</label>
-		<input class="form-control" type="text" name="sal"  value="{{old('sal')}}">
+		<input class="form-control" type="text" name="sal"  value="{{$admin->adminsalary}}">
 		@if($errors->has('sal'))
 			<span class="text-danger">
 				<strong> {{$errors->first('sal')}} </strong>
@@ -179,7 +176,7 @@
 		@endif 
 		<br>
 
-		<input class= "btn1" type="Submit"  name="submit">
+		<input class= "btn1" type="Submit"  name="update" value="update">
 		<br>
 
 
@@ -188,5 +185,4 @@
 </fieldset>
 </div>
 
-	
 @endsection

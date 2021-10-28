@@ -7,12 +7,31 @@ use Illuminate\Http\Request;
 use App\Models\BankUser;
 use App\Models\Admin;
 use App\Models\Employee;
+use App\Models\Account;
 
 class AdminController extends Controller
 {
     public function adminDashboard(){
 
-    	return view('Admin.Dashboard');
+    	$admins = Admin::all();
+    	$employees = Employee::all();
+    	$customers = Account::all();
+
+    	$No = 0;
+    	foreach ($customers as $customer) {
+    		if($customer ->accountstate == 'ACTIVE'){
+
+    			$No++;
+    		}
+    	}
+
+    	$customerNo= $No;
+
+    	return view('Admin.Dashboard')
+    				->with('admins', $admins)
+    				->with('employees', $employees)
+    				->with('customers', $customers)
+    				->with('customerNumber', $customerNo);
     }
 
     public function adminProfile(){
@@ -96,8 +115,8 @@ class AdminController extends Controller
 		    $admin->bank_user_id = $bank_Id;
 		    $admin->save();
 
-		   
-		    return redirect()->route('AdminProfile');
+		   return redirect()->route('AdminProfile');
+
     }
 
     public function editPicture(Request $request){
@@ -133,11 +152,12 @@ class AdminController extends Controller
 	     	}
 
 
-
-    	$user = BankUser::where('id',$request->id)->first();
+	    $user = BankUser::where('id',$request->id)->first();
     	$user->userprofilepicture = $fileNameToStore;
     	$user->save();
     	return redirect()->route('AdminProfile');
+    	
+    	
 
     }
 }

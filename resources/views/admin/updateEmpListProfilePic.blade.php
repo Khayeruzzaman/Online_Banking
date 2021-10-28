@@ -1,7 +1,7 @@
 @extends('Layouts.admin.admin')
 
 @section('title')
-{{'Edit Profile'}}
+{{'Employee - '.$emp->empname .' Profile'}}
 @endsection
 
 @section('content')
@@ -30,10 +30,9 @@
         border: 1px solid #000;
         padding:5px;
         box-sizing: border-box;
-        border-radius: 10px;
+        
 
       }
-
     .btn{
 
     	font-weight: bold;
@@ -56,7 +55,7 @@
 
 <div class="updatePro">
 	
-<form action="/admin/editpicture/{{$user->id}}" method="post" enctype="multipart/form-data" >
+<form action="/admin/emplist/edit/picture/{{$user->id}}" method="post" enctype="multipart/form-data" >
 		{{csrf_field()}}
 
 		

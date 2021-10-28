@@ -141,7 +141,7 @@
                     <ul class="user-show"> 
                         <li><a href="{{ route('RegAdmin') }}"><i class="fa fa-user-plus"> Admin </i></a></li>
                         <li><a href="{{ route('RegEmp') }}"><i class="fa fa-user-plus"> Employee </i></a></li>
-                        <li><a href="pharmacyReg.php"><i class="fa fa-user-plus"> Customer </i></a></li>
+                        <li><a href="{{ route('RegCustomer') }}"><i class="fa fa-user-plus"> Customer </i></a></li>
                     </ul>
 
                 </li>    
@@ -155,12 +155,12 @@
                 </span></i> 
             </a>
             <ul class="req-show">
-                <li> <a href= "docReq.php"> <i class="fa fa-users"> Account Request </i> </a> </li>
+                <li> <a href= "{{ route('CustomerRequest') }}"> <i class="fa fa-users"> Account Request </i> </a> </li>
                 <li> <a href= "pharmacy_req.php"> <i class="fa fa-users"> Loan Request </i> </a> </li>
             </ul> 
         </li>
         
-        <li> <a href= "../../Controller/Admin/Logout.php"><i class="fa fa-sign-out"> Logout </i> </a> </li>
+        <li> <a href= "{{route('all.logout')}}"><i class="fa fa-sign-out"> Logout </i> </a> </li>
     </ul>
 
     <script >
