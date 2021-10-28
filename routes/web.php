@@ -6,6 +6,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminRegController;
 use App\Http\Controllers\AdminAllListController;
+use App\Http\Controllers\AccountOperationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,19 +19,34 @@ use App\Http\Controllers\AdminAllListController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//home page
 Route::get('/', [HomeController::class, 'welcome'])->name('home.home');
 
+//contact us page
 Route::get('/contact-us', [HomeController::class, 'contactus'])->name('home.contactus');
+
+//about us page
 Route::get('/about-us', [HomeController::class, 'aboutus'])->name('home.aboutus');
+
+//news page
 Route::get('/news', [HomeController::class, 'news'])->name('home.news');
+
+//login
 Route::get('/login', [HomeController::class, 'login'])->name('home.login');
 Route::post('/login', [HomeController::class, 'loginSubmit'])->name('home.login');
+
+//logout
 Route::get('/logout', [HomeController::class, 'logout'])->name('all.logout');
 
+//account registration
 Route::get('/create-account', [AccountController::class, 'registration'])->name('account.register');
 Route::post('/create-account', [AccountController::class, 'register'])->name('account.register');
 
+//account dashboard
+Route::get('/account/dashboard', [AccountOperationController::class, 'dashboard'])->name('account.dashboard');
+
+//account history
+Route::get('/account/my-transections', [AccountOperationController::class, 'history'])->name('account.history');
 
 //admin Dashboard
 Route::get('/admin/dashboard',[AdminController::class , 'adminDashboard'])->name('AdminDashboard')

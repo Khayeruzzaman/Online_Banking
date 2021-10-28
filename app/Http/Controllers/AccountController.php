@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\MOdels\BankUser;
+use App\MOdels\History;
 
 class AccountController extends Controller
 {
@@ -112,6 +113,19 @@ class AccountController extends Controller
                 $varacc->accountstate="INACTIVE";
                 $varacc->bank_user_id=$bankuserid->id;
                 $varacc->save();
+
+                $accountid = Account::where('accountname', $rqst->accountname)->first();
+
+                if($accountid)
+                {
+                    $varhistory = new History();
+                    $varhistory->historydate=date("Y-m-d");
+                    $varhistory->remarks="Opening Balance";
+                    $varhistory->debit=0.00;
+                    $varhistory->credit=5000.00;
+                    $varhistory->account_id=$accountid->id;
+                    $varhistory->save();
+                }
             }
             return redirect()->route('home.news');
         }
