@@ -94,6 +94,7 @@
 				<th> Admin Id </th>
 				<th>Admin Name</th>
 				<th>Admin Picture</th>
+				<th>Email</th>
 				<th>Salary</th>
 				<th>Actions</th>
 			</tr>
@@ -111,6 +112,7 @@
 					</a>
 					
 				</td>
+				<td>{{$admin->email}}</td>
 				<td>{{$admin->adminsalary}}</td>
 				
 				<td>

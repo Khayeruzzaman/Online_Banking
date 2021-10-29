@@ -93,9 +93,11 @@
 			<tr>
 				
 				<th>Account Name</th>
+				<th>Profile Picture</th>
 				<th>Account Type</th>
-				<th>Password</th>
+				<th>Account document</th>
 				<th>Balance</th>
+
 				<th>Interest Rate</th>
 				<th>State</th>
 				<th>Actions</th>
@@ -107,15 +109,27 @@
 			
 			<tr>
 				<td>{{$customer->accountname}}</td>
+				<td>
+					<a href="{{url('storage/account/profilepictures/'.$customer->userprofilepicture)}}">
+						<img src="{{url('storage/account/profilepictures/'.$customer->userprofilepicture)}}" 
+					style="width: 30px; height: 30px;">
+					</a>
+				</td>
 				<td>{{$customer->accounttype}}</td>
-				<td>{{$customer->password}}</td>
+				<td>
+					<a href="{{url('storage/account/accountdocuments/'.$customer->accountdocument)}}">
+						<img src="{{url('storage/account/accountdocuments/'.$customer->accountdocument)}}" 
+					style="width: 30px; height: 30px;">
+					</a>
+				</td>
 				<td>{{$customer->accountbalance}}</td>
 				<td>{{$customer->accountinterestrate}}</td>
+				
 				<td>{{$customer->accountstate}}</td>
 				<td>
 					<a href="/admin/customer/requests/{{$customer->id}}"><img src=" {{ url('admin/customer_request/check-mark.png') }}" style="width: 30px; height: 30px"></a>
 					&nbsp &nbsp
-					<a href="/admin/customer/requests/{{$customer->bank_user_id}}/{{$customer->id}}"><img src=" {{ url('admin/customer_request/delete.png') }}" style="width: 30px; height: 30px"></a>
+					<a href="/admin/customer/requests/{{$customer->bank_user_id}}/{{$customer->id}}"><img src=" {{ url('admin/customer_request/denied.png') }}" style="width: 40px; height: 40px"></a>
 
 				</td>
 				

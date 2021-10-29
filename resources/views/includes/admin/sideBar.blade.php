@@ -160,7 +160,7 @@
             </ul> 
         </li>
         
-        <li> <a href= "{{route('all.logout')}}"><i class="fa fa-sign-out"> Logout </i> </a> </li>
+        <li> <a href= "{{route('AdminHistory')}}"><i class="fa fa-sign-out"> History </i> </a> </li>
     </ul>
 
     <script >
