@@ -8,6 +8,8 @@ use App\Http\Controllers\AdminRegController;
 use App\Http\Controllers\AdminAllListController;
 use App\Http\Controllers\AccountOperationController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\AccountBeneficiaryController;
+
 
 
 /*
@@ -47,8 +49,26 @@ Route::post('/create-account', [AccountController::class, 'register'])->name('ac
 Route::get('/account/dashboard', [AccountOperationController::class, 'dashboard'])->name('account.dashboard')->middleware('CustomerLoginCheck');
 
 //account history
-Route::get('/account/my-transections', [AccountOperationController::class, 'history'])->name('account.history');
-Route::get('/account/my-transections/{name}', [AccountOperationController::class, 'history']);
+Route::get('/account/my-transections', [AccountOperationController::class, 'history'])->name('account.history')->middleware('CustomerLoginCheck');
+Route::get('/account/my-transections/{name}', [AccountOperationController::class, 'historysort'])->middleware('CustomerLoginCheck');
+
+//account profile
+Route::get('/account/profile', [AccountOperationController::class, 'profile'])->name('account.profile');
+
+//account edit
+Route::get('/account/profile/edit', [AccountOperationController::class, 'edit'])->name('account.edit');
+Route::post('/account/profile/edit', [AccountOperationController::class, 'editSubmit'])->name('account.edit');
+
+//account password change
+Route::get('/account/profile/change-password', [AccountOperationController::class, 'changepassword'])->name('account.changepassword');
+Route::post('/account/profile/change-password', [AccountOperationController::class, 'changepasswordSubmit'])->name('account.changepassword');
+
+//add beneficiary
+Route::get('/account/add-beneficiary', [AccountBeneficiaryController::class, 'addbeneficiary'])->name('account.addbeneficiary');
+Route::post('/account/add-beneficiary', [AccountBeneficiaryController::class, 'addbeneficiarySubmit'])->name('account.addbeneficiary');
+
+//beneficiary list
+Route::get('/account/beneficiary-list', [AccountBeneficiaryController::class, 'beneficiarylist'])->name('account.beneficiarylist');
 
 //admin Dashboard
 Route::get('/admin/dashboard',[AdminController::class , 'adminDashboard'])->name('AdminDashboard')

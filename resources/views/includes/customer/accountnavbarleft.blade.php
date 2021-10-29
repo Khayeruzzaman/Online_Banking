@@ -141,8 +141,8 @@
                     </a> 
                     <ul class="user-show">
 						<li><a href="pharmacyReg.php"><i class="fas fa-exchange-alt"> &nbsp; Transfer Funds </i></a></li>
-                        <li><a href="{{ route('RegAdmin') }}"><i class="fa fa-user-plus"> &nbsp; Add Beneficiary </i></a></li>
-                        <li><a href="{{ route('RegEmp') }}"><i class="fa fa-list"> &nbsp; Beneficiary List </i></a></li>
+                        <li><a href="{{ route('account.addbeneficiary') }}"><i class="fa fa-user-plus"> &nbsp; Add Beneficiary </i></a></li>
+                        <li><a href="{{ route('account.beneficiarylist') }}"><i class="fa fa-list"> &nbsp; Beneficiary List </i></a></li>
                     </ul>
 
                 </li>    
