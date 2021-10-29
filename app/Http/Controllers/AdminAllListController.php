@@ -562,14 +562,11 @@ class AdminAllListController extends Controller
 
 	}
 
-	public function customerRequestsDelete(Request $request){
+	public function customerRequestsDisable(Request $request){
 
 		$customer = Account::where('id', $request->id)->first();
-		$customer ->delete();
-
-		$bank = BankUser::where('id',$request->b_id)->first();
-    	$bank->delete();
-
+		$customer -> accountstate = 'DISABLED';
+		$customer ->save();
 		return redirect()->route('CustomerRequest');
 
 	}

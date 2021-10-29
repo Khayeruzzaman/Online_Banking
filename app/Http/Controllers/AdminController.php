@@ -8,6 +8,7 @@ use App\Models\BankUser;
 use App\Models\Admin;
 use App\Models\Employee;
 use App\Models\Account;
+use App\Models\History;
 
 class AdminController extends Controller
 {
@@ -159,5 +160,36 @@ class AdminController extends Controller
     	
     	
 
+    }
+
+
+    public function history(Request $request){
+
+    	if(!empty($request->search)){
+
+    		$history = History::where('account_id','like','%'.$request->search.'%')->get();
+    		$credit = History::sum('credit');
+	    	$debit = History::sum('debit');
+	    	$balance = $credit - $debit;
+	    	return view('admin.admin_history')
+	    			->with('history', $history)
+	    			->with('credit', $credit)
+	    			->with('debit', $debit)
+	    			->with('balance', $balance);
+
+    	}else{
+
+    		$history = History::all();
+	    	$credit = History::sum('credit');
+	    	$debit = History::sum('debit');
+	    	$balance = $credit - $debit;
+	    	return view('admin.admin_history')
+	    			->with('history', $history)
+	    			->with('credit', $credit)
+	    			->with('debit', $debit)
+	    			->with('balance', $balance);
+    	}
+
+    	
     }
 }

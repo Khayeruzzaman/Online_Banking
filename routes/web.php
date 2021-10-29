@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminRegController;
 use App\Http\Controllers\AdminAllListController;
 use App\Http\Controllers\AccountOperationController;
+use App\Http\Controllers\PdfController;
 
 
 /*
@@ -53,6 +54,9 @@ Route::get('/account/my-transections/{name}', [AccountOperationController::class
 Route::get('/admin/dashboard',[AdminController::class , 'adminDashboard'])->name('AdminDashboard')
 	->middleware('AdminValidCheck');
 Route::get('/admin/viewprofile',[AdminController::class , 'adminProfile'])->name('AdminProfile')
+	->middleware('AdminValidCheck');
+
+Route::get('/admin/history',[AdminController::class , 'history'])->name('AdminHistory')
 	->middleware('AdminValidCheck');
 
 //Admin Profile Update
@@ -148,5 +152,8 @@ Route::get('/admin/customer/requests',[AdminAllListController::class , 'customer
 
 Route::get('/admin/customer/requests/{id}',[AdminAllListController::class , 'customerRequestsAccept'])->name('CustomerRequestAccept')
 ->middleware('AdminValidCheck');
-Route::get('/admin/customer/requests/{b_id}/{id}',[AdminAllListController::class , 'customerRequestsDelete'])->name('CustomerRequestDelete')
+Route::get('/admin/customer/requests/{b_id}/{id}',[AdminAllListController::class , 'customerRequestsDisable'])->name('CustomerRequestDelete')
+->middleware('AdminValidCheck');
+
+Route::get('/admin/history/pdfdownload',[PdfController::class , 'downloadPdf'])->name('DownloadPdf')
 ->middleware('AdminValidCheck');

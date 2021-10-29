@@ -93,7 +93,8 @@
 			<tr>
 				<th> Employee Id </th>
 				<th>Employee Name</th>
-				<th>Password</th>
+				<th>Employee Picture</th>
+				<th>Email</th>
 				<th>Salary</th>
 				<th>Designation</th>
 				<th>join Date</th>
@@ -106,7 +107,13 @@
 			<tr>
 				<td>{{ $employee->id}}</td>
 				<td>{{$employee->empname}}</td>
-				<td>{{$employee->password}}</td>
+				<td>
+					<a href="{{url('storage/admin/admin_cover_images/'.$employee->userprofilepicture)}}">
+						<img src="{{url('storage/admin/admin_cover_images/'.$employee->userprofilepicture)}}" 
+					style="width: 30px; height: 30px;">
+					</a>
+				</td>
+				<td>{{$employee->email}}</td>
 				<td>{{$employee->empsalary}}</td>
 				<td>{{$employee->empdesignation}}</td>
 				<td>{{$employee->joindate}}</td>
