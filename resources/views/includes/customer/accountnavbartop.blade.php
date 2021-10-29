@@ -48,6 +48,15 @@
     }
     }
 
+    #navP{
+        font-family: OpenSans-Light;
+		color:white;
+	}
+
+	#navP:hover{
+        font-family: OpenSans-Light;
+		color:#a1a7d3;
+    }
     
 	#navA{
 		color:white;
@@ -85,12 +94,12 @@
 	<div class="container-fluid" style="justify-content: end;">
 		<ul class="nav justify-content-end" style="margin-right:auto; font-size:20px;">
             <li class="nav-item">
-                <a class = "nav-link active"  href="#"><i class="fas fa-door-open" id="navA">&nbspWelcome Shihab Ahmed</i></a>
+                <a class = "nav-link active"  href="#"><i class="fas fa-door-open" id="navA">&nbspWelcome {{ $user->firstname }} {{ $user->lastname }} </i></a>
             </li>
         </ul>
 		<ul class="nav justify-content-end"  style="font-size:20px;">
 		  <li class="nav-item">
-		  	<a class = "nav-link active"  href="#"><i class="fa fa-user-circle" id="navA">&nbspAccount Details</i></a>
+            <a class = "nav-link active"  href="{{ route('account.profile') }}"><img src="/storage/account/profilepictures/{{ $user->userprofilepicture }}" style="max-height: 30px; max-width:30px; border:2px solid #263238; border-radius:20px;" id="navP"><strong id="navP">&nbspAccount Details</strong></a>
 		  </li>
 
 		  <li class="nav-item">
