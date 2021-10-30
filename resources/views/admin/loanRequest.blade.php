@@ -1,7 +1,7 @@
 @extends('layouts.admin.admin')
 
 @section('title')
-    {{'Employee List'}}
+    {{'Customer Requests'}}
 @endsection
 
 @section('content')
@@ -59,51 +59,54 @@
 <div class="dashContent">
 
 	<center>
-		<h1 style="color: #2e4154; text-transform: uppercase;">Employee Lists</h1>
+		<h1 style="color: #2e4154; text-transform: uppercase;">Loan Requests</h1>
 	</center>
-
 
 	<div class="viewUsers">
 		
 		<table id="tb" class="table table-striped table-hover table-bordered border-dark" >
 			<tbody>
 			<tr>
-				<th> Employee Id </th>
-				<th>Employee Name</th>
-				<th>Employee Picture</th>
-				<th>Email</th>
-				<th>Salary</th>
-				<th>Designation</th>
-				<th>join Date</th>
+				
+				<th>Account Id</th>
+				<th>Loan Type</th>
+				<th>Loan Ammount</th>
+				<th>Loan document</th>
+				<th>Status</th>
 				<th>Actions</th>
+				
 			</tr>
 		</tbody>
 
-			@foreach($emp as $employee)
-			
+			@foreach($loanRequest as $req)
+			@if($req->loanrequeststatus == 'FORWORDED')
+
 			<tr>
-				<td>{{ $employee->id}}</td>
-				<td>{{$employee->empname}}</td>
-				<td>
-					<a href="{{url('storage/admin/admin_cover_images/'.$employee->userprofilepicture)}}">
-						<img src="{{url('storage/admin/admin_cover_images/'.$employee->userprofilepicture)}}" 
-					style="width: 30px; height: 30px;">
-					</a>
-				</td>
-				<td>{{$employee->email}}</td>
-				<td>{{$employee->empsalary}}</td>
-				<td>{{$employee->empdesignation}}</td>
-				<td>{{$employee->joindate}}</td>
+				<td>{{$req->account_id}}</td>
+				<td>{{$req->loantype}}</td>
+				<td>{{$req->loanamount}}</td>
 				
 				<td>
-					<a href="/admin/emplist/edit/{{$employee->id}}"><img src=" {{ url('admin/admin_dashboard/edit (1).png') }}" style="width: 30px; height: 30px"></a>
+
+					<a href="{{url('storage/account/accountdocuments/'.$req->loandocument)}}">
+						<img src="{{url('storage/account/accountdocuments/'.$req->loandocument)}}" 
+					style="width: 30px; height: 30px;">
+					</a>
+
+				</td>
+				
+				<td>{{$req->loanrequeststatus}}</td>
+
+				<td>
+					<a href="/admin/loan/requests/accept/{{$req->id}}"><img src=" {{ url('admin/customer_request/check-mark.png') }}" style="width: 30px; height: 30px"></a>
 					&nbsp &nbsp
-					<a href="/admin/emplist/delete/{{$employee->bank_user_id}}/{{$employee->id}}"><img src=" {{ url('admin/admin_dashboard/delete.png') }}" style="width: 30px; height: 30px"></a>
+					<a href="/admin/loan/requests/reject/{{$req->id}}"><img src=" {{ url('admin/customer_request/denied.png') }}" style="width: 40px; height: 40px"></a>
 
 				</td>
 				
 			</tr>
 
+			@endif
 			@endforeach
 			
 		</table>

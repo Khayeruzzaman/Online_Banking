@@ -79,8 +79,6 @@
 	<center>
 		<h1 style="color: #2e4154; text-transform: uppercase;">Transaction History</h1>
 		<br>
-		
-
 	</center>
 		
 

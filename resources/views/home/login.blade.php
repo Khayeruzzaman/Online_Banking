@@ -14,209 +14,144 @@
 @endif
 
 <style>
-    #login{
-        background-color: #2c6966;
-        border-bottom: thick solid #18FFFF;
-    }
+   
 
-    body, html {
+body{
         height: 100%;
         background: url("{{ asset('sysimages/login_home.jpg') }}") no-repeat center center fixed;
         background-size: cover;
     }
 
-    .flex-container-background {
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-        overflow: auto;
-        width: auto;
-    }
+.Loginform legend{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    
 
-    .flex-container {
-        display: -webkit-flex;
-        display: flex;
-    }
+}
 
-    .flex-item {
-        margin: auto;
-        margin-top: 0px;
-        background: transparent;
-    }
+.Loginform {
+        width:25%;
+        margin:20px 450px;
+        padding:50px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 30px black;
+        background-color: #ddd; 
+        color: #34495e;
+       
 
-    .flex-item-0 {
-        margin: auto;
+      }
+
+.Loginform legend{
+        
+        display:block;
+        font-weight: bold;
+        
+}
+
+.Loginform a{
+    text-decoration: none;
+    color: blue;
+    
+}
+
+.Loginform a:hover{
+    cursor: pointer;
+    color: black;
+}
+
+
+.Loginform  input {
+        display:block;
         width: 100%;
-        background: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0));
-    }
-
-    .flex-item-1 {
-        margin: auto;
-        margin-top: 50px;
-        background: rgba(0, 0, 0, .5);
-        width: 500px;
-        border-radius: 10px;
-    }
-
-    @media screen and (max-width: 540px) {
-        .flex-item-1 {
-            margin-top: 0px;
-            width: 300px;
-        }
-    }
-
-    @media screen and (max-width: 340px) {
-        .flex-item-1 {
-            margin-top: 0px;
-            width: auto;
-        }
-    }
-
-    h1[id="form_header"] {
-        line-height: 60px;
-        margin-left: 20px;
-        font-family: Roboto-Thin;
-        font-size: 50px;
-        text-align: center;
-        color: white;
-    }
-
-    /* Bordered form */
-    form {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        border: 2px solid #f1f1f1;
-        border-radius: 10px;
-    }
-
-    h2 {
-        font-family: OpenSans-Light;
-        color: white;
-        font-size: 40px;
-        margin-left: 10px;
-        margin-top: 5px;
-        margin-bottom: 10px;
-    }
-
-    .flex-item-login {
-        margin: auto;
-        margin-top: 0px;
-        margin-bottom: 5px;
-        background-color: transparent;
-    }
-
-    /* Full-width inputs */
-    input[type=text], input[type=password] {
-        font-family: Roboto-Regular;
-        color: #212121;
-        font-size: 18px;
-        width: 90%;
-        height: 40px;
-        margin: 10px;
-        padding: 1px 1px;
-        bottom: 0;
-        border: 0;
+        border: 1px solid #000;
+        padding:10px;
+        border-radius: 100px;
         box-sizing: border-box;
-        background-color: white;
-        border-radius: 3px;
-    }
+        border-color:blue;
+        
+        outline:none;
+        
+      }
+.Loginform  input:hover{
+    border:40px;
+    outline:none;
+}
 
-    /* Set a style for all buttons */
-    button {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        font-family: OpenSans-Regular;
-        padding: 15px 32px;
+#submit{
+        width: 100%;
+        padding:5px;
         text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 18px;
-        margin: 10px;
+        background-color: #063146;
+        color: white;
+        text-transform: uppercase; 
+        font-weight: 900;
+        border-bottom: 5px solid black;
+        border-radius: 100px;
         cursor: pointer;
-        border-radius: 3px;
-    }
+      }
 
-    /* Add a hover effect for buttons */
-    button:hover {
-        opacity: 0.8;
-    }
+#submit:hover {
+        background-color: #ddd;
+        color: black;
+        
+      }
 
-    span[id="validation_msg"]{
-        color: red;
-        margin-left: 20px;
-    }
+#validation_msg{
+          color:red;
+      }
 
-    span[id="register"]{
-        text-align: center;
-        color: white;
-        font-size: 20px;
-        margin-left: 10px;
-    }
-
-    a[id="create"]:hover {
-        font-size: 23px;
-        border: 1px solid white;
-        border-radius: 5px;
-    }
-
-    strong[id="validation_msg"]{
-        color: red;
-        margin-left: 20px;
-    }
-
+ #register{
+        display:block;
+        font-weight: bold;
+        box-sizing: border-box;
+        font size:25px
+      }
 </style>
 
 @section('content')
-    <div class="flex-container-background">
-        <div class="flex-container">
-            <div class="flex-item-0">
-                <h1 id="form_header">Banking is now at your Doorstep!</h1>
+  <div>
+        <form action="{{ route('home.login') }}" method="post">
+        <div class='Loginform'>
+            {{ csrf_field() }}
+            
+            <center>
+            <h3>Banking is now at your Doorstep!</h3>
+            </center>
+            <br>
+                @if ($message = Session::get('loginerror'))
+                    <strong id="validation_msg">{{ $message }}</strong>
+                @endif
+            
+
+            
+                <input type="text" name="username" placeholder="Enter your Username">
+                @error('username')
+                    <span class="text text-danger" id="validation_msg">{{ $message }}</span>
+                @enderror
+                <br>
+                <br>
+            
+                <input type="password" name="password" placeholder="Enter your Password">
+                @error('password')
+                    <span class="text text-danger" id="validation_msg">{{ $message }}</span>
+                @enderror
+
+                <br>
+                <br>
+
+                <button id="submit" type="submit" >LOGIN </button>
+                <br>
+                <br>
+                <center>
+                <span class="text text-info" id="register">Don't have an account? <a href="{{ route('account.register') }}">Create One!</a></span>
+                </center>
+               
             </div>
-        </div>
+        </form>
 
-        <div class="flex-container">
-            <div class="flex-item-1">
-                <form action="{{ route('home.login') }}" method="post">
-                    {{ csrf_field() }}
-                    <div class="flex-item-login">
-                        <h2>Welcome Sir/Madam!</h2>
-                    </div>
-
-                    <div class="flex-item">
-                        @if ($message = Session::get('loginerror'))
-                            <strong id="validation_msg">{{ $message }}</strong>
-                        @endif
-                    </div>
-
-                    <div class="flex-item">
-                        <input type="text" name="username" placeholder="Enter your Username">
-                    </div>
-
-                    <div class="flex-item">
-                        @error('username')
-                            <span class="text text-danger" id="validation_msg">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex-item">
-                        <input type="password" name="password" placeholder="Enter your Password">
-                    </div>
-
-                    <div class="flex-item">
-                        @error('password')
-                            <span class="text text-danger" id="validation_msg">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex-item">
-                        <button type="submit">Login</button>
-                        <span class="text text-info" id="register">Don't have an account? <a href="{{ route('account.register') }}" style="color: cyan" id="create">Create One!</a></span>
-                    </div>
-                </form>
-            </div>
-        </div>
+        
     </div>
+  
 @endsection
 

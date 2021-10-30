@@ -29,7 +29,7 @@
 			
 		    width: 250px;
 		    height: 150px;
-		    background: #ddd;
+		    background: transparent;
 		    display: flex;
 		    align-items: center;
 		    justify-content: space-around;

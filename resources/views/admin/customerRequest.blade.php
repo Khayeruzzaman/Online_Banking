@@ -13,44 +13,18 @@
 			margin-left: 310px;
 		}
 
-		.Users{
-		    padding: 2px 2px;
-		    display: flex;
-		    align-items: center;
-		    justify-content: space-between;
-		    flex-wrap: wrap;
-		}
-
-		.Users img{
-		   width: 80px;
-		   height: 80px;
-		   align-items: center;
-		}
-		.Users .ad, .emp, .cus{
-			
-		    width: 250px;
-		    height: 150px;
-		    background: #ddd;
-		    display: flex;
-		    align-items: center;
-		    justify-content: space-around;
-		    box-shadow: 0px 0px 10px black;
-		    border-radius: 20px;
-		    margin-right: 40px;
-		    
-		}
 
 		.viewUsers{
 			
-			min-height: 80vh;
-			max-height: auto;
-			max-width: auto;
-		    box-shadow: 0px 0px 10px black;
-		    display: inline-flex;
-		    background: #ddd;
-			border-radius: 10px;
-			margin-right: 40px;
-			padding: 20px;
+			width:95%;
+	        margin: 10px 10px;
+	        padding:50px;
+	        min-height: 60vh;
+	        max-height: auto;
+	        background: transparent;
+	        border-radius: 10px;
+	        box-shadow: 0px 0px 10px black;
+	        margin-bottom: 50px;
 		}
 
 		
@@ -85,9 +59,12 @@
 
 <div class="dashContent">
 
+	<center>
+		<h1 style="color: #2e4154; text-transform: uppercase;">Account Requests</h1>
+	</center>
 
 	<div class="viewUsers">
-		<br>
+		
 		<table id="tb" class="table table-striped table-hover table-bordered border-dark" >
 			<tbody>
 			<tr>
