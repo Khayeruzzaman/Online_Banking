@@ -145,7 +145,7 @@
                     </ul>
 
                 </li>
-                <li> <a href= "ViewUsers.php"> <i class="fas fa-money-check-alt"> &nbsp; Payments </i> </a> </li>
+                <li> <a href= "{{ route('account.payment') }}"> <i class="fas fa-money-check-alt"> &nbsp; Payments </i> </a> </li>
             </ul>
 		</li>
         <li> 
@@ -154,10 +154,11 @@
                 </span></i> 
             </a>
             <ul class="req-show">
-                <li> <a href= "docReq.php"> <i class="fas fa-plus"> &nbsp;Create Loan Request </i> </a> </li>
-                <li> <a href= "pharmacy_req.php"> <i class="far fa-check-circle"> &nbsp;<strong>Check Request Status</strong> </i> </a> </li>
+                <li> <a href= "{{ route('account.loanrequest') }}"> <i class="fas fa-plus"> &nbsp;Create Loan Request </i> </a> </li>
+                <li> <a href= "{{ route('account.loanstate') }}"> <i class="far fa-check-circle"> &nbsp;<strong>Check Request Status</strong> </i> </a> </li>
             </ul> 
         </li>
+		<li> <a href= "{{ route('account.statement') }}"> <i class="fas fa-file-alt"> &nbsp; E-Statement </i> </a> </li>
     </ul>
 
     <script >

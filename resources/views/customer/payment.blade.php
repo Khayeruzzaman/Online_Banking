@@ -1,49 +1,41 @@
 @extends('layouts.customer.customerlayout')
 
 @section('title')
-    Transfer Fund
+    Payment
 @endsection
-
 
 
 @section('customercontent')
     <div class="flex-container">
         <div class="flex-item" style="width: 85%; margin-left:150px;">
-            <form action="/account/tranfer-fund/{{ $benaccount->accountname }}" class="form form-control" method="POST">
+            <form action="{{ route('account.payment') }}" class="form form-control" method="POST">
                 {{ csrf_field() }}
                 <table id="transactions" class="table table-condensed">
                     <tr style="background-color: #263238; color: white;">
                         <td>
-                            Transfer Fund:
+                            Payment:
                         </td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                    @if ($message = Session::get('senderror'))
+                    @if ($message = Session::get('payerror'))
                             <tr>
                                 <td>
                                     <strong class="text text-danger" id="validation_msg">{{ $message }}</strong>
                                 </td>
                                 <td></td>
+                                <td></td>
                             </tr>
                         @endif
                     <tr>
                         <td>
-                            Beneficiary Name:
+                            Payment code:
                         </td>
                         <td>
-                            {{ $beneficiary->beneficiaryname }}
+                            <input type="text" class="form form-control" name="paymentcode" id="paymentcode" style="border-bottom: 2px solid black" placeholder="Payment Code">
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Beneficiary Account Name:
-                        </td>
-                        <td>
-                            {{ $benaccount->accountname }}
-                        </td>
-                        @error('beneficiaryaccountname')
+                        @error('paymentcode')
                             <td>
                                 <span class="text text-danger" id="validation_msg">{{ $message }}</span>
                             </td>
@@ -51,7 +43,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Tranfer Amount:
+                            Payment Amount:
                         </td>
                         <td>
                             <input type="text" class="form form-control" name="amount" id="amount" style="border-bottom: 2px solid black" placeholder="Amount">
@@ -77,10 +69,9 @@
                     </tr>
                 </table>
                 <br>
-                <div class="col-md-3 col-sm-4" style="margin: auto; margin-right: 0px">
-                    <button type="submit" class="btn btn-outline-dark">Send</button>
-                    <a href="{{ route('account.beneficiarylist') }}"><strong class="btn btn-outline-dark">Go Back</strong></a>
-                    <br><br><br><br>
+                <div class="col-md-3 col-sm-4" style="margin: auto; margin-right: 0px;">
+                    <button type="submit" class="btn btn-outline-dark">Pay</button>
+                    <a href="{{ route('account.dashboard') }}"><strong class="btn btn-outline-dark">Go Back</strong></a>
                 </div>
             </form>
         </div>

@@ -81,7 +81,7 @@ class AccountBeneficiaryController extends Controller
     {
         $validate=$rqst->validate(
             [
-                'amount'=>'numeric|required',
+                'amount'=>'required|numeric',
                 'password'=>'required|string',
             ]
         );
@@ -127,6 +127,63 @@ class AccountBeneficiaryController extends Controller
                 return redirect()->back()->with('senderror', 'Selected account is not active right now! Please try again later.');
             }
         }
+    }
+
+    public function payment()
+    {
+        $account=Account::where('id', session()->get('accountid'))->first();
+        $user=BankUser::where('id', $account->bank_user_id)->first();
+        return view('customer.payment')->with('account',$account)
+                                       ->with('user', $user);
+    }
+
+    public function paymentSubmit(Request $rqst)
+    {
+        $validate=$rqst->validate(
+            [
+                'paymentcode'=>'required|alpha_num|max:10',
+                'amount'=>'required|numeric',
+                'password'=>'required|string',
+            ]
+        );
+        $account=Account::where('id', session()->get('accountid'))->first();
+        $user=BankUser::where('id', $account->bank_user_id)->first();
+        if(md5($rqst->password)==$account->password)
+        {
+            if($rqst->amount<=$account->accountbalance)
+            {
+                $history=new History();
+                $history->historydate=date('Y-m-d');
+                $history->remarks="Payment Code: ".$rqst->paymentcode;
+                $history->debit=$rqst->amount;
+                $history->credit=0.00;
+                $history->account_id=$account->id;
+                $account->accountbalance=$account->accountbalance-$rqst->amount;
+                $history->save();
+                $account->save();
+                return redirect()->route('account.history');
+            }
+            else {
+                return redirect()->back()->with('payerror', 'Amount cannot exceed your account balance');
+            }
+        }
+        else {
+            return redirect()->back()->with('payerror', 'Wrong Password! Please Try Again...');
+        }
+    }
+
+    public function statement()
+    {
+        $account=Account::where('id', session()->get('accountid'))->first();
+        $user=BankUser::where('id', $account->bank_user_id)->first();
+        $history=History::where('account_id', $account->id)->orderby('created_at','desc')->get();
+        $debit=2;
+        $credit=5;
+        return view('customer.estatementform')->with('account',$account)
+                                                 ->with('user', $user)
+                                                 ->with('history', $history)
+                                                 ->with('debit', $debit)
+                                                 ->with('credit', $credit);
     }
 
     public function deletebeneficiary(Request $rqst)

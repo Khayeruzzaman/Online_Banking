@@ -10,6 +10,8 @@ use App\Http\Controllers\AccountOperationController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AccountBeneficiaryController;
 use App\Http\Controllers\AdminLoanController;
+use App\Http\Controllers\AccountLoanController;
+use App\Http\Controllers\AccountBankEStatement;
 
 
 /*
@@ -75,7 +77,27 @@ Route::get('/account/tranfer-fund/{id}', [AccountBeneficiaryController::class, '
 Route::post('/account/tranfer-fund/{id}', [AccountBeneficiaryController::class, 'sendSubmit'])->name('account.transfer')->middleware('CustomerLoginCheck');
 
 //account beneficiary delete
-Route::get('/account/delete/{id}', [AccountBeneficiaryController::class, 'deletebeneficiary'])->name('account.beneficiarydelete');
+Route::get('/account/delete/{id}', [AccountBeneficiaryController::class, 'deletebeneficiary'])->name('account.beneficiarydelete')->middleware('CustomerLoginCheck');
+
+//account payment
+Route::get('/account/payment', [AccountBeneficiaryController::class, 'payment'])->name('account.payment')->middleware('CustomerLoginCheck');
+Route::post('/account/payment', [AccountBeneficiaryController::class, 'paymentSubmit'])->name('account.payment')->middleware('CustomerLoginCheck');
+
+//account loan request
+Route::get('/account/loan-request', [AccountLoanController::class, 'loanrequest'])->name('account.loanrequest')->middleware('CustomerLoginCheck');
+Route::post('/account/loan-request', [AccountLoanController::class, 'loanrequestSubmit'])->name('account.loanrequest')->middleware('CustomerLoginCheck');
+
+//account loan status check
+Route::get('/account/loan-list', [AccountLoanController::class, 'loanstatus'])->name('account.loanstate')->middleware('CustomerLoginCheck');
+
+//account loanrequest delete
+Route::get('/account/loan/delete/{id}', [AccountLoanController::class, 'deleterequest'])->name('account.loanrequestdelete')->middleware('CustomerLoginCheck');
+
+//account e statement
+Route::get('/account/e-statement', [AccountBeneficiaryController::class, 'statement'])->name('account.statement')->middleware('CustomerLoginCheck');
+
+//account e statement download as pdf
+Route::post('/account/e-statement', [AccountBankEStatement::class, 'downloadEStatement'])->name('account.statement')->middleware('CustomerLoginCheck');
 
 //admin Dashboard
 Route::get('/admin/dashboard',[AdminController::class , 'adminDashboard'])->name('AdminDashboard')
