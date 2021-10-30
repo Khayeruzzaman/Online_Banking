@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Models\BankUser;
@@ -46,7 +48,12 @@ class AccountBeneficiaryController extends Controller
     {
         $account=Account::where('id', session()->get('accountid'))->first();
         $user=BankUser::where('id', $account->bank_user_id)->first();
+        $beneficiaries = DB::table('accounts')
+	                        ->join('beneficiaries', 'accounts.id', '=', 'beneficiaries.beneficiaryaccountid')
+                            ->select('accounts.accountname', 'beneficiaries.*')
+                            ->get();
         return view('customer.beneficiarylist')->with('account',$account)
-                                               ->with('user', $user);
+                                               ->with('user', $user)
+                                               ->with('beneficiaries', $beneficiaries);
     }
 }
