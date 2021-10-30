@@ -51,6 +51,7 @@
         line-height: 2rem;
         margin-top: calc((1.5rem - 2rem) + 1.5rem);
         margin-bottom: 1.5rem;
+    
     }
     }
 
@@ -65,6 +66,7 @@
             <h1>Castle Internet Bank</h1>
         </div>
     </div>
+
 
 </body>
 </html>

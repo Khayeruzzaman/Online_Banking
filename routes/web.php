@@ -9,7 +9,7 @@ use App\Http\Controllers\AdminAllListController;
 use App\Http\Controllers\AccountOperationController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AccountBeneficiaryController;
-
+use App\Http\Controllers\AdminLoanController;
 
 
 /*
@@ -170,10 +170,26 @@ Route::get('admin/customerlist/delete/{b_id}/{id}',[AdminAllListController::clas
 Route::get('/admin/customer/requests',[AdminAllListController::class , 'customerRequests'])->name('CustomerRequest')
 ->middleware('AdminValidCheck');
 
+//Admin Customers Request Accept/Disable
 Route::get('/admin/customer/requests/{id}',[AdminAllListController::class , 'customerRequestsAccept'])->name('CustomerRequestAccept')
 ->middleware('AdminValidCheck');
 Route::get('/admin/customer/requests/{b_id}/{id}',[AdminAllListController::class , 'customerRequestsDisable'])->name('CustomerRequestDelete')
 ->middleware('AdminValidCheck');
 
+//Admin Loans Request
+Route::get('/admin/loan/requests',[AdminLoanController::class , 'loanRequests'])->name('LoanRequest')
+->middleware('AdminValidCheck');
+
+//Admin Loans Request Accept/Disable
+Route::get('/admin/loan/requests/accept/{id}',[AdminLoanController::class , 'loanRequestsAccept'])->name('LoanRequestAccept')
+->middleware('AdminValidCheck');
+Route::get('/admin/loan/requests/reject/{id}',[AdminLoanController::class , 'loanRequestsReject'])->name('LoanRequestReject')
+->middleware('AdminValidCheck');
+
+
+
+////Admin History Download
 Route::get('/admin/history/pdfdownload',[PdfController::class , 'downloadPdf'])->name('DownloadPdf')
 ->middleware('AdminValidCheck');
+
+

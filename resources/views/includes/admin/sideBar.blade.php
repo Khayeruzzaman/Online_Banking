@@ -116,6 +116,8 @@
 	}
 </style>
 
+
+
 <br>
 <br>
     	
@@ -126,7 +128,7 @@
 	<h2 id="admin"> Admin Panel </h2>
 
 	<ul>
-        <li> <a href= "{{ route('AdminDashboard') }}"> <i class="fa fa-server"> Dashboard </i> </a> </li>
+        <li> <a href= "{{ route('AdminDashboard') }}"> <i class="fa fa-reorder"> Dashboard </i> </a> </li>
         <li> <a href= "{{ route('AdminProfile') }}"> <i class="fa fa-user-circle"> View Profile </i> </a> </li>
         <li> 
             <a herf="" class="feat-btn">
@@ -145,22 +147,20 @@
                     </ul>
 
                 </li>    
-                <li> <a href= "SearchUsers.php"> <i class="fa fa-search"> Search Users </i> </a> </li>
-                
-                <li> <a href= "ViewUsers.php"> <i class="fa fa-list"> All Users List </i> </a> </li>
+              
             </ul>
         <li> 
             <a href= "#" class="req-btn"> 
-                <i class="fa fa-users"> Requests <span class="fa fa-caret-down third">
+                <i class="fa fa-paper-plane"> Requests <span class="fa fa-caret-down third">
                 </span></i> 
             </a>
             <ul class="req-show">
                 <li> <a href= "{{ route('CustomerRequest') }}"> <i class="fa fa-users"> Account Request </i> </a> </li>
-                <li> <a href= "pharmacy_req.php"> <i class="fa fa-users"> Loan Request </i> </a> </li>
+                <li> <a href= "{{ route('LoanRequest') }}"> <i class="fa fa-users"> Loan Request </i> </a> </li>
             </ul> 
         </li>
         
-        <li> <a href= "{{route('AdminHistory')}}"><i class="fa fa-sign-out"> History </i> </a> </li>
+        <li> <a href= "{{route('AdminHistory')}}"><i class="fa fa-history"> History</i> </a> </li>
     </ul>
 
     <script >
