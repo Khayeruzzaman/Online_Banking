@@ -1,30 +1,30 @@
 @extends('layouts.customer.customerlayout')
 
 @section('title')
-    Add beneficiary
+    Transfer Fund
 @endsection
+
 
 
 @section('customercontent')
     <div class="flex-container">
         <div class="flex-item" style="width: 85%; margin-left:150px;">
-            <form action="{{ route('account.addbeneficiary') }}" class="form form-control" method="POST">
+            <form action="/account/tranfer-fund/{{ $benaccount->accountname }}" class="form form-control" method="POST">
                 {{ csrf_field() }}
                 <table id="transactions" class="table table-condensed">
                     <tr style="background-color: #263238; color: white;">
                         <td>
-                            Add Beneficiary:
+                            Transfer Fund:
                         </td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                    @if ($message = Session::get('addbeneficiaryerror'))
+                    @if ($message = Session::get('senderror'))
                             <tr>
                                 <td>
                                     <strong class="text text-danger" id="validation_msg">{{ $message }}</strong>
                                 </td>
-                                <td></td>
                                 <td></td>
                             </tr>
                         @endif
@@ -33,9 +33,35 @@
                             Beneficiary Name:
                         </td>
                         <td>
-                            <input type="text" class="form form-control" name="beneficiaryname" id="beneficiaryname" style="border-bottom: 2px solid black" placeholder="Beneficiary Name">
+                            {{ $beneficiary->beneficiaryname }}
                         </td>
-                        @error('beneficiaryname')
+                    </tr>
+                    <tr>
+                        <td>
+                            Beneficiary Account Name:
+                        </td>
+                        <td>
+                            {{ $benaccount->accountname }}
+                        </td>
+                        @error('beneficiaryaccountname')
+                            <td>
+                                <span class="text text-danger" id="validation_msg">{{ $message }}</span>
+                            </td>
+                        @enderror
+                    </tr>
+                    <tr>
+                        @if ($message = Session::get('addbeneficiaryerror'))
+                            <td>
+                                <strong id="validation_msg">{{ $message }}</strong>
+                            </td>
+                        @endif
+                        <td>
+                            Tranfer Amount:
+                        </td>
+                        <td>
+                            <input type="text" class="form form-control" name="amount" id="amount" style="border-bottom: 2px solid black" placeholder="Amount">
+                        </td>
+                        @error('amount')
                             <td>
                                 <span class="text text-danger" id="validation_msg">{{ $message }}</span>
                             </td>
@@ -43,12 +69,12 @@
                     </tr>
                     <tr>
                         <td>
-                            Beneficiary Account Name:
+                            Your Password:
                         </td>
                         <td>
-                            <input type="text" class="form form-control" name="beneficiaryaccountname" id="beneficiaryaccountname" style="border-bottom: 2px solid black" placeholder="Beneficiary Account Name">
+                            <input type="password" class="form form-control" name="password" id="password" style="border-bottom: 2px solid black" placeholder="Enter Password">
                         </td>
-                        @error('beneficiaryaccountname')
+                        @error('password')
                             <td>
                                 <span class="text text-danger" id="validation_msg">{{ $message }}</span>
                             </td>

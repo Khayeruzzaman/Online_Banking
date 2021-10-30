@@ -55,7 +55,7 @@
     .flex-item-1 {
         margin: auto;
         margin-top: 50px;
-        background: rgba(0, 0, 0, 0.719);
+        background: #21292cd7;
         width: 1200px;
         border-radius: 10px;
     }
@@ -133,11 +133,11 @@
         width: 100%;
         height: 40px;
         margin: 10px;
-        padding: 1px 1px;
+        padding: 5px 100px 5px 100px;
         bottom: 0;
-        border: 2px solid rgb(2, 238, 255);
+        border: 2px solid #263238;
         background-color: rgb(255, 255, 255);
-        border-radius: 5px;
+        border-radius: 10px;
     }
 
     input[name="firstname"], input[name="lastname"], input[name="gender"], input[type=password] {
@@ -386,7 +386,7 @@
 
                     <div class="flex-item">
                         <button type="submit">Create Account</button>
-                        <span class="text text-info" id="register">Have an account? <a href="{{ route('home.login') }}" style="color: cyan" id="create">Login!</a></span>
+                        <span class="text text-info" id="register">Have an account? <a href="{{ route('home.login') }}" style="color: cyan" id="create">Login to Continue!</a></span>
                     </div>
                 </form>
             </div>
