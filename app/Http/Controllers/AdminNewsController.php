@@ -27,11 +27,27 @@ class AdminNewsController extends Controller
     		]
         );
 
-    	$news = new News();
-    	$news -> $request->newstitle;
-    	$news -> $request->newsBody;
-    	$news -> save();
+        if($request->hasFile('pic')){
 
-    	return view('admin.news');
+                $fileNameWithExt = $request->file('pic')->getClientOriginalName();
+
+                $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+
+                $ext = $request->file('pic')->getClientOriginalExtension();
+
+                $fileNameToStore = $fileName.'_'.time().'.'.$ext;
+
+                $path = $request->file('pic')->storeAs('public/newsimg', $fileNameToStore);
+            }else{
+
+                $fileNameToStore = 'noimage.jpg';
+            }
+
+        	$news = new News();
+        	$news->newstitle = $request->newstitle;
+        	$news->newsbody =$request->newsBody;
+        	$news-> save();
+
+        	return view('admin.news');
     }
 }

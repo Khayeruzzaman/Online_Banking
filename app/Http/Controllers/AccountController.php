@@ -127,7 +127,7 @@ class AccountController extends Controller
                     $varhistory->save();
                 }
             }
-            return redirect()->route('home.news');
+            return redirect()->route('home.login')->with('loginerror', 'Your Request is processing. Please check back again after a while!');
         }
     }
 }

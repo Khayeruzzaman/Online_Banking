@@ -11,6 +11,9 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AccountBeneficiaryController;
 use App\Http\Controllers\AdminLoanController;
 use App\Http\Controllers\AdminNewsController;
+use App\Http\Controllers\AccountLoanController;
+use App\Http\Controllers\AccountBankEStatement;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -53,22 +56,49 @@ Route::get('/account/my-transections', [AccountOperationController::class, 'hist
 Route::get('/account/my-transections/{name}', [AccountOperationController::class, 'historysort'])->middleware('CustomerLoginCheck');
 
 //account profile
-Route::get('/account/profile', [AccountOperationController::class, 'profile'])->name('account.profile');
+Route::get('/account/profile', [AccountOperationController::class, 'profile'])->name('account.profile')->middleware('CustomerLoginCheck');
 
 //account edit
-Route::get('/account/profile/edit', [AccountOperationController::class, 'edit'])->name('account.edit');
-Route::post('/account/profile/edit', [AccountOperationController::class, 'editSubmit'])->name('account.edit');
+Route::get('/account/profile/edit', [AccountOperationController::class, 'edit'])->name('account.edit')->middleware('CustomerLoginCheck');
+Route::post('/account/profile/edit', [AccountOperationController::class, 'editSubmit'])->name('account.edit')->middleware('CustomerLoginCheck');
 
 //account password change
-Route::get('/account/profile/change-password', [AccountOperationController::class, 'changepassword'])->name('account.changepassword');
-Route::post('/account/profile/change-password', [AccountOperationController::class, 'changepasswordSubmit'])->name('account.changepassword');
+Route::get('/account/profile/change-password', [AccountOperationController::class, 'changepassword'])->name('account.changepassword')->middleware('CustomerLoginCheck');
+Route::post('/account/profile/change-password', [AccountOperationController::class, 'changepasswordSubmit'])->name('account.changepassword')->middleware('CustomerLoginCheck');
 
-//add beneficiary
-Route::get('/account/add-beneficiary', [AccountBeneficiaryController::class, 'addbeneficiary'])->name('account.addbeneficiary');
-Route::post('/account/add-beneficiary', [AccountBeneficiaryController::class, 'addbeneficiarySubmit'])->name('account.addbeneficiary');
+//account add beneficiary
+Route::get('/account/add-beneficiary', [AccountBeneficiaryController::class, 'addbeneficiary'])->name('account.addbeneficiary')->middleware('CustomerLoginCheck');
+Route::post('/account/add-beneficiary', [AccountBeneficiaryController::class, 'addbeneficiarySubmit'])->name('account.addbeneficiary')->middleware('CustomerLoginCheck');
 
-//beneficiary list
-Route::get('/account/beneficiary-list', [AccountBeneficiaryController::class, 'beneficiarylist'])->name('account.beneficiarylist');
+//account beneficiary list
+Route::get('/account/beneficiary-list', [AccountBeneficiaryController::class, 'beneficiarylist'])->name('account.beneficiarylist')->middleware('CustomerLoginCheck');
+
+//account transfer
+Route::get('/account/tranfer-fund/{id}', [AccountBeneficiaryController::class, 'send'])->name('account.transfer')->middleware('CustomerLoginCheck');
+Route::post('/account/tranfer-fund/{id}', [AccountBeneficiaryController::class, 'sendSubmit'])->name('account.transfer')->middleware('CustomerLoginCheck');
+
+//account beneficiary delete
+Route::get('/account/delete/{id}', [AccountBeneficiaryController::class, 'deletebeneficiary'])->name('account.beneficiarydelete')->middleware('CustomerLoginCheck');
+
+//account payment
+Route::get('/account/payment', [AccountBeneficiaryController::class, 'payment'])->name('account.payment')->middleware('CustomerLoginCheck');
+Route::post('/account/payment', [AccountBeneficiaryController::class, 'paymentSubmit'])->name('account.payment')->middleware('CustomerLoginCheck');
+
+//account loan request
+Route::get('/account/loan-request', [AccountLoanController::class, 'loanrequest'])->name('account.loanrequest')->middleware('CustomerLoginCheck');
+Route::post('/account/loan-request', [AccountLoanController::class, 'loanrequestSubmit'])->name('account.loanrequest')->middleware('CustomerLoginCheck');
+
+//account loan status check
+Route::get('/account/loan-list', [AccountLoanController::class, 'loanstatus'])->name('account.loanstate')->middleware('CustomerLoginCheck');
+
+//account loanrequest delete
+Route::get('/account/loan/delete/{id}', [AccountLoanController::class, 'deleterequest'])->name('account.loanrequestdelete')->middleware('CustomerLoginCheck');
+
+//account e statement
+Route::get('/account/e-statement', [AccountBeneficiaryController::class, 'statement'])->name('account.statement')->middleware('CustomerLoginCheck');
+
+//account e statement download as pdf
+Route::post('/account/e-statement', [AccountBankEStatement::class, 'downloadEStatement'])->name('account.statement')->middleware('CustomerLoginCheck');
 
 //admin Dashboard
 Route::get('/admin/dashboard',[AdminController::class , 'adminDashboard'])->name('AdminDashboard')

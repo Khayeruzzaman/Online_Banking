@@ -100,7 +100,10 @@
 		<br>
 
 		<label class="newsLabel">Write news here:</label>
-		<input type="text" name="newsBody" class="newsBody">
+		<textarea name="newsBody" class="newsBody">
+			
+		</textarea>
+		
 
 		@if($errors->has('newsBody'))
 			<span class="text-danger">

@@ -12,7 +12,7 @@
 	<title>@yield('title')</title>
 </head>
 <body style=" 
-          background: url({{ asset('admin/background_images/back1.jpg') }}) no-repeat center center fixed;
+          background: url({{ asset('sysimages/back1.jpg') }}) no-repeat center center fixed;
           min-height: 100%; 
           background-position: center center;
           background-repeat: no-repeat;

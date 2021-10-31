@@ -78,7 +78,7 @@
         margin-bottom: 10px;
         padding: 12px 32px;
         font-family: Roboto-Regular;
-        border: 2px solid #00BCD4;
+        border: 2px solid #263238;
         border-radius: 7px;
         background-color: #F5F5F5;
     }

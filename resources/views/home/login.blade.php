@@ -33,6 +33,8 @@ body{
 .Loginform {
         width:25%;
         margin:20px 450px;
+        margin: auto;
+        margin-top: 50px;
         padding:50px;
         border-radius: 10px;
         box-shadow: 0px 0px 30px black;
@@ -116,7 +118,7 @@ body{
             {{ csrf_field() }}
             
             <center>
-            <h3>Banking is now at your Doorstep!</h3>
+            <h3 style="font-size: 26px">Banking is now at your Doorstep!</h3>
             </center>
             <br>
                 @if ($message = Session::get('loginerror'))

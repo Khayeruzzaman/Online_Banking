@@ -30,7 +30,7 @@ class AccountOperationController extends Controller
     {
         $customer=Account::where('id', session()->get('accountid'))->first();
         $user=BankUser::where('id', $customer->bank_user_id)->first();
-        $history=History::where('account_id', $customer->id)->get();
+        $history=History::where('account_id', $customer->id)->orderby('created_at','desc')->get();
         return view('customer.history')->with('history',$history)
                                        ->with('user', $user);
     }

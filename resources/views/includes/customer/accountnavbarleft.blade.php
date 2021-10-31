@@ -9,7 +9,7 @@
 		text-align: center;
 		line-height: 40px;
 		padding: 6px;
-		text-transform: uppercase;
+		text-transform: capitalize;
 		background: #373b8b;
 		color: White;
 	}
@@ -18,7 +18,7 @@
 	
 	position: fixed;
 	margin-top: -50px;
-	width: 25%;
+	width: 23%;
 	height: 100%;
 	text-align: left;
 	float: left;
@@ -140,15 +140,12 @@
                         </span> </i> 
                     </a> 
                     <ul class="user-show">
-						<li><a href="pharmacyReg.php"><i class="fas fa-exchange-alt"> &nbsp; Transfer Funds </i></a></li>
+						<li><a href="{{ route('account.beneficiarylist') }}"><i class="fas fa-exchange-alt"> &nbsp; Transfer Funds </i></a></li>
                         <li><a href="{{ route('account.addbeneficiary') }}"><i class="fa fa-user-plus"> &nbsp; Add Beneficiary </i></a></li>
-                        <li><a href="{{ route('account.beneficiarylist') }}"><i class="fa fa-list"> &nbsp; Beneficiary List </i></a></li>
                     </ul>
 
-                </li>    
-                <li> <a href= "SearchUsers.php"> <i class="fa fa-search"> &nbsp; Search Accounts </i> </a> </li>
-                
-                <li> <a href= "ViewUsers.php"> <i class="fas fa-money-check-alt"> &nbsp; Payments </i> </a> </li>
+                </li>
+                <li> <a href= "{{ route('account.payment') }}"> <i class="fas fa-money-check-alt"> &nbsp; Payments </i> </a> </li>
             </ul>
 		</li>
         <li> 
@@ -157,10 +154,11 @@
                 </span></i> 
             </a>
             <ul class="req-show">
-                <li> <a href= "docReq.php"> <i class="fas fa-plus"> &nbsp; Create </i> </a> </li>
-                <li> <a href= "pharmacy_req.php"> <i class="far fa-check-circle"> &nbsp; Status </i> </a> </li>
+                <li> <a href= "{{ route('account.loanrequest') }}"> <i class="fas fa-plus"> &nbsp;Create Loan Request </i> </a> </li>
+                <li> <a href= "{{ route('account.loanstate') }}"> <i class="far fa-check-circle"> &nbsp;<strong>Check Request Status</strong> </i> </a> </li>
             </ul> 
         </li>
+		<li> <a href= "{{ route('account.statement') }}"> <i class="fas fa-file-alt"> &nbsp; E-Statement </i> </a> </li>
     </ul>
 
     <script >
