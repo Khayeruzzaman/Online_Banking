@@ -111,9 +111,11 @@
             <div class="flex-container-title">
                 <p id="date">{{ $n->updated_at }}</p>
             </div>
-            <div class="flex-container-body">
-                <img src="/newsimg/{{ $n->newspicture }}" id="news_body_img">
-            </div>
+            @if ($n->newspicture!=null)
+                <div class="flex-container-body">
+                    <img src="/storage/newsimg/{{ $n->newspicture }}" id="news_body_img">
+                </div>
+            @endif
             <div class="flex-container-body">
                 <p id="news_body">{{ $n->newsbody }}</p>
             </div>

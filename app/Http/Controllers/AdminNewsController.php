@@ -18,7 +18,8 @@ class AdminNewsController extends Controller
     	$this->validate($request, 
     		[
     			'newstitle' => 'required',
-    			'newsBody' => 'required'
+    			'newsBody' => 'required',
+				'pic'=> 'image|max:1999',
     		],
 
     		[
@@ -26,6 +27,8 @@ class AdminNewsController extends Controller
     			'newsBody.required'=> 'Please write the News properly!'
     		]
         );
+
+		$fileNameToStore='';
 
         if($request->hasFile('pic')){
 
@@ -38,14 +41,12 @@ class AdminNewsController extends Controller
                 $fileNameToStore = $fileName.'_'.time().'.'.$ext;
 
                 $path = $request->file('pic')->storeAs('public/newsimg', $fileNameToStore);
-            }else{
-
-                $fileNameToStore = 'noimage.jpg';
             }
 
         	$news = new News();
         	$news->newstitle = $request->newstitle;
         	$news->newsbody =$request->newsBody;
+			$news->newspicture=$fileNameToStore;
         	$news-> save();
 
         	return view('admin.news');
