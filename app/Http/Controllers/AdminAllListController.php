@@ -526,15 +526,12 @@ class AdminAllListController extends Controller
 
     }
 
-     public function deleteCusList(Request $request)
+     public function disableCusList(Request $request)
     {
 
     	$acc = Account::where('id',$request->id)->first();
-    	$acc->delete();
-    	
-    	$bank = BankUser::where('id',$request->b_id)->first();
-    	$bank->delete();
-
+    	$acc -> accountstate = 'DISABLED';
+    	$acc ->save();
     	
     	
     	return redirect()->route('CusList');

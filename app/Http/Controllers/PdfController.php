@@ -12,7 +12,7 @@ class PdfController extends Controller
     	$history = History::all();
     	$credit = History::sum('credit');
 	    $debit = History::sum('debit');
-	    $balance = $credit - $debit;
+	    $balance = 10000000 + ($credit - $debit);
 
     	$pdf = PDF::loadview('admin.transactionPdf', ['history'=> $history, 'credit'=>$credit, 'debit'=>$debit, 'balance'=>$balance])
     	->setOptions(['defaultFont' => 'sans-serif'])

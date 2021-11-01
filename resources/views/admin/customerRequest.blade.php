@@ -102,7 +102,7 @@
 				<td>{{$customer->accountbalance}}</td>
 				<td>{{$customer->accountinterestrate}}</td>
 				
-				<td>{{$customer->accountstate}}</td>
+				<td><b style="color:green;">{{$customer->accountstate}}</b></td>
 				<td>
 					<a href="/admin/customer/requests/{{$customer->id}}"><img src=" {{ url('admin/customer_request/check-mark.png') }}" style="width: 30px; height: 30px"></a>
 					&nbsp &nbsp
