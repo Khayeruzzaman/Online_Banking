@@ -161,6 +161,7 @@
         </li>
         
         <li> <a href= "{{route('AdminHistory')}}"><i class="fa fa-history"> History</i> </a> </li>
+         <li> <a href= "{{route('NewsCreate')}}"><i class="fa fa-upload"> News</i> </a> </li>
     </ul>
 
     <script >

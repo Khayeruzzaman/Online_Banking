@@ -18,7 +18,7 @@
 
 body{
         height: 100%;
-        background: url("{{ asset('sysimages/login_home.jpg') }}") no-repeat center center fixed;
+        background: url("{{ asset('sysimages/loginPage.jpg') }}") no-repeat center center fixed;
         background-size: cover;
     }
 

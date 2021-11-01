@@ -10,6 +10,7 @@ use App\Http\Controllers\AccountOperationController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\AccountBeneficiaryController;
 use App\Http\Controllers\AdminLoanController;
+use App\Http\Controllers\AdminNewsController;
 use App\Http\Controllers\AccountLoanController;
 use App\Http\Controllers\AccountBankEStatement;
 
@@ -219,6 +220,14 @@ Route::get('/admin/loan/requests/reject/{id}',[AdminLoanController::class , 'loa
 
 ////Admin History Download
 Route::get('/admin/history/pdfdownload',[PdfController::class , 'downloadPdf'])->name('DownloadPdf')
+->middleware('AdminValidCheck');
+
+
+//Admin 
+
+Route::get('/admin/news/create',[AdminNewsController::class , 'newsCreate'])->name('NewsCreate')
+->middleware('AdminValidCheck');
+Route::post('/admin/news/create',[AdminNewsController::class , 'newsUpdate'])->name('NewsUpdate')
 ->middleware('AdminValidCheck');
 
 
