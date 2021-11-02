@@ -15,10 +15,10 @@
 
     <center>
         <h1 style="color:#2e4154;"> Transaction Report</h1>
-            
             {{date("l jS \of F Y h:i:s A")}} 
+            <hr>
             <br>
-            <br>
+
         <b>
             Total Dedit: {{$debit}} Tk 
         </b>

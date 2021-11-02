@@ -193,7 +193,7 @@ Route::post('/admin/customerlist/edit/picture/{id}',[AdminAllListController::cla
 	->middleware('AdminValidCheck');
 
 //Admin Customer List Delete
-Route::get('admin/customerlist/delete/{b_id}/{id}',[AdminAllListController::class , 'deleteCusList'])->name('CusListDelete')
+Route::get('admin/customerlist/disable/{b_id}/{id}',[AdminAllListController::class , 'disableCusList'])->name('CusListDelete')
 	->middleware('AdminValidCheck');
 
 //Admin Customers Request
@@ -223,11 +223,14 @@ Route::get('/admin/history/pdfdownload',[PdfController::class , 'downloadPdf'])-
 ->middleware('AdminValidCheck');
 
 
-//Admin 
-
+//Admin News
 Route::get('/admin/news/create',[AdminNewsController::class , 'newsCreate'])->name('NewsCreate')
 ->middleware('AdminValidCheck');
 Route::post('/admin/news/create',[AdminNewsController::class , 'newsUpdate'])->name('NewsUpdate')
 ->middleware('AdminValidCheck');
 
 
+//Admin Account All List
+
+Route::get('/admin/account/alllist',[AdminController::class , 'accountAllList'])->name('AccountAllList')
+->middleware('AdminValidCheck');

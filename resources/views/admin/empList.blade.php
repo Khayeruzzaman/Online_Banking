@@ -97,7 +97,7 @@
 				
 				<td>
 					<a href="/admin/emplist/edit/{{$employee->id}}"><img src=" {{ url('admin/admin_dashboard/edit (1).png') }}" style="width: 30px; height: 30px"></a>
-					&nbsp &nbsp
+					&nbsp
 					<a href="/admin/emplist/delete/{{$employee->bank_user_id}}/{{$employee->id}}"><img src=" {{ url('admin/admin_dashboard/delete.png') }}" style="width: 30px; height: 30px"></a>
 
 				</td>

@@ -146,7 +146,9 @@
                         <li><a href="{{ route('RegCustomer') }}"><i class="fa fa-user-plus"> Customer </i></a></li>
                     </ul>
 
-                </li>    
+                </li>
+
+                <li> <a href= "{{ route('AccountAllList') }}"> <i class="fa fa-list"> All Users List </i> </a> </li>    
               
             </ul>
         <li> 

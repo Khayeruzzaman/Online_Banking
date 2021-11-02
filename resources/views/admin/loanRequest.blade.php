@@ -95,7 +95,7 @@
 
 				</td>
 				
-				<td>{{$req->loanrequeststatus}}</td>
+				<td><b style="color:green;">{{$req->loanrequeststatus}}</b></td>
 
 				<td>
 					<a href="/admin/loan/requests/accept/{{$req->id}}"><img src=" {{ url('admin/customer_request/check-mark.png') }}" style="width: 30px; height: 30px"></a>

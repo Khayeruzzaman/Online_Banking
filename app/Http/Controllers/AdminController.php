@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Models\BankUser;
@@ -182,7 +182,7 @@ class AdminController extends Controller
     		$history = History::all();
 	    	$credit = History::sum('credit');
 	    	$debit = History::sum('debit');
-	    	$balance = $credit - $debit;
+	    	$balance = 10000000+($credit - $debit);
 	    	return view('admin.admin_history')
 	    			->with('history', $history)
 	    			->with('credit', $credit)
@@ -191,5 +191,15 @@ class AdminController extends Controller
     	}
 
     	
+    }
+
+    public function accountAllList(){
+
+    	$account = DB::table('bank_users')
+	            ->join('accounts', 'bank_users.id', '=', 'accounts.bank_user_id')
+	            ->select('bank_users.*', 'accounts.*')
+	            ->get();
+
+	    	return view('admin.account_all_list')->with('cus', $account);
     }
 }

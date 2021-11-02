@@ -52,7 +52,7 @@
 		    
 		   
 		    <div class="box">
-		        <h3>ADMIN</h3>
+		        <h3>ADMINS</h3>
 		        <h4>
 		           <center>
 		           	{{$admins->count()}}
@@ -70,7 +70,7 @@
 		<a href="{{route('EmpList')}}" style="text-decoration:none; color: black;">
 		<div class="emp">
 		    <div class="box">
-		        <h3>EMPLOYEE</h3>
+		        <h3>EMPLOYEES</h3>
 		        <h4>
 		           <center>
 		           	{{$employees->count()}}
@@ -87,7 +87,7 @@
 		<a href="{{route('CusList')}}" style="text-decoration:none; color: black;">
 		<div class="cus">
 		    <div class="box">
-		        <h3>CUSTOMER</h3>
+		        <h3>ACCOUNTS</h3>
 		        <h4>
 		           <center>
 		           	
