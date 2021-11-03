@@ -79,7 +79,7 @@
 		</tbody>
 
 			@foreach($loanRequest as $req)
-			@if($req->loanrequeststatus == 'FORWORDED')
+			@if($req->loanrequeststatus == 'FORWARDED')
 
 			<tr>
 				<td>{{$req->account_id}}</td>
