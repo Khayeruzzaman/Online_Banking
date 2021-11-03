@@ -154,7 +154,13 @@ class AccountBeneficiaryController extends Controller
             {
                 $history=new History();
                 $history->historydate=date('Y-m-d');
-                $history->remarks="Payment Code: ".$rqst->paymentcode;
+                if($rqst->remarks!="")
+                {
+                    $history->remarks="Payment Code: ".$rqst->paymentcode." Remarks: '".$rqst->remarks."'";
+                }
+                else {
+                    $history->remarks="Payment Code: ".$rqst->paymentcode;
+                }
                 $history->debit=$rqst->amount;
                 $history->credit=0.00;
                 $history->account_id=$account->id;

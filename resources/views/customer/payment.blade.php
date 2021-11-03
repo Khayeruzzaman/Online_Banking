@@ -43,6 +43,19 @@
                     </tr>
                     <tr>
                         <td>
+                            Remarks:
+                        </td>
+                        <td>
+                            <input type="text" class="form form-control" name="remarks" id="remarks" style="border-bottom: 2px solid black" placeholder="Remarks (Optional)">
+                        </td>
+                        @error('remarks')
+                            <td>
+                                <span class="text text-danger" id="validation_msg">{{ $message }}</span>
+                            </td>
+                        @enderror
+                    </tr>
+                    <tr>
+                        <td>
                             Payment Amount:
                         </td>
                         <td>

@@ -56,9 +56,9 @@ class AdminLoanController extends Controller
 
     	$history = new History();
     	$history->historydate = date('Y-m-d H:i:s');
-    	$history->remarks = $loan->loanamount.' debited for '.$loan->loantype;
-    	$history->debit = $loan->loanamount;
-    	$history->credit = 0;
+    	$history->remarks = $loan->loanamount.' credited for '.$loan->loantype;
+    	$history->debit = 0;
+    	$history->credit = $loan->loanamount;
     	$history->account_id = $account->id;
     	$history->save();
 
