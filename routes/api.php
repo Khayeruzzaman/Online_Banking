@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeAPIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//Home API
+
+Route::get('/loan-types', [HomeAPIController::class, 'welcome']);
+Route::get('/all-news', [HomeAPIController::class, 'news']);
+Route::post('/apilogin', [HomeAPIController::class, 'loginSubmit']);
