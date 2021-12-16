@@ -160,7 +160,7 @@
 		@endif <br>
 
 		<label>Password</label>
-		<input class="form-control" type="text" name="password"  >
+		<input class="form-control" type="text" name="password" value="{{$admin->password}}" >
 		@if($errors->has('password'))
 			<span class="text-danger">
 				<strong> {{$errors->first('password')}} </strong>

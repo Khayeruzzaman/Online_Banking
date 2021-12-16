@@ -64,7 +64,9 @@ class HomeAPIController extends Controller
                 return response()->json([
                     'admin' => $admintoken,
                     'adminid' => $admin->id,
+                    'adminname' => $admin->adminname,
                     'adminbankid' => $admin->bank_user_id,
+
                 ]);
             }
             // elseif($employee)

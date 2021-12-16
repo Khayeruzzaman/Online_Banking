@@ -183,7 +183,7 @@
                 $('#dashboard ul .third').toggleClass("rotate");
             });
 
-        </script>
+    </script>
 	
 
 </div>
