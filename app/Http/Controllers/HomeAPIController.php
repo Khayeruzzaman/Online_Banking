@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use DateTime;
 use DateInterval;
+use App\Models\BankUser;
 use App\Models\Admin;
 use App\Models\Account;
 use App\Models\Employee;
@@ -86,10 +87,14 @@ class HomeAPIController extends Controller
                     $customertoken->created_at = $crt;
                     $customertoken->expired_at = $end->add(new DateInterval('P0Y0M0DT0H30M0S'));
                     $customertoken->save();
+                    $customerBank = BankUser::where('id', $customer->bank_user_id)->first();
+                    $customerName = $customerBank->firstname . " " . $customerBank->lastname;
                     return response()->json([
                         'customer' => $customertoken,
                         'customerid' => $customer->id,
                         'customerbankid' => $customer->bank_user_id,
+                        'customername' => $customerName,
+                        'customerpic' => $customerBank->userprofilepicture,
                     ]);
                 }
                 elseif($customer->accountstate=="INACTIVE")
