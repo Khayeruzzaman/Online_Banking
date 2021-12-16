@@ -2,11 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AdminApiController;
 use App\Http\Controllers\AdminApiRegController;
 use App\Http\Controllers\AdminApiAllListController;
 use App\Http\Controllers\AdminApiLoanController;
 use App\Http\Controllers\AdminApiNewsController;
+use App\Http\Controllers\HomeAPIController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +25,13 @@ use App\Http\Controllers\AdminApiNewsController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+//Home API
+
+Route::get('/loan-types', [HomeAPIController::class, 'welcome']);
+Route::get('/all-news', [HomeAPIController::class, 'news']);
+Route::post('/apilogin', [HomeAPIController::class, 'loginSubmit']);
 
 
 //-------------------------------------Admin-----------------------------------------------------------//
@@ -113,4 +123,3 @@ Route::post('/admin/news/create',[AdminApiNewsController::class , 'newsUpdate'])
 //Admin Account All List
 
 Route::get('/admin/account/alllist',[AdminApiController::class , 'accountAllList']);
-
