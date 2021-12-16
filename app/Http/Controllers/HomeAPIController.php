@@ -54,15 +54,19 @@ class HomeAPIController extends Controller
             if($admin)
             {
                 $crt = new DateTime();
+                $end = new DateTime();
                 $admintoken = new UserToken();
                 $admintoken->bank_user_id = $admin->bank_user_id;
                 $admintoken->userkey = Str::random(64);
                 $admintoken->created_at = $crt;
-                $admintoken->expired_at = $crt->add(new DateInterval('PT30M'));
+                $admintoken->expired_at = $end->add(new DateInterval('P0Y0M0DT0H30M0S'));
                 $admintoken->save();
                 return response()->json([
-                    'adminToken' => $admintoken,
-                    'adminData' => $admin,
+                    'admin' => $admintoken,
+                    'adminid' => $admin->id,
+                    'adminname' => $admin->adminname,
+                    'adminbankid' => $admin->bank_user_id,
+
                 ]);
             }
             // elseif($employee)
@@ -75,14 +79,17 @@ class HomeAPIController extends Controller
                 if($customer->accountstate=="ACTIVE")
                 {
                     $crt = new DateTime();
+                    $end = new DateTime();
                     $customertoken = new UserToken();
                     $customertoken->bank_user_id = $customer->bank_user_id;
                     $customertoken->userkey = Str::random(64);
                     $customertoken->created_at = $crt;
-                    $customertoken->expired_at = $crt->add(new DateInterval('PT30M'));
+                    $customertoken->expired_at = $end->add(new DateInterval('P0Y0M0DT0H30M0S'));
                     $customertoken->save();
                     return response()->json([
                         'customer' => $customertoken,
+                        'customerid' => $customer->id,
+                        'customerbankid' => $customer->bank_user_id,
                     ]);
                 }
                 elseif($customer->accountstate=="INACTIVE")
