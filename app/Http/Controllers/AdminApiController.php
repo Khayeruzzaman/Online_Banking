@@ -1,23 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use App\Models\BankUser;
 use App\Models\Admin;
 use App\Models\Employee;
 use App\Models\Account;
 use App\Models\History;
 
-class AdminController extends Controller
+class AdminApiController extends Controller
 {
     public function adminDashboard(){
 
     	$admins = Admin::all();
     	$employees = Employee::all();
     	$customers = Account::all();
-
+    	
     	$No = 0;
     	foreach ($customers as $customer) {
     		if($customer ->accountstate == 'ACTIVE'){
@@ -28,27 +27,25 @@ class AdminController extends Controller
 
     	$customerNo= $No;
 
-    	return view('Admin.Dashboard')
-    				->with('admins', $admins)
-    				->with('employees', $employees)
-    				->with('customers', $customers)
-    				->with('customerNumber', $customerNo);
+    	return response()->json( [$admins, $employees, $customers]);
     }
 
     public function adminProfile(){
 
-    	$admin = Admin::where('id',session()->get('adminid'))->first();
+    	$admin = Admin::where('id',2)->first();
     	$bank = BankUser::where('id',$admin->bank_user_id)->first();
-    	return view('admin.viewProfile')->with('admin',$admin)
-    									->with('bank',$bank);
+    	return response()->json( [
+    		'admin' => $admin, 
+    		'bank' => $bank,
+    		'status' =>200,
+    	]);
     }
 
     public function adminEdit(){
 
-    	$admin = Admin::where('id',session()->get('adminid'))->first();
+    	$admin = Admin::where('id',2)->first();
     	$bank = BankUser::where('id',$admin->bank_user_id)->first();
-    	return view('Admin.Edit')->with('admin',$admin)
-    									->with('bank',$bank);
+    	return response()->json( [$admin, $bank]);
 
     }
 
@@ -56,9 +53,9 @@ class AdminController extends Controller
 
     	$this->validate($request, 
     		[
-	     		'f_name' => 'required | min:2 | string ',
+	     		'fname' => 'required | min:2 | string ',
 
-	     		'l_name' => 'required | min:3 | string ',
+	     		'lname' => 'required | min:3 | string ',
 
 	     		'gender' => 'required',
 
@@ -78,10 +75,10 @@ class AdminController extends Controller
 	     	],
 
 	     	[
-	     		'f_name.required' => 'Please fill up your First Name properly!',
-	     		'f_name.min' => 'Minimum 2 character',
-	     		'l_name.required' => 'Please fill up your Last Name properly!',
-	     		'l_name.min' => 'Minimum 3 character',
+	     		'fname.required' => 'Please fill up your First Name properly!',
+	     		'fname.min' => 'Minimum 2 character',
+	     		'lname.required' => 'Please fill up your Last Name properly!',
+	     		'lname.min' => 'Minimum 3 character',
 	     		'gender.required' => 'Please choose your gender!',
 	     		'dob.required' => 'Please select your Date of Birth',
 	     		'phone.required' => 'Please enter your phone number',
@@ -126,8 +123,8 @@ class AdminController extends Controller
 		    $admin->adminsalary = $request->sal;
 		    $admin->bank_user_id = $bank_Id;
 		    $admin->save();
-
-		   return redirect()->route('AdminProfile');
+		    return $request;
+		   //return redirect()->route('AdminProfile');
 
     }
 
@@ -135,7 +132,7 @@ class AdminController extends Controller
 
     	$user = BankUser::where('id',$request->id)->first();
 
-    	return view('Admin.updateProfilePic')->with('user',$user);
+    	return response()->json($user);
     }
 
     public function updatePicture(Request $request){
@@ -167,7 +164,9 @@ class AdminController extends Controller
 	    $user = BankUser::where('id',$request->id)->first();
     	$user->userprofilepicture = $fileNameToStore;
     	$user->save();
-    	return redirect()->route('AdminProfile');
+
+    	return $request;
+    	//return redirect()->route('AdminProfile');
     	
     	
 
@@ -182,11 +181,7 @@ class AdminController extends Controller
     		$credit = History::sum('credit');
 	    	$debit = History::sum('debit');
 	    	$balance = $credit - $debit;
-	    	return view('admin.admin_history')
-	    			->with('history', $history)
-	    			->with('credit', $credit)
-	    			->with('debit', $debit)
-	    			->with('balance', $balance);
+	    	return response()->json($history);
 
     	}else{
 
@@ -194,11 +189,7 @@ class AdminController extends Controller
 	    	$credit = History::sum('credit');
 	    	$debit = History::sum('debit');
 	    	$balance = 10000000+($credit - $debit);
-	    	return view('admin.admin_history')
-	    			->with('history', $history)
-	    			->with('credit', $credit)
-	    			->with('debit', $debit)
-	    			->with('balance', $balance);
+	    	return $request;
     	}
 
     	
@@ -211,6 +202,6 @@ class AdminController extends Controller
 	            ->select('bank_users.*', 'accounts.*')
 	            ->get();
 
-	    	return view('admin.account_all_list')->with('cus', $account);
+	    	return response()->json($account);
     }
 }

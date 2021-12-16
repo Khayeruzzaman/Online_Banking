@@ -86,7 +86,7 @@
 		
 		<form method="get">
 			<center>
-				<div class = searchDiv>
+				<div class = "searchDiv">
 					<i class="fa fa-search"> </i>
 					<input id="search" type="text" autocomplete="off" name="search" placeholder="SEARCH ACCOUNT ID.." >
 

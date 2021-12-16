@@ -70,7 +70,7 @@
 				
 				<th>Account Id</th>
 				<th>Loan Type</th>
-				<th>Loan Ammount</th>
+				<th>Loan Amount</th>
 				<th>Loan document</th>
 				<th>Status</th>
 				<th>Actions</th>

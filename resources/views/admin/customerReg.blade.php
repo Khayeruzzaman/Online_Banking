@@ -214,7 +214,7 @@
 
 		
 
-		<input class= "btn1" type="Submit"  name="update" value="update">
+		<input class= "btn1" type="Submit"  name="Submit" value="Submit">
 		<br>
 
 

@@ -68,7 +68,7 @@
 		<br>
 		<table id="tb" class="table table-striped table-hover table-bordered border-dark" >
 			<tbody>
-			
+			<tr>
 				
 				<th>Account Name</th>
 				<th>Picture</th>
