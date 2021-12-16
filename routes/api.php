@@ -35,7 +35,7 @@ Route::post('/apilogin', [HomeAPIController::class, 'loginSubmit']);
 
 
 //-------------------------------------Admin-----------------------------------------------------------//
-Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard']);
+Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard'])->middleware('AdminApiAuth');
 Route::get('/admin/viewprofile',[AdminApiController::class , 'adminProfile']);
 Route::get('/admin/history',[AdminApiController::class , 'history']);
 
@@ -59,7 +59,7 @@ Route::get('/admin/create/account/users',[AdminApiRegController::class , 'custom
 Route::post('/admin/create/account/users',[AdminApiRegController::class , 'createCustomer']);
 
 //admin Users Lists
-Route::get('/admin/dashboard/adminList',[AdminApiAllListController::class , 'adminList']);
+Route::get('/admin/dashboard/adminList',[AdminApiAllListController::class , 'adminList'])->middleware('AdminApiAuth');
 Route::get('/admin/dashboard/employeeList',[AdminApiAllListController::class , 'empList']);
 Route::get('/admin/dashboard/customerList',[AdminApiAllListController::class , 'cusList']);
 

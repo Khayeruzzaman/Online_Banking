@@ -61,7 +61,8 @@ class HomeAPIController extends Controller
                 $admintoken->expired_at = $crt->add(new DateInterval('PT30M'));
                 $admintoken->save();
                 return response()->json([
-                    'admin' => $admintoken,
+                    'adminToken' => $admintoken,
+                    'adminData' => $admin,
                 ]);
             }
             // elseif($employee)

@@ -16,9 +16,27 @@ class AdminApiRegController extends Controller
 
     public function createAdmin(Request $request){
 
+    	$messages = [
+			     		'fname.required' => 'Please fill up your First Name properly!',
+			     		
+			     		'lname.required' => 'Please fill up your Last Name properly!',
+			     		'lname.min' => 'Minimum 3 character',
+			     		'gender.required' => 'Please choose your gender!',
+			     		'dob.required' => 'Please select your Date of Birth',
+			     		'phone.required' => 'Please enter your phone number',
+			     		'email.required' => 'Please fill up your Email properly!',
+			     		'nid.required' => 'Please fill your Nid properly!',
+			     		'ad_name.required' => 'Please fill up your User Name properly!',
+			     		'ad_name.min' => 'Minimum 2 character',
+			     		'password.required' => 'Please fill up your password properly!',
+			     		'password.min' => 'Minimum 8 character',
+			     		'sal.required' => 'Please Enter admin salary'
+
+			     	];
+
     	$Validator=Validator::make($request->all(), 
     		[
-	     		'fname' => 'required ',
+	     		'fname' => 'required',
 
 	     		'lname' => 'required | min:3 | string ',
 
@@ -39,31 +57,18 @@ class AdminApiRegController extends Controller
 	     		'password' => 'required | min:8',
 
 	     		'sal' => 'required | integer'
-	     	],
-
-	     	[
-	     		'fname.required' => 'Please fill up your First Name properly!',
-	     		
-	     		'lname.required' => 'Please fill up your Last Name properly!',
-	     		'lname.min' => 'Minimum 3 character',
-	     		'gender.required' => 'Please choose your gender!',
-	     		'dob.required' => 'Please select your Date of Birth',
-	     		'phone.required' => 'Please enter your phone number',
-	     		'email.required' => 'Please fill up your Email properly!',
-	     		'nid.required' => 'Please fill your Nid properly!',
-	     		'ad_name.required' => 'Please fill up your User Name properly!',
-	     		'ad_name.min' => 'Minimum 2 character',
-	     		'password.required' => 'Please fill up your password properly!',
-	     		'password.min' => 'Minimum 8 character',
-	     		'sal.required' => 'Please Enter admin salary'
-
 	     	]
+
+
     	);
+
+    	$Validator -> setCustomMessages($messages); 
 
     	if($Validator->fails()){
     		return response()->json([
     			'status'=>422,
     			'errors'=>$Validator->Messages(),
+
     		]);
     	}else{
 
