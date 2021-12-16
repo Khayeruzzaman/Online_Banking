@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use DateTime;
+use DateInterval;
 use App\Models\Admin;
 use App\Models\Account;
 use App\Models\Employee;
 use App\Models\News;
 use App\Models\LoanType;
+use App\Models\UserToken;
 
 class HomeAPIController extends Controller
 {
@@ -28,8 +32,8 @@ class HomeAPIController extends Controller
     {
         $validation = Validator::make($rqst->all(),
         [
-            'username'=>'required|string|min:3',
-            'password'=>'required|string|min:3',
+            'username'=>'required|string',
+            'password'=>'required|string',
         ]);
 
         if($validation->fails()){
@@ -38,45 +42,66 @@ class HomeAPIController extends Controller
             ]);
         }
         else {
-            // $admin = Admin::where('adminname', $rqst->username)
-            //                ->where('password', md5($rqst->password))
-            //                ->first();
-            // $employee = Employee::where('empname', $rqst->username)
-            //                 ->where('password', md5($rqst->password))
-            //                 ->first();
-            // $customer = Account::where('accountname', $rqst->username)
-            //                 ->where('password', md5($rqst->password))
-            //                 ->first();
-            // if($admin)
-            // {
-            //     $rqst->session()->put('adminid', $admin->id);
-            //     $rqst->session()->put('adminName', $admin->adminname);
-            //     return redirect()->route('AdminDashboard');
-            // }
+            $admin = Admin::where('adminname', $rqst->username)
+                           ->where('password', md5($rqst->password))
+                           ->first();
+            $employee = Employee::where('empname', $rqst->username)
+                            ->where('password', md5($rqst->password))
+                            ->first();
+            $customer = Account::where('accountname', $rqst->username)
+                            ->where('password', md5($rqst->password))
+                            ->first();
+            if($admin)
+            {
+                $crt = new DateTime();
+                $admintoken = new UserToken();
+                $admintoken->bank_user_id = $admin->bank_user_id;
+                $admintoken->userkey = Str::random(64);
+                $admintoken->created_at = $crt;
+                $admintoken->expired_at = $crt->add(new DateInterval('PT30M'));
+                $admintoken->save();
+                return response()->json([
+                    'admin' => $admintoken,
+                ]);
+            }
             // elseif($employee)
             // {
             //     $rqst->session()->put('empid', $employee->id);
             //     return redirect()->route('home.news');
             // }
-            // elseif($customer)
-            // {
-            //     if($customer->accountstate=="ACTIVE")
-            //     {
-            //         $rqst->session()->put('accountid', $customer->id);
-            //         return redirect()->route('account.dashboard');
-            //     }
-            //     elseif($customer->accountstate=="INACTIVE")
-            //     {
-            //         return back()->with('loginerror', 'Your Request is processing. Please check back again after a while!');
-            //     }
-            //     elseif($customer->accountstate=="DISABLE")
-            //     {
-            //         return back()->with('loginerror', 'Your account has been disabled by admin. Please contact to Account Relationship Manager!');
-            //     }
-            // }
-            // else {
-            //     return back()->with('loginerror', '*Please Enter Valid Credentials!');
-            // }
+            elseif($customer)
+            {
+                if($customer->accountstate=="ACTIVE")
+                {
+                    $crt = new DateTime();
+                    $customertoken = new UserToken();
+                    $customertoken->bank_user_id = $customer->bank_user_id;
+                    $customertoken->userkey = Str::random(64);
+                    $customertoken->created_at = $crt;
+                    $customertoken->expired_at = $crt->add(new DateInterval('PT30M'));
+                    $customertoken->save();
+                    return response()->json([
+                        'customer' => $customertoken,
+                    ]);
+                }
+                elseif($customer->accountstate=="INACTIVE")
+                {
+                    return response()->json([
+                        'loginerror' => 'Your Request is processing. Please check back again after a while!',
+                    ]);
+                }
+                elseif($customer->accountstate=="DISABLE")
+                {
+                    return response()->json([
+                        'loginerror' => 'Your account has been disabled by admin. Please contact to Account Relationship Manager!',
+                    ]);
+                }
+            }
+            else {
+                return response()->json([
+                    'loginerror' => '*Please Enter Valid Credentials!',
+                ]);
+            }
         }
         
     }
