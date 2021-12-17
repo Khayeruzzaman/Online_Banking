@@ -35,11 +35,30 @@ Route::get('/all-news', [HomeAPIController::class, 'news']);
 Route::post('/apilogin', [HomeAPIController::class, 'loginSubmit']);
 
 //-------------------------------------Account---------------------------------------------------------//
+//Account Registration
+Route::post('/apiregister', [AccountAPIController::class, 'register']);
 //Account dashboard
 Route::get('/account-dashboard/{id}', [AccountAPIController::class, 'dashboard'])->middleware("AccountAPIAuth");
 //Account Logout
 Route::get('/apilogout/{key}', [AccountAPIController::class, 'logout'])->middleware("AccountAPIAuth");
-
+//Account Transections
+Route::get('/account-history/{id}', [AccountAPIController::class, 'history'])->middleware("AccountAPIAuth");
+//Account Profile
+Route::get('/account-profile/{id}', [AccountAPIController::class, 'profile'])->middleware("AccountAPIAuth");
+//Account Profile Edit
+Route::post('/account-profile/edit', [AccountAPIController::class, 'editSubmit'])->middleware("AccountAPIAuth");
+//Account Password Change
+Route::post('/account-profile/change-password', [AccountAPIController::class, 'changepasswordSubmit'])->middleware("AccountAPIAuth");
+//Account Beneficiary
+Route::post('/account-add-beneficiary', [AccountAPIController::class, 'addbeneficiarySubmit'])->middleware("AccountAPIAuth");
+//Account Beneficiary List
+Route::get('/account-beneficiary-list/{id}', [AccountAPIController::class, 'beneficiarylist'])->middleware("AccountAPIAuth");
+//Account Send Money to Beneficiary
+Route::post('/account-send-money', [AccountAPIController::class, 'sendSubmit'])->middleware("AccountAPIAuth");
+//Account External Payment
+Route::post('/account-payment', [AccountAPIController::class, 'paymentSubmit'])->middleware("AccountAPIAuth");
+//Account Beneficiary Delete
+Route::get('/account-beneficiary-delete/{id}', [AccountAPIController::class, 'deletebeneficiary'])->middleware("AccountAPIAuth");
 
 //-------------------------------------Admin-----------------------------------------------------------//
 Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard'])->middleware('AdminApiAuth');
