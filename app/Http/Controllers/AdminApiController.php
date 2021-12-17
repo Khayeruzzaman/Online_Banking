@@ -8,9 +8,25 @@ use App\Models\Admin;
 use App\Models\Employee;
 use App\Models\Account;
 use App\Models\History;
+use Illuminate\Support\Facades\Validator;
 
 class AdminApiController extends Controller
 {
+
+	 public function adminInformation(Request $request){
+
+    	$admin = Admin::where('id',$request->id)->first();
+   
+    	return response()->json($admin);
+    }
+
+    public function bankInformation(Request $request){
+
+    	$bank = BankUser::where('id',$request->id)->first();
+   
+    	return response()->json($bank);
+    }
+
     public function adminDashboard(){
 
     	$admins = Admin::all();
@@ -30,9 +46,9 @@ class AdminApiController extends Controller
     	return response()->json( [$admins, $employees, $customers]);
     }
 
-    public function adminProfile(){
+    public function adminProfile(Request $request){
 
-    	$admin = Admin::where('id',2)->first();
+    	$admin = Admin::where('id',$request->id)->first();
     	$bank = BankUser::where('id',$admin->bank_user_id)->first();
     	return response()->json( [
     		'admin' => $admin, 
@@ -51,19 +67,17 @@ class AdminApiController extends Controller
 
     public function adminUpdate(Request $request){
 
-    	$this->validate($request, 
+    	$Validator=Validator::make($request->all(), 
     		[
-	     		'fname' => 'required | min:2 | string ',
+	     		'fname' => 'required ',
 
-	     		'lname' => 'required | min:3 | string ',
-
-	     		'gender' => 'required',
+	     		'lname' => 'required ',
 
 	     		'dob' => 'required',
 
-	     		'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/',
+	     		'phone' => 'required ',
 
-	     		'email' => 'required | email',
+	     		'email' => 'required ',
 
 	     		'nid' => 'required',
 
@@ -71,7 +85,7 @@ class AdminApiController extends Controller
 
 	     		'password' => 'required | min:8',
 
-	     		'sal' => 'required | integer'
+	     		'sal' => 'required '
 	     	],
 
 	     	[
@@ -79,7 +93,6 @@ class AdminApiController extends Controller
 	     		'fname.min' => 'Minimum 2 character',
 	     		'lname.required' => 'Please fill up your Last Name properly!',
 	     		'lname.min' => 'Minimum 3 character',
-	     		'gender.required' => 'Please choose your gender!',
 	     		'dob.required' => 'Please select your Date of Birth',
 	     		'phone.required' => 'Please enter your phone number',
 	     		'email.required' => 'Please fill up your Email properly!',
@@ -93,10 +106,17 @@ class AdminApiController extends Controller
 	     	]
     	);
 
+    	if($Validator->fails()){
+    		return response()->json([
+    			'status'=>422,
+    			'errors'=>$Validator->Messages(),
+
+    		]);
+    	}else{
+
     		$user = BankUser::where('id',$request->b_id)->first();
-	    	$user->firstname = $request->f_name;
-	    	$user->lastname = $request->l_name;
-	    	$user->gender = $request->gender;
+	    	$user->firstname = $request->fname;
+	    	$user->lastname = $request->lname;
 	    	$user->dateofbirth = $request->dob;
 	    	$user->phone = $request->phone;
 		    $user->email = $request->email;
@@ -123,21 +143,21 @@ class AdminApiController extends Controller
 		    $admin->adminsalary = $request->sal;
 		    $admin->bank_user_id = $bank_Id;
 		    $admin->save();
-		    return $request;
+		    
+		    return response()->json([
+		    	'message' => 'Updated Succecsfully',
+		    	'status' => 200,
+		    ]);
 		   //return redirect()->route('AdminProfile');
-
+		}
     }
 
-    public function editPicture(Request $request){
 
-    	$user = BankUser::where('id',$request->id)->first();
 
-    	return response()->json($user);
-    }
 
     public function updatePicture(Request $request){
 
-    	$this->validate($request, 
+    	$Validator=Validator($request->all(), 
     		[
     			'pic' => 'image | nullable | max:1999'
     		]);
@@ -164,33 +184,32 @@ class AdminApiController extends Controller
 	    $user = BankUser::where('id',$request->id)->first();
     	$user->userprofilepicture = $fileNameToStore;
     	$user->save();
-
-    	return $request;
-    	//return redirect()->route('AdminProfile');
+    	return response()->json([
+    		'status' => 200,
+    		'message' => 'Uploaded Succecsfully!'
+    	]);
     	
     	
 
     }
 
+    
 
-    public function history(Request $request){
+    public function history(){
 
-    	if(!empty($request->search)){
-
-    		$history = History::where('account_id','like','%'.$request->search.'%')->get();
-    		$credit = History::sum('credit');
-	    	$debit = History::sum('debit');
-	    	$balance = $credit - $debit;
-	    	return response()->json($history);
-
-    	}else{
-
+    	
     		$history = History::all();
 	    	$credit = History::sum('credit');
 	    	$debit = History::sum('debit');
 	    	$balance = 10000000+($credit - $debit);
-	    	return $request;
-    	}
+	    	return response()->json([
+	    		'history' => $history,
+	    		'credit' => $credit,
+	    		'debit' => $debit,
+	    		'balance' => $balance,
+	    		'status' => 200
+	    	]);
+    	
 
     	
     }

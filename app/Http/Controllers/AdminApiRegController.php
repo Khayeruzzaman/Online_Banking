@@ -16,23 +16,7 @@ class AdminApiRegController extends Controller
 
     public function createAdmin(Request $request){
 
-    	$messages = [
-			     		'fname.required' => 'Please fill up your First Name properly!',
-			     		
-			     		'lname.required' => 'Please fill up your Last Name properly!',
-			     		'lname.min' => 'Minimum 3 character',
-			     		'gender.required' => 'Please choose your gender!',
-			     		'dob.required' => 'Please select your Date of Birth',
-			     		'phone.required' => 'Please enter your phone number',
-			     		'email.required' => 'Please fill up your Email properly!',
-			     		'nid.required' => 'Please fill your Nid properly!',
-			     		'ad_name.required' => 'Please fill up your User Name properly!',
-			     		'ad_name.min' => 'Minimum 2 character',
-			     		'password.required' => 'Please fill up your password properly!',
-			     		'password.min' => 'Minimum 8 character',
-			     		'sal.required' => 'Please Enter admin salary'
-
-			     	];
+    	
 
     	$Validator=Validator::make($request->all(), 
     		[
@@ -57,12 +41,29 @@ class AdminApiRegController extends Controller
 	     		'password' => 'required | min:8',
 
 	     		'sal' => 'required | integer'
-	     	]
+	     	],
+
+	     	[
+			     		'fname.required' => 'Please fill up your First Name properly!',
+			     		'lname.required' => 'Please fill up your Last Name properly!',
+			     		'lname.min' => 'Minimum 3 character',
+			     		'gender.required' => 'Please choose your gender!',
+			     		'dob.required' => 'Please select your Date of Birth',
+			     		'phone.required' => 'Please enter your phone number',
+			     		'email.required' => 'Please fill up your Email properly!',
+			     		'nid.required' => 'Please fill your Nid properly!',
+			     		'ad_name.required' => 'Please fill up your User Name properly!',
+			     		'ad_name.min' => 'Minimum 2 character',
+			     		'password.required' => 'Please fill up your password properly!',
+			     		'password.min' => 'Minimum 8 character',
+			     		'sal.required' => 'Please Enter admin salary'
+
+			     	]
 
 
     	);
 
-    	$Validator -> setCustomMessages($messages); 
+    
 
     	if($Validator->fails()){
     		return response()->json([
@@ -72,7 +73,7 @@ class AdminApiRegController extends Controller
     		]);
     	}else{
 
-    		$bankers = BankUser::where('nid', $request->input('nid'))->first();
+    		$bankers = BankUser::where('nid', $request->nid)->first();
 
     	if(!$bankers){
 
@@ -93,23 +94,23 @@ class AdminApiRegController extends Controller
 	     	}
 
 	    	$user = new BankUser();
-	    	$user->firstname = $request->input('fname');
-	    	$user->lastname = $request->input('lname');
-	    	$user->gender = $request->input('gender');
-	    	$user->dateofbirth = $request->input('dob');
-	    	$user->phone = $request->input('phone');
-		    $user->email = $request->input('email');
+	    	$user->firstname = $request->fname;
+	    	$user->lastname = $request->lname;
+	    	$user->gender = $request->gender;
+	    	$user->dateofbirth = $request->dob;
+	    	$user->phone = $request->phone;
+		    $user->email = $request->email;
 		    $user->userprofilepicture = $fileNameToStore;
-		    $user->nid = $request->input('nid');
+		    $user->nid = $request->nid;
 		    $user->save();
 
 		    $bank_Id =  $user->id;
 
 
 		    $admin = new Admin();
-		    $admin->adminname = $request->input('ad_name'); 
-		    $admin->password = md5($request->input('password'));
-		    $admin->adminsalary = $request->input('sal');
+		    $admin->adminname = $request->ad_name; 
+		    $admin->password = md5($request->password);
+		    $admin->adminsalary = $request->sal;
 		    $admin->bank_user_id = $bank_Id;
 		    $admin->save();
 
@@ -154,11 +155,11 @@ class AdminApiRegController extends Controller
 
 	     		'dob' => 'required',
 
-	     		'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/',
+	     		'phone' => 'required ',
 
-	     		'email' => 'required | email',
+	     		'email' => 'required ',
 
-	     		'pic' => 'image | nullable | max:1999',
+	     		'pic' => ' nullable | max:1999',
 
 	     		'nid' => 'required',
 
@@ -166,7 +167,7 @@ class AdminApiRegController extends Controller
 
 	     		'password' => 'required | min:8',
 
-	     		'sal' => 'required | integer',
+	     		'sal' => 'required ',
 
 	     		'desig' => 'required',
 
@@ -203,7 +204,7 @@ class AdminApiRegController extends Controller
     		]);
     	}else{
 
-    	$bankers = BankUser::where('nid', $request->input('nid'))->first();
+    	$bankers = BankUser::where('nid', $request->nid)->first();
 
     	if(!$bankers){
 
@@ -242,25 +243,25 @@ class AdminApiRegController extends Controller
 
 
 	    	$user = new BankUser();
-	    	$user->firstname = $request->input('fname');
-	    	$user->lastname = $request->input('lname');
-	    	$user->gender = $request->input('gender');
-	    	$user->dateofbirth = $request->input('dob');
-	    	$user->phone = $request->input('phone');
-		    $user->email = $request->input('email');
+	    	$user->firstname = $request->fname;
+	    	$user->lastname = $request->lname;
+	    	$user->gender = $request->gender;
+	    	$user->dateofbirth = $request->dob;
+	    	$user->phone = $request->phone;
+		    $user->email = $request->email;
 		    $user->userprofilepicture = $fileNameToStore;
-		    $user->nid = $request->input('nid');
+		    $user->nid = $request->nid;
 		    $user->save();
 
 		    $bank_Id =  $user->id;
 
 
 		    $emp = new Employee();
-		    $emp->empname = $request->input('emp_name'); 
-		    $emp->password = md5($request->input('password'));
-		    $emp->empsalary = $request->input('sal');
-		    $emp->empdesignation = $request->input('desig');
-		    $emp->joindate = $request->input('joinDate');
+		    $emp->empname = $request->emp_name; 
+		    $emp->password = md5($request->password);
+		    $emp->empsalary = $request->sal;
+		    $emp->empdesignation = $request->desig;
+		    $emp->joindate = $request->joinDate;
 		    $emp->empdocument = $fileToStore;
 		    $emp->bank_user_id = $bank_Id;
 		    $emp->save();
@@ -290,17 +291,17 @@ class AdminApiRegController extends Controller
 	     		$fileToStore = 'nofile.pdf';
 	     	}
 
-	     	$bank_Id = $bankers->input('id');
+	     	$bank_Id = $bankers->id;
 
 	     	
 		    $emp = new Employee();
-		    $emp->empname = $request->input('emp_name'); 
-		    $emp->password = md5($request->input('password'));
-		    $emp->empsalary = $request->input('sal');
-		    $emp->empdesignation = $request->input('desig');
-		    $emp->joindate = $request->input('joinDate');
+		    $emp->empname = $request->emp_name; 
+		    $emp->password = md5($request->password);
+		    $emp->empsalary = $request->sal;
+		    $emp->empdesignation = $request->desig;
+		    $emp->joindate = $request->joinDate;
 		    $emp->empdocument = $fileToStore;
-		    $emp->bank_user_id = input('$bank_Id');
+		    $emp->bank_user_id = $bank_Id;
 		    $emp->save();
 
 		   

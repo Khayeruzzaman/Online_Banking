@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 use App\Models\BankUser;
 use App\Models\Admin;
 use App\Models\Employee;
@@ -29,20 +29,23 @@ class AdminApiAllListController extends Controller
 	 	$admin = Admin::where('id', $request->id)->first();
     	$bank = BankUser::where('id',$admin->bank_user_id)->first();
 
-	 	return response()->json([$admin, $bank]);
+	 	return response()->json([
+	 		'admin' => $admin,
+	 		'bank' => $bank,
+	 		'status' => 200,
+	 	]);
 
 	 }
 
 	 public function adminListUpdate(Request $request){
 
-    	$this->validate($request, 
+    	$Validator=validator::make($request->all(), 
     		[
 	     		'fname' => 'required | min:2 | string ',
 
 	     		'lname' => 'required | min:3 | string ',
 
-	     		'gender' => 'required',
-
+	     		
 	     		'dob' => 'required',
 
 	     		'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/',
@@ -63,7 +66,7 @@ class AdminApiAllListController extends Controller
 	     		'fname.min' => 'Minimum 2 character',
 	     		'lname.required' => 'Please fill up your Last Name properly!',
 	     		'lname.min' => 'Minimum 3 character',
-	     		'gender.required' => 'Please choose your gender!',
+	     		
 	     		'dob.required' => 'Please select your Date of Birth',
 	     		'phone.required' => 'Please enter your phone number',
 	     		'email.required' => 'Please fill up your Email properly!',
@@ -76,12 +79,19 @@ class AdminApiAllListController extends Controller
 
 	     	]
     	);
+
+    	if($Validator->fails()){
+    		return response()->json([
+    			'status'=>422,
+    			'errors'=>$Validator->Messages(),
+
+    		]);
+    	}else{
     		$admin = Admin::where('id',$request->id)->first();
 
     		$user = BankUser::where('id',$admin->bank_user_id)->first();
-	    	$user->firstname = $request->f_name;
-	    	$user->lastname = $request->l_name;
-	    	$user->gender = $request->gender;
+	    	$user->firstname = $request->fname;
+	    	$user->lastname = $request->lname;
 	    	$user->dateofbirth = $request->dob;
 	    	$user->phone = $request->phone;
 		    $user->email = $request->email;
@@ -93,70 +103,55 @@ class AdminApiAllListController extends Controller
 
 		    
 		    $admin->adminname = $request->ad_name; 
-		    $admin->password = md5($request->password);
+		   
+
+		    $password = $admin->password;
+
+		    if ($password != $request->password && $request->password != "") {
+
+		    	$admin->password = md5($request->password);
+		    }else{
+		    	$admin->password = $password;
+		    }
+
 		    $admin->adminsalary = $request->sal;
 		    $admin->bank_user_id = $bank_Id;
 		    $admin->save();
 
-		    return $request;
+		    return response()->json([
+		    	'message' => 'Updated Succecsfully',
+		    	'status' => 200,
+		    ]);
 		   //return redirect()->route('AdminList');
-
+		}
     }
 
-    public function editListPicture(Request $request){
-
-    	$user = BankUser::where('id',$request->id)->first();
-
-    	return response()->json($user);
-    }
-
-    public function updateListPicture(Request $request){
-
-    	$this->validate($request, 
-    		[
-    			'pic' => 'image | nullable | max:1999'
-    		]);
-
-    	if($request->hasFile('pic')){
-
-	    		$fileNameWithExt = $request->file('pic')->getClientOriginalName();
-
-	    		$fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-
-	    		$ext = $request->file('pic')->getClientOriginalExtension();
-
-	    		$fileNameToStore = $fileName.'_'.time().'.'.$ext;
-
-	    		$path = $request->file('pic')->storeAs('public/admin/admin_cover_images', $fileNameToStore);
-	     	}else{
-
-	     		$user = BankUser::where('id',$request->id)->first();
-
-	     		$fileNameToStore = $user->userprofilepicture;
-	     	}
-
-
-	    $user = BankUser::where('id',$request->id)->first();
-    	$user->userprofilepicture = $fileNameToStore;
-    	$user->save();
-
-    	return $request;
-    	//return redirect()->route('AdminList');
-    	
-    	
-
-    }
+   
 
     public function deleteList(Request $request)
     {
 
     	$admin = Admin::where('id',$request->id)->first();
-    	$admin->delete();
     	
-    	$bank = BankUser::where('id',$request->b_id)->first();
-    	$bank->delete();
+    	if($admin){
+    		$bank_id = $admin->bank_user_id;
+	    	$admin->delete();
+	    	
+	    	$bank = BankUser::where('id',$bank_id)->first();
+	    	$bank->delete();
 
-    	return $request;
+	    	return response()->json([
+	    		'status' => 200,
+	    		'message' => 'Deleted Succesfully'
+	    	]);
+    	}else{
+
+    		return response()->json([
+    			'status' => 420,
+    			'message' => "Admin ID not found!"
+    		]);
+    	}
+    	
     	
     	//return redirect()->route('AdminList');
 
@@ -182,19 +177,21 @@ class AdminApiAllListController extends Controller
 	 	$emp = Employee::where('id', $request->id)->first();
     	$bank = BankUser::where('id',$emp->bank_user_id)->first();
 
-	 	return response()->json([$admin, $emp]);
+	 	return response()->json([
+	 		'emp'=> $emp,
+	 		'bank'=> $bank,
+	 		'status' => 200
+	 	]);
 
 	 }
 
 	 public function empListUpdate(Request $request){
 
-    	$this->validate($request, 
+    	$Validator=validator($request->all(), 
     		[
-	     		'f_name' => 'required | min:2 | string ',
+	     		'fname' => 'required | min:2 | string ',
 
-	     		'l_name' => 'required | min:3 | string ',
-
-	     		'gender' => 'required',
+	     		'lname' => 'required | min:3 | string ',
 
 	     		'dob' => 'required',
 
@@ -202,13 +199,10 @@ class AdminApiAllListController extends Controller
 
 	     		'email' => 'required | email',
 
-	     		'pic' => 'image | nullable | max:1999',
 
 	     		'nid' => 'required',
 
 	     		'emp_name' => 'required | min:2 ',
-
-	     		
 
 	     		'sal' => 'required | integer',
 
@@ -216,15 +210,13 @@ class AdminApiAllListController extends Controller
 
 	     		'joinDate' => 'required',
 
-	     		'doc' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048'
 	     	],
 
 	     	[
-	     		'f_name.required' => 'Please fill up your First Name properly!',
-	     		'f_name.min' => 'Minimum 2 character',
-	     		'l_name.required' => 'Please fill up your Last Name properly!',
-	     		'l_name.min' => 'Minimum 3 character',
-	     		'gender.required' => 'Please choose your gender!',
+	     		'fname.required' => 'Please fill up your First Name properly!',
+	     		'fname.min' => 'Minimum 2 character',
+	     		'lname.required' => 'Please fill up your Last Name properly!',
+	     		'lname.min' => 'Minimum 3 character',
 	     		'dob.required' => 'Please fill up Date of Birth!',
 	     		'phone.required' => 'Please enter your phone number',
 	     		'email.required' => 'Please fill up your Email properly!',
@@ -238,13 +230,17 @@ class AdminApiAllListController extends Controller
 	     	]
     	);
 
-    		
+    	if($Validator->fails()){
+    		return response()->json([
+    			'status'=>422,
+    			'errors'=>$Validator->Messages(),
 
-    		
+    		]);
+    	}else{
+
 	    	$user = BankUser::where('id', $request->id)->first();
-	    	$user->firstname = $request->f_name;
-	    	$user->lastname = $request->l_name;
-	    	$user->gender = $request->gender;
+	    	$user->firstname = $request->fname;
+	    	$user->lastname = $request->lname;
 	    	$user->dateofbirth = $request->dob;
 	    	$user->phone = $request->phone;
 		    $user->email = $request->email;
@@ -255,91 +251,58 @@ class AdminApiAllListController extends Controller
 
 		    $emp = Employee::where('bank_user_id', $request->id)->first();
 
-    		if($request->hasFile('doc')){
 
-	    		$fileWithExt = $request->file('doc')->getClientOriginalName();
+		    $emp->empname = $request->emp_name;
 
-	    		$fileName = pathinfo($fileWithExt, PATHINFO_FILENAME);
+		    $password = $emp->password;
 
-	    		$ext = $request->file('doc')->getClientOriginalExtension();
+		    if ($password != $request->password && $request->password != "") {
 
-	    		$fileToStore = $fileName.'_'.time().'.'.$ext;
+		    	$emp->password = md5($request->password);
+		    }else{
+		    	$emp->password = $password;
+		    }
 
-	    		$path = $request->file('doc')->storeAs('public/admin/emp_files', $fileToStore);
-	     	}else{
-
-	     		$fileToStore = $emp->empdocument;
-	     	}
-
-		    $emp->empname = $request->emp_name; 
-		    $emp->password = md5($request->password);
 		    $emp->empsalary = $request->sal;
 		    $emp->empdesignation = $request->desig;
 		    $emp->joindate = $request->joinDate;
-		    $emp->empdocument = $fileToStore;
 		    $emp->bank_user_id = $bank_Id;
 		    $emp->save();
 
-		    return $request;
+		    return response()->json([
+		    	'message' => 'Updated Succecsfully',
+		    	'status' => 200,
+		    ]);
+		}
 		   //return redirect()->route('EmpList');
 
 	}
 
-    public function editEmpListPicture(Request $request){
-
-    	$user = BankUser::where('id',$request->id)->first();
-    	$emp = Employee::where('bank_user_id',$user->id)->first();
-
-    	return response()->json([$user, $emp]);
-    }
-
-    public function updateEmpListPicture(Request $request){
-
-    	$this->validate($request, 
-    		[
-    			'pic' => 'image | nullable | max:1999'
-    		]);
-
-    	if($request->hasFile('pic')){
-
-	    		$fileNameWithExt = $request->file('pic')->getClientOriginalName();
-
-	    		$fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-
-	    		$ext = $request->file('pic')->getClientOriginalExtension();
-
-	    		$fileNameToStore = $fileName.'_'.time().'.'.$ext;
-
-	    		$path = $request->file('pic')->storeAs('public/admin/admin_cover_images', $fileNameToStore);
-	     	}else{
-
-	     		$user = BankUser::where('id',$request->id)->first();
-
-	     		$fileNameToStore = $user->userprofilepicture;
-	     	}
-
-
-	    $user = BankUser::where('id',$request->id)->first();
-    	$user->userprofilepicture = $fileNameToStore;
-    	$user->save();
-
-    	return $request;
-    	//return redirect()->route('EmpList');
-    	
-    	
-
-    }
-
+    
     public function deleteEmpList(Request $request)
     {
 
     	$emp = Employee::where('id',$request->id)->first();
-    	$emp->delete();
     	
-    	$bank = BankUser::where('id',$request->b_id)->first();
-    	$bank->delete();
+    	if($emp){
+	    	$id = $emp->bank_user_id;
+	    	$emp->delete();
+	    	
+	    	$bank = BankUser::where('id',$id)->first();
+	    	$bank->delete();
 
-    	return $request;
+	    	return response()->json([
+		    		'status' => 200,
+		    		'message' => 'Deleted Succesfully'
+	    	]);
+
+    	}else{
+
+    		return response()->json([
+    			'status' => 420,
+    			'message' => "Employee ID not found!"
+    		]);
+    	}
     	
     	//return redirect()->route('EmpList');
 
@@ -349,6 +312,17 @@ class AdminApiAllListController extends Controller
 // CUSTOMERS
 
     public function cusList(){
+
+	 	$account = DB::table('bank_users')
+	            ->join('accounts', 'bank_users.id', '=', 'accounts.bank_user_id')
+	            ->select('bank_users.*', 'accounts.*')
+	            ->where('accounts.accountstate', '=', 'ACTIVE')
+	            ->get();
+
+	    	return response()->json($account);;
+	 }
+
+	 public function userList(){
 
 	 	$account = DB::table('bank_users')
 	            ->join('accounts', 'bank_users.id', '=', 'accounts.bank_user_id')
@@ -363,17 +337,21 @@ class AdminApiAllListController extends Controller
 	 	$account = Account::where('id', $request->id)->first();
     	$bank = BankUser::where('id',$account->bank_user_id)->first();
 
-	 	return response()->json([$account, $bank]);
+	 	return response()->json([
+	 		'account' => $account, 
+	 		'bank' => $bank,
+	 		'status' => 200
+	 	]);
 
 	 }
 
 	 public function cusListUpdate(Request $request){
 
-	 	$this->validate($request, 
+	 	$Validator=validator($request->all(), 
     		[
-	     		'f_name' => 'required | min:2 | string ',
+	     		'fname' => 'required | min:2 | string ',
 
-	     		'l_name' => 'required | min:3 | string ',
+	     		'lname' => 'required | min:3 | string ',
 
 	     		'gender' => 'required',
 
@@ -383,8 +361,6 @@ class AdminApiAllListController extends Controller
 
 	     		'email' => 'required | email',
 
-	     		'pic' => 'image | nullable | max:1999',
-
 	     		'nid' => 'required',
 
 	     		'acc_name' => 'required | min:2 ',
@@ -393,16 +369,14 @@ class AdminApiAllListController extends Controller
 
 	     		'bal' => 'required',
 
-	     		'doc' => 'mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048',
-
 	     		'state' => 'required'
 	     	],
 
 	     	[
-	     		'f_name.required' => 'Please fill up your First Name properly!',
-	     		'f_name.min' => 'Minimum 2 character',
-	     		'l_name.required' => 'Please fill up your Last Name properly!',
-	     		'l_name.min' => 'Minimum 3 character',
+	     		'fname.required' => 'Please fill up your First Name properly!',
+	     		'fname.min' => 'Minimum 2 character',
+	     		'lname.required' => 'Please fill up your Last Name properly!',
+	     		'lname.min' => 'Minimum 3 character',
 	     		'gender.required' => 'Please choose your gender!',
 	     		'dob.required' => 'Please fill up Date of Birth!',
 	     		'phone.required' => 'Please enter your phone number',
@@ -418,9 +392,17 @@ class AdminApiAllListController extends Controller
 	     	]
     	);
 
+    	if($Validator->fails()){
+    		return response()->json([
+    			'status'=>422,
+    			'errors'=>$Validator->Messages(),
+
+    		]);
+    	}else{
+
     		$user = BankUser::where('id', $request->id)->first();
-	    	$user->firstname = $request->f_name;
-	    	$user->lastname = $request->l_name;
+	    	$user->firstname = $request->fname;
+	    	$user->lastname = $request->lname;
 	    	$user->gender = $request->gender;
 	    	$user->dateofbirth = $request->dob;
 	    	$user->phone = $request->phone;
@@ -432,25 +414,18 @@ class AdminApiAllListController extends Controller
 
 		    $account = Account::where('bank_user_id', $request->id)->first();
 
-    		if($request->hasFile('doc')){
-
-	    		$fileWithExt = $request->file('doc')->getClientOriginalName();
-
-	    		$fileName = pathinfo($fileWithExt, PATHINFO_FILENAME);
-
-	    		$ext = $request->file('doc')->getClientOriginalExtension();
-
-	    		$fileToStore = $fileName.'_'.time().'.'.$ext;
-
-	    		$path = $request->file('doc')->storeAs('public/account/accountdocuments', $fileToStore);
-	     	}else{
-
-	     		$fileToStore = $account->accountdocument;
-	     	}
-
 	     	$account->accountname = $request->acc_name;
 	     	$account->accounttype = $request->type;
-	     	$account->password = md5($request->password);
+
+	     	$password = $account->password;
+
+		    if ($password != $request->password && $request->password != "") {
+
+		    	$account->password = md5($request->password);
+		    }else{
+		    	$account->password = $password;
+		    }
+
 	     	$account->accountbalance = $request->bal;
 
 	     	if($request->type=="Savings Account")
@@ -465,76 +440,44 @@ class AdminApiAllListController extends Controller
                 {
                     $account->accountinterestrate=10.50;
                 }
-
-            $account->accountdocument = $fileToStore;
                 
             $account->accountstate=$request->state;
             $account->bank_user_id=$bank_Id;
             $account->save();
 
-            $account = DB::table('bank_users')
-	            ->join('accounts', 'bank_users.id', '=', 'accounts.bank_user_id')
-	            ->select('bank_users.*', 'accounts.*')
-	            ->get();
 
-	    	return response()->json($account);
+	    	return response()->json([
+		    	'message' => 'Updated Succecsfully',
+		    	'status' => 200,
+		    ]);
+		}
+	}
 
-	 }
-
-	 public function editCusListPicture(Request $request){
-
-    	$user = BankUser::where('id',$request->id)->first();
-    	$cus = Account::where('bank_user_id',$user->id)->first();
-
-    	return response()->json([$user, $cus]);;
-    }
-
-    public function updateCusListPicture(Request $request){
-
-    	$this->validate($request, 
-    		[
-    			'pic' => 'image | nullable | max:1999'
-    		]);
-
-    	if($request->hasFile('pic')){
-
-	    		$fileNameWithExt = $request->file('pic')->getClientOriginalName();
-
-	    		$fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-
-	    		$ext = $request->file('pic')->getClientOriginalExtension();
-
-	    		$fileNameToStore = $fileName.'_'.time().'.'.$ext;
-
-	    		$path = $request->file('pic')->storeAs('public/account/profilepictures', $fileNameToStore);
-	     	}else{
-
-	     		$user = BankUser::where('id',$request->id)->first();
-
-	     		$fileNameToStore = $user->userprofilepicture;
-	     	}
-
-
-	    $user = BankUser::where('id',$request->id)->first();
-    	$user->userprofilepicture = $fileNameToStore;
-    	$user->save();
-
-    	return $request;
-
-    	//return redirect()->route('CusList');
-    	
-    	
-
-    }
+	 
 
      public function disableCusList(Request $request)
     {
 
     	$acc = Account::where('id',$request->id)->first();
-    	$acc -> accountstate = 'DISABLED';
-    	$acc ->save();
+    	if($acc){
+
+    		$acc -> accountstate = 'DISABLED';
+    		$acc ->save();
+			return response()->json([
+		    		'status' => 200,
+		    		'message' => 'Disabled Succesfully'
+	    	]);
+
+    	}else{
+
+    		return response()->json([
+    			'status' => 420,
+    			'message' => "Account ID not found!"
+    		]);
+    	}
     	
-    	return $request;
+    	
+    	
     	//return redirect()->route('CusList');
 
     }
@@ -544,19 +487,37 @@ class AdminApiAllListController extends Controller
 	 	$account = DB::table('bank_users')
 	            ->join('accounts', 'bank_users.id', '=', 'accounts.bank_user_id')
 	            ->select('bank_users.*', 'accounts.*')
+	            ->where('accounts.accountstate', '=', 'INACTIVE')
 	            ->get();
 
+	    
+
 	    	return response()->json($account);
+
 	 }
 
 
 	public function customerRequestsAccept(Request $request){
 
 		$customer = Account::where('id', $request->id)->first();
-		$customer -> accountstate = 'ACTIVE';
-		$customer ->save();
 
-		return $request;
+		if($customer){
+			$customer -> accountstate = 'ACTIVE';
+			$customer ->save();
+			return response()->json([
+	    		'status' => 200,
+	    		'message' => 'Account Actived'
+	    	]);
+
+		}else{
+
+			return response()->json([
+    			'status' => 420,
+    			'message' => "Account ID not found!"
+    		]);
+
+		}
+		
 		//return redirect()->route('CustomerRequest');
 
 	}
@@ -564,10 +525,24 @@ class AdminApiAllListController extends Controller
 	public function customerRequestsDisable(Request $request){
 
 		$customer = Account::where('id', $request->id)->first();
-		$customer -> accountstate = 'DISABLED';
-		$customer ->save();
 		
-		return $request;
+		if($customer){
+			
+			$customer -> accountstate = 'DISABLED';
+			$customer ->save();
+			return response()->json([
+	    		'status' => 200,
+	    		'message' => 'Account Disabled'
+	    	]);
+    	}else{
+
+    		return response()->json([
+    			'status' => 420,
+    			'message' => "Account ID not found!"
+    		]);
+    	}
+		
+		
 		//return redirect()->route('CustomerRequest');
 
 	}
