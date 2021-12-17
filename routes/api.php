@@ -35,7 +35,11 @@ Route::get('/all-news', [HomeAPIController::class, 'news']);
 Route::post('/apilogin', [HomeAPIController::class, 'loginSubmit']);
 
 //-------------------------------------Account---------------------------------------------------------//
+//Account dashboard
 Route::get('/account-dashboard/{id}', [AccountAPIController::class, 'dashboard'])->middleware("AccountAPIAuth");
+//Account Logout
+Route::get('/apilogout/{key}', [AccountAPIController::class, 'logout'])->middleware("AccountAPIAuth");
+
 
 //-------------------------------------Admin-----------------------------------------------------------//
 Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard'])->middleware('AdminApiAuth');

@@ -7,6 +7,8 @@ use App\Models\Account;
 use App\Models\BankUser;
 use App\Models\History;
 use App\Models\Beneficiary;
+use App\Models\UserToken;
+use DateTime;
 
 class AccountAPIController extends Controller
 {
@@ -25,5 +27,13 @@ class AccountAPIController extends Controller
             'date' => $sanitized_time,
             'history' => $history,
         ]);
+    }
+
+    public function logout(Request $rqst)
+    {
+        $token = UserToken::Where('userkey', $rqst->key)->first();
+        $token->expired_at = new DateTime();
+        $token->save();
+        return http_response_code(200);
     }
 }
