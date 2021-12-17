@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminApiAllListController;
 use App\Http\Controllers\AdminApiLoanController;
 use App\Http\Controllers\AdminApiNewsController;
 use App\Http\Controllers\HomeAPIController;
+use App\Http\Controllers\AccountAPIController;
 
 
 /*
@@ -32,6 +33,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/loan-types', [HomeAPIController::class, 'welcome']);
 Route::get('/all-news', [HomeAPIController::class, 'news']);
 Route::post('/apilogin', [HomeAPIController::class, 'loginSubmit']);
+
+//-------------------------------------Account---------------------------------------------------------//
+//Account dashboard
+Route::get('/account-dashboard/{id}', [AccountAPIController::class, 'dashboard'])->middleware("AccountAPIAuth");
+//Account Logout
+Route::get('/apilogout/{key}', [AccountAPIController::class, 'logout'])->middleware("AccountAPIAuth");
 
 
 //-------------------------------------Admin-----------------------------------------------------------//
