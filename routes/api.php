@@ -69,17 +69,21 @@ Route::get('/account-loan-request-delete/{id}', [AccountAPIController::class, 'd
 Route::get('/account-statement/{from}/{to}/{id}', [AccountAPIController::class, 'downloadEStatement'])->middleware("AccountAPIAuth");
 
 //-------------------------------------Admin-----------------------------------------------------------//
-Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard'])->middleware('AdminApiAuth');
-Route::get('/admin/viewprofile',[AdminApiController::class , 'adminProfile']);
+
+Route::get('/admin/info/{id}',[AdminApiController::class , 'adminInfromation']);
+Route::get('/bank/info/{id}',[AdminApiController::class , 'bankInfromation']);
+
+Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard']);
+Route::get('/admin/profileinfo/{id}',[AdminApiController::class , 'adminProfile']);
 Route::get('/admin/history',[AdminApiController::class , 'history']);
 
 //Admin Profile Update
-Route::get('/admin/editprofile',[AdminApiController::class , 'adminEdit']);
 Route::post('/admin/editprofile/{b_id}/{ad_id}',[AdminApiController::class , 'adminUpdate']);
 
 //Admin Update Picture
-Route::get('/admin/editpicture/{id}',[AdminApiController::class , 'editPicture']);
-Route::post('/admin/editpicture/{id}',[AdminApiController::class , 'updatePicture']);
+Route::post('/admin/updatePicture/{id}',[AdminApiController::class , 'updatePicture']);
+
+
 
 
 //admin Create New Admin
@@ -97,47 +101,40 @@ Route::get('/admin/dashboard/adminList',[AdminApiAllListController::class , 'adm
 Route::get('/admin/dashboard/employeeList',[AdminApiAllListController::class , 'empList']);
 Route::get('/admin/dashboard/customerList',[AdminApiAllListController::class , 'cusList']);
 
+Route::get('/admin/dashboard/allUserList',[AdminApiAllListController::class , 'userList']);
+
 //Admin List Edit
 Route::get('/admin/adminlist/edit/{id}',[AdminApiAllListController::class , 'adminListEdit']);
-Route::post('/admin/adminlist/edit/{id}',[AdminApiAllListController::class , 'adminListUpdate']);
+Route::post('/admin/adminlist/update/{id}',[AdminApiAllListController::class , 'adminListUpdate']);
 
-//Admin List Update Picture
-Route::get('/admin/adminlist/edit/picture/{id}',[AdminApiAllListController::class , 'editListPicture']);
-Route::post('/admin/adminlist/edit/picture/{id}',[AdminApiAllListController::class , 'updateListPicture']);
 
 //Admin List Delete
-Route::get('admin/adminlist/delete/{b_id}/{id}',[AdminApiAllListController::class , 'deleteList']);
+Route::get('admin/adminlist/delete-admin/{id}',[AdminApiAllListController::class , 'deleteList']);
 
 //Admin Employee List Update
 Route::get('/admin/emplist/edit/{id}',[AdminApiAllListController::class , 'empListEdit']);
-Route::post('/admin/emplist/edit/{id}',[AdminApiAllListController::class , 'empListUpdate']);
+Route::post('/admin/emplist/update/{id}',[AdminApiAllListController::class , 'empListUpdate']);
 
-//Admin Employee List Update Picture
-Route::get('/admin/emplist/edit/picture/{id}',[AdminApiAllListController::class , 'editEmpListPicture']);
-Route::post('/admin/emplist/edit/picture/{id}',[AdminApiAllListController::class , 'updateEmpListPicture']);
 
 //Admin Employee List Delete
-Route::get('admin/emplist/delete/{b_id}/{id}',[AdminApiAllListController::class , 'deleteEmpList']);
+Route::get('admin/employees/delete-employee/{id}',[AdminApiAllListController::class , 'deleteEmpList']);
 
 
 
 //Admin Customer List Update
 Route::get('/admin/customerlist/edit/{id}',[AdminApiAllListController::class , 'cusListEdit']);
-Route::post('/admin/customerlist/edit/{id}',[AdminApiAllListController::class , 'cusListUpdate']);
+Route::post('/admin/customerlist/update/{id}',[AdminApiAllListController::class , 'cusListUpdate']);
 
-//Admin Customer List Update Picture
-Route::get('/admin/customerlist/edit/picture/{id}',[AdminApiAllListController::class , 'editCusListPicture']);
-Route::post('/admin/customerlist/edit/picture/{id}',[AdminApiAllListController::class , 'updateCusListPicture']);
 
 //Admin Customer List Delete
-Route::get('admin/customerlist/disable/{b_id}/{id}',[AdminApiAllListController::class , 'disableCusList']);
+Route::get('admin/customerlist/disable/{id}',[AdminApiAllListController::class , 'disableCusList']);
 
 //Admin Customers Request
 Route::get('/admin/customer/requests',[AdminApiAllListController::class , 'customerRequests']);
 
 //Admin Customers Request Accept/Disable
-Route::get('/admin/customer/requests/{id}',[AdminApiAllListController::class , 'customerRequestsAccept']);
-Route::get('/admin/customer/requests/{b_id}/{id}',[AdminApiAllListController::class , 'customerRequestsDisable']);
+Route::get('/admin/customer/requests/accept/{id}',[AdminApiAllListController::class , 'customerRequestsAccept']);
+Route::get('/admin/customer/requests/disable/{id}',[AdminApiAllListController::class , 'customerRequestsDisable']);
 
 
 //Admin Loans Request
@@ -146,8 +143,6 @@ Route::get('/admin/loan/requests',[AdminApiLoanController::class , 'loanRequests
 //Admin Loans Request Accept/Disable
 Route::get('/admin/loan/requests/accept/{id}',[AdminApiLoanController::class , 'loanRequestsAccept']);
 Route::get('/admin/loan/requests/reject/{id}',[AdminApiLoanController::class , 'loanRequestsReject']);
-
-
 
 
 //Admin News

@@ -13,60 +13,97 @@ class AdminApiLoanController extends Controller
 {
     public function loanRequests(){
 
-    	$loanReq = LoanRequest::all();
+    	$loanReq = LoanRequest::where('loanrequeststatus', 'FORWARDED')->get();
 
-    	return response()->json($loanReq); 
+        
+            return response()->json($loanReq); 
+
+    	
     }
 
     public function loanRequestsReject(Request $request){
 
     	$loanDisable = LoanRequest::where('id', $request->id)->first();
 
-    	$loanDisable->loanrequeststatus = 'REJECTED';
-    	$loanDisable->save();
+        if($loanDisable){
 
-    	$loanReq = LoanRequest::all();
+            $loanDisable->loanrequeststatus = 'REJECTED';
+            $loanDisable->save();
 
-    	return $request;
+            $loanReq = LoanRequest::all();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Rejected Succesfully'
+            ]);
+
+        }else{
+
+            return response()->json([
+                'status' => 420,
+                'message' => "Account ID not found!"
+            ]);
+        }
+
+    	
     }
 
 
     public function loanRequestsAccept(Request $request){
 
     	$loanAccept = LoanRequest::where('id', $request->id)->first();
-    	$loanAccept->loanrequeststatus = "ACCEPTED";
-    	$loanAccept->save();
+    	
+        if($loanAccept){
 
-    	$loanType = LoanType::where('type', $loanAccept->loantype)->first();
+            $loanAccept->loanrequeststatus = "ACCEPTED";
+            $loanAccept->save();
 
-    	$loan = new Loan();
-    	$loan->loantype = $loanType->type;
-    	$loan->loanamount = $loanAccept->loanamount;
-    	$loan->loaninterestrate = $loanType->rate;
-    	$loan->amountpaid = 0;
-    	$loan->loanapprovedate = date('Y-m-d H:i:s');
-    	$loan->loandocument = $loanAccept->loandocument;
-    	$loan->loanstatus = 'ACCEPTED';
-    	$loan->account_id = $loanAccept->account_id;
-    	$loan->save();
+            $loanType = LoanType::where('type', $loanAccept->loantype)->first();
 
-    	$account = Account::where('id', $loan->account_id )->first();
-    	$account->accountbalance = $account->accountbalance + $loan->loanamount;
-    	$account->save();
+            $loan = new Loan();
+            $loan->loantype = $loanType->type;
+            $loan->loanamount = $loanAccept->loanamount;
+            $loan->loaninterestrate = $loanType->rate;
+            $loan->amountpaid = 0;
+            $loan->loanapprovedate = date('Y-m-d H:i:s');
+            $loan->loandocument = $loanAccept->loandocument;
+            $loan->loanstatus = 'ACCEPTED';
+            $loan->account_id = $loanAccept->account_id;
+            $loan->save();
 
-    	$history = new History();
-    	$history->historydate = date('Y-m-d H:i:s');
-    	$history->remarks = $loan->loanamount.' credited for '.$loan->loantype;
-    	$history->debit = 0;
-    	$history->credit = $loan->loanamount;
-    	$history->account_id = $account->id;
-    	$history->save();
+            $account = Account::where('id', $loan->account_id )->first();
+            $account->accountbalance = $account->accountbalance + $loan->loanamount;
+            $account->save();
+
+            $history = new History();
+            $history->historydate = date('Y-m-d H:i:s');
+            $history->remarks = $loan->loanamount.' credited for '.$loan->loantype;
+            $history->debit = 0;
+            $history->credit = $loan->loanamount;
+            $history->account_id = $account->id;
+            $history->save();
+
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Accepted Succesfully'
+            ]);
+
+            }else{
+
+            return response()->json([
+                'status' => 420,
+                'message' => "Account ID not found!"
+            ]);
+        }
 
     	
 
-    	$loanReq = LoanRequest::all();
+    	
 
-    	return $request;
+
+    	
+
 
     }
 }
