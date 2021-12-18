@@ -11,7 +11,9 @@ use App\Models\BankUser;
 use App\Models\History;
 use App\Models\Beneficiary;
 use App\Models\UserToken;
+use App\Models\LoanRequest;
 use DateTime;
+use PDF;
 
 class AccountAPIController extends Controller
 {
@@ -436,6 +438,71 @@ class AccountAPIController extends Controller
         }
     }
 
+    public function loanrequestSubmit(Request $rqst)
+    {
+        $validation = Validator::make($rqst->all(),
+        [
+            'loantype'=>'required',
+            'amount'=>'required|numeric',
+            'loandoc'=>'required|image|max:1999',
+            'password'=>'required|string',
+        ]);
+        if($validation->fails()){
+            return response()->json([
+                'lreq_validation_error' => $validation->messages(),
+            ]);
+        }
+        else {
+            $account=Account::where('id', $rqst->id)->first();
+            //$user=BankUser::where('id', $account->bank_user_id)->first();
+            if(md5($rqst->password)==$account->password)
+            {
+                $var=new LoanRequest();
+                $var->loantype=$rqst->loantype;
+                $var->loanamount=$rqst->amount;
+                if($rqst->hasFile('loandoc'))
+                {
+                    $loanPicWithExt = $rqst->file('loandoc')->getClientOriginalName();
+                    $loanPicName = pathinfo($loanPicWithExt, PATHINFO_FILENAME);
+                    $loanPicExt = $rqst->file('loandoc')->getClientOriginalExtension();
+                    $loanPicToUpload = $loanPicName.'_'.time().'.'.$loanPicExt;
+                    $loanPath = $rqst->file('loandoc')->storeAs('public/account/accountdocuments', $loanPicToUpload);
+                    $var->loandocument=$loanPicToUpload;
+                }
+                $var->loanrequeststatus="PENDING";
+                $var->account_id=$account->id;
+                $var->save();
+                return response()->json([
+                    'lreqSuccess' => 'Successful',
+                ]);
+            }
+            else {
+                return response()->json([
+                    'lreq_error' => 'Wrong Password! Please Try Again...',
+                ]);
+            }
+        }
+    }
+
+    public function loanstatus(Request $rqst)
+    {
+        $account=Account::where('id', $rqst->id)->first();
+        //$user=BankUser::where('id', $account->bank_user_id)->first();
+        $loanrequests=LoanRequest::where('account_id', $account->id)->orderby('created_at','desc')->get();
+        return response()->json([
+            'loanreqs' => $loanrequests,
+        ]);
+    }
+
+    public function deleterequest(Request $rqst)
+    {
+        $loanreq=LoanRequest::where('id', $rqst->id);
+        $loanreq->delete();
+        return response()->json([
+            'dlsuccess' => "Successfull",
+        ]);
+    }
+
     public function deletebeneficiary(Request $rqst)
     {
         $beneficiary=Beneficiary::where('id', $rqst->id)->first();
@@ -451,5 +518,35 @@ class AccountAPIController extends Controller
         $token->expired_at = new DateTime();
         $token->save();
         return http_response_code(200);
+    }
+
+    public function downloadEStatement(Request $rqst)
+    {
+        // $validation = Validator::make($rqst->all(),
+        // [
+        //     'from'=>'required',
+        //     'to'=>'required',
+        // ]);
+        // if($validation->fails()){
+        //     return response()->json([
+        //         'pdf_validation_error' => $validation->messages(),
+        //     ]);
+        // }
+    	// else {
+            $account=Account::where('id', $rqst->id)->first();
+            $user=BankUser::where('id', $account->bank_user_id)->first();
+            $history=History::where('account_id', $account->id)->whereBetween('historydate',[$rqst->from, $rqst->to])->orderby('created_at','desc')->get();
+            $credit = History::where('account_id', $account->id)->whereBetween('historydate',[$rqst->from, $rqst->to])->sum('credit');
+            $debit = History::where('account_id', $account->id)->whereBetween('historydate',[$rqst->from, $rqst->to])->sum('debit');
+            $currBal=$credit-$debit;
+            $pdf = PDF::loadview('customer.estatementformat', ['account'=> $account, 'history'=> $history, 'user'=>$user, 'currentbal'=>$currBal, 'debit'=>$debit, 'credit'=>$credit, 'from'=> $rqst->from, 'to'=> $rqst->to])
+                                                        ->setOptions(['defaultFont' => 'sans-serif'])
+                                                        ->setPaper('a4','portrait');
+            return $pdf->download('E-Statement.pdf'); 
+            
+            // return response()->json([
+            //     'pdffile' => htmlentities($pdf),
+            // ]);
+        //}
     }
 }

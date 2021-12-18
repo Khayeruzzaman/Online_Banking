@@ -59,6 +59,14 @@ Route::post('/account-send-money', [AccountAPIController::class, 'sendSubmit'])-
 Route::post('/account-payment', [AccountAPIController::class, 'paymentSubmit'])->middleware("AccountAPIAuth");
 //Account Beneficiary Delete
 Route::get('/account-beneficiary-delete/{id}', [AccountAPIController::class, 'deletebeneficiary'])->middleware("AccountAPIAuth");
+//Account Loan Request
+Route::post('/account-loan-request', [AccountAPIController::class, 'loanrequestSubmit'])->middleware("AccountAPIAuth");
+//Account Loan Status Check
+Route::get('/account-loan-status/{id}', [AccountAPIController::class, 'loanstatus'])->middleware("AccountAPIAuth");
+//Account Loan Request Delete
+Route::get('/account-loan-request-delete/{id}', [AccountAPIController::class, 'deleterequest'])->middleware("AccountAPIAuth");
+//Account E-statement
+Route::get('/account-statement/{from}/{to}/{id}', [AccountAPIController::class, 'downloadEStatement'])->middleware("AccountAPIAuth");
 
 //-------------------------------------Admin-----------------------------------------------------------//
 Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard'])->middleware('AdminApiAuth');
