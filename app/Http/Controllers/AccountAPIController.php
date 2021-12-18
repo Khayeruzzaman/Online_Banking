@@ -539,11 +539,11 @@ class AccountAPIController extends Controller
             $credit = History::where('account_id', $account->id)->whereBetween('historydate',[$rqst->from, $rqst->to])->sum('credit');
             $debit = History::where('account_id', $account->id)->whereBetween('historydate',[$rqst->from, $rqst->to])->sum('debit');
             $currBal=$credit-$debit;
-            $pdf = PDF::loadview('customer.estatementformat', ['account'=> $account, 'history'=> $history, 'user'=>$user, 'currentbal'=>$currBal, 'debit'=>$debit, 'credit'=>$credit, 'from'=> $rqst->from, 'to'=> $rqst->to])
-                                                        ->setOptions(['defaultFont' => 'sans-serif'])
-                                                        ->setPaper('a4','portrait');
-            return $pdf->download('E-Statement.pdf'); 
-            
+            // $pdf = PDF::loadview('customer.estatementformat', ['account'=> $account, 'history'=> $history, 'user'=>$user, 'currentbal'=>$currBal, 'debit'=>$debit, 'credit'=>$credit, 'from'=> $rqst->from, 'to'=> $rqst->to])
+            //                                             ->setOptions(['defaultFont' => 'sans-serif'])
+            //                                             ->setPaper('a4','portrait');
+            // return $pdf->download('E-Statement.pdf'); 
+            return response()->json(['account'=> $account, 'history'=> $history, 'user'=>$user, 'currentbal'=>$currBal, 'tdebit'=>$debit, 'tcredit'=>$credit,]);
             // return response()->json([
             //     'pdffile' => htmlentities($pdf),
             // ]);
