@@ -33,17 +33,16 @@ class AdminApiController extends Controller
     	$employees = Employee::all();
     	$customers = Account::all();
     	
-    	$No = 0;
-    	foreach ($customers as $customer) {
-    		if($customer ->accountstate == 'ACTIVE'){
+    	$adminNo=$admins->count();
+    	$empNo=$employees->count();
+    	$cusNo=$customers->count();
 
-    			$No++;
-    		}
-    	}
-
-    	$customerNo= $No;
-
-    	return response()->json( [$admins, $employees, $customers]);
+    	return response()->json( [
+    		'adminsNo' => $adminNo, 
+    		'employeesNo' => $empNo, 
+    		'accountNo'=>$cusNo,
+    		'status'=> 200
+    	]);
     }
 
     public function adminProfile(Request $request){

@@ -461,7 +461,7 @@ class AdminApiAllListController extends Controller
     	$acc = Account::where('id',$request->id)->first();
     	if($acc){
 
-    		$acc -> accountstate = 'DISABLED';
+    		$acc -> accountstate = 'DISABLE';
     		$acc ->save();
 			return response()->json([
 		    		'status' => 200,
@@ -528,7 +528,7 @@ class AdminApiAllListController extends Controller
 		
 		if($customer){
 			
-			$customer -> accountstate = 'DISABLED';
+			$customer -> accountstate = 'DISABLE';
 			$customer ->save();
 			return response()->json([
 	    		'status' => 200,

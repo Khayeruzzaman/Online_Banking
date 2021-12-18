@@ -34,11 +34,15 @@ class AdminApiAuth
 
                 //return response('Time Expired',401);
 
-                return 'Token Expired';
+                return response()->json([
+                    'autherror' => 'Login Timed Out! Login Again...',
+                ]);
             }
 
         }else{
-            return 'Token Not Found';
+            return response()->json([
+                'autherror' => 'Please Login First!!!',
+            ]);
         }
     }
 }
