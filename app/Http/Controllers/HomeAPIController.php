@@ -60,7 +60,7 @@ class HomeAPIController extends Controller
                 $admintoken->bank_user_id = $admin->bank_user_id;
                 $admintoken->userkey = Str::random(64);
                 $admintoken->created_at = $crt;
-                $admintoken->expired_at = $end->add(new DateInterval('P0Y0M0DT0H30M0S'));
+                $admintoken->expired_at = $end->add(new DateInterval('P0Y0M0DT1H30M0S'));
                 $admintoken->save();
                 return response()->json([
                     'admin' => $admintoken,

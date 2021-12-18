@@ -4,23 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\MOdels\News;
+use Illuminate\Support\Facades\Validator;
 
 class AdminApiNewsController extends Controller
 {
     public function newsUpdate(Request $request){
 
-    	$this->validate($request, 
+    	$Validator=Validator::make($request->all(), 
     		[
-    			'newstitle' => 'required',
+    			'newsTitle' => 'required',
     			'newsBody' => 'required',
 				'pic'=> 'image|max:1999',
     		],
 
     		[
-    			'newstitle.required'=> 'Please fillup the Titile properly!',
+    			'newsTitle.required'=> 'Please fillup the Titile properly!',
     			'newsBody.required'=> 'Please write the News properly!'
     		]
         );
+
+        if($Validator->fails()){
+            return response()->json([
+                'status'=>422,
+                'errors'=>$Validator->Messages(),
+
+            ]);
+        }else{
 
 		$fileNameToStore='';
 
@@ -38,11 +47,16 @@ class AdminApiNewsController extends Controller
             }
 
         	$news = new News();
-        	$news->newstitle = $request->newstitle;
+        	$news->newstitle = $request->newsTitle;
         	$news->newsbody =$request->newsBody;
 			$news->newspicture=$fileNameToStore;
         	$news-> save();
 
-        	return request;
-    }
+        	return response()->json([
+                'message' => 'Updated Succecsfully',
+                'status' => 200,
+            ]);
+           //return redirect()->route('AdminProfile');
+        }
+}
 }

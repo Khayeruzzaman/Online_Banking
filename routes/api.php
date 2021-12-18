@@ -70,85 +70,85 @@ Route::get('/account-statement/{from}/{to}/{id}', [AccountAPIController::class, 
 
 //-------------------------------------Admin-----------------------------------------------------------//
 
-Route::get('/admin/info/{id}',[AdminApiController::class , 'adminInfromation']);
-Route::get('/bank/info/{id}',[AdminApiController::class , 'bankInfromation']);
+Route::get('/admin/info/{id}',[AdminApiController::class , 'adminInfromation'])->middleware('AdminApiAuth');
+Route::get('/bank/info/{id}',[AdminApiController::class , 'bankInfromation'])->middleware('AdminApiAuth');
 
-Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard']);
-Route::get('/admin/profileinfo/{id}',[AdminApiController::class , 'adminProfile']);
-Route::get('/admin/history',[AdminApiController::class , 'history']);
+Route::get('/admin/dashboard',[AdminApiController::class , 'adminDashboard'])->middleware('AdminApiAuth');
+Route::get('/admin/profileinfo/{id}',[AdminApiController::class , 'adminProfile'])->middleware('AdminApiAuth');
+Route::get('/admin/history',[AdminApiController::class , 'history'])->middleware('AdminApiAuth');
 
 //Admin Profile Update
-Route::post('/admin/editprofile/{b_id}/{ad_id}',[AdminApiController::class , 'adminUpdate']);
+Route::post('/admin/editprofile/{b_id}/{ad_id}',[AdminApiController::class , 'adminUpdate'])->middleware('AdminApiAuth');
 
 //Admin Update Picture
-Route::post('/admin/updatePicture/{id}',[AdminApiController::class , 'updatePicture']);
+Route::post('/admin/updatePicture/{id}',[AdminApiController::class , 'updatePicture'])->middleware('AdminApiAuth');
 
 
 
 
 //admin Create New Admin
-Route::post('/admin/create/admin/users',[AdminApiRegController::class , 'createAdmin']);
+Route::post('/admin/create/admin/users',[AdminApiRegController::class , 'createAdmin'])->middleware('AdminApiAuth');
 
 //admin Create New Employee
-Route::post('/admin/create/employee/users',[AdminApiRegController::class , 'createEmp']);
+Route::post('/admin/create/employee/users',[AdminApiRegController::class , 'createEmp'])->middleware('AdminApiAuth');
 
 //admin Create New Customer
-Route::get('/admin/create/account/users',[AdminApiRegController::class , 'customerRegistration']);
-Route::post('/admin/create/account/users',[AdminApiRegController::class , 'createCustomer']);
+Route::get('/admin/create/account/users',[AdminApiRegController::class , 'customerRegistration'])->middleware('AdminApiAuth');
+Route::post('/admin/create/account/users',[AdminApiRegController::class , 'createCustomer'])->middleware('AdminApiAuth');
 
 //admin Users Lists
 Route::get('/admin/dashboard/adminList',[AdminApiAllListController::class , 'adminList'])->middleware('AdminApiAuth');
-Route::get('/admin/dashboard/employeeList',[AdminApiAllListController::class , 'empList']);
-Route::get('/admin/dashboard/customerList',[AdminApiAllListController::class , 'cusList']);
+Route::get('/admin/dashboard/employeeList',[AdminApiAllListController::class , 'empList'])->middleware('AdminApiAuth');
+Route::get('/admin/dashboard/customerList',[AdminApiAllListController::class , 'cusList'])->middleware('AdminApiAuth');
 
-Route::get('/admin/dashboard/allUserList',[AdminApiAllListController::class , 'userList']);
+Route::get('/admin/dashboard/allUserList',[AdminApiAllListController::class , 'userList'])->middleware('AdminApiAuth');
 
 //Admin List Edit
-Route::get('/admin/adminlist/edit/{id}',[AdminApiAllListController::class , 'adminListEdit']);
-Route::post('/admin/adminlist/update/{id}',[AdminApiAllListController::class , 'adminListUpdate']);
+Route::get('/admin/adminlist/edit/{id}',[AdminApiAllListController::class , 'adminListEdit'])->middleware('AdminApiAuth');
+Route::post('/admin/adminlist/update/{id}',[AdminApiAllListController::class , 'adminListUpdate'])->middleware('AdminApiAuth');
 
 
 //Admin List Delete
-Route::get('admin/adminlist/delete-admin/{id}',[AdminApiAllListController::class , 'deleteList']);
+Route::get('admin/adminlist/delete-admin/{id}',[AdminApiAllListController::class , 'deleteList'])->middleware('AdminApiAuth');
 
 //Admin Employee List Update
 Route::get('/admin/emplist/edit/{id}',[AdminApiAllListController::class , 'empListEdit']);
-Route::post('/admin/emplist/update/{id}',[AdminApiAllListController::class , 'empListUpdate']);
+Route::post('/admin/emplist/update/{id}',[AdminApiAllListController::class , 'empListUpdate'])->middleware('AdminApiAuth');
 
 
 //Admin Employee List Delete
-Route::get('admin/employees/delete-employee/{id}',[AdminApiAllListController::class , 'deleteEmpList']);
+Route::get('admin/employees/delete-employee/{id}',[AdminApiAllListController::class , 'deleteEmpList'])->middleware('AdminApiAuth');
 
 
 
 //Admin Customer List Update
-Route::get('/admin/customerlist/edit/{id}',[AdminApiAllListController::class , 'cusListEdit']);
-Route::post('/admin/customerlist/update/{id}',[AdminApiAllListController::class , 'cusListUpdate']);
+Route::get('/admin/customerlist/edit/{id}',[AdminApiAllListController::class , 'cusListEdit'])->middleware('AdminApiAuth');
+Route::post('/admin/customerlist/update/{id}',[AdminApiAllListController::class , 'cusListUpdate'])->middleware('AdminApiAuth');
 
 
 //Admin Customer List Delete
-Route::get('admin/customerlist/disable/{id}',[AdminApiAllListController::class , 'disableCusList']);
+Route::get('admin/customerlist/disable/{id}',[AdminApiAllListController::class , 'disableCusList'])->middleware('AdminApiAuth');
 
 //Admin Customers Request
-Route::get('/admin/customer/requests',[AdminApiAllListController::class , 'customerRequests']);
+Route::get('/admin/customer/requests',[AdminApiAllListController::class , 'customerRequests'])->middleware('AdminApiAuth');
 
 //Admin Customers Request Accept/Disable
-Route::get('/admin/customer/requests/accept/{id}',[AdminApiAllListController::class , 'customerRequestsAccept']);
-Route::get('/admin/customer/requests/disable/{id}',[AdminApiAllListController::class , 'customerRequestsDisable']);
+Route::get('/admin/customer/requests/accept/{id}',[AdminApiAllListController::class , 'customerRequestsAccept'])->middleware('AdminApiAuth');
+Route::get('/admin/customer/requests/disable/{id}',[AdminApiAllListController::class , 'customerRequestsDisable'])->middleware('AdminApiAuth');
 
 
 //Admin Loans Request
-Route::get('/admin/loan/requests',[AdminApiLoanController::class , 'loanRequests']);
+Route::get('/admin/loan/requests',[AdminApiLoanController::class , 'loanRequests'])->middleware('AdminApiAuth');
 
 //Admin Loans Request Accept/Disable
-Route::get('/admin/loan/requests/accept/{id}',[AdminApiLoanController::class , 'loanRequestsAccept']);
-Route::get('/admin/loan/requests/reject/{id}',[AdminApiLoanController::class , 'loanRequestsReject']);
+Route::get('/admin/loan/requests/accept/{id}',[AdminApiLoanController::class , 'loanRequestsAccept'])->middleware('AdminApiAuth');
+Route::get('/admin/loan/requests/reject/{id}',[AdminApiLoanController::class , 'loanRequestsReject'])->middleware('AdminApiAuth');
 
 
 //Admin News
-Route::post('/admin/news/create',[AdminApiNewsController::class , 'newsUpdate']);
+Route::post('/admin/news/create',[AdminApiNewsController::class , 'newsUpdate'])->middleware('AdminApiAuth');
 
 
 //Admin Account All List
 
-Route::get('/admin/account/alllist',[AdminApiController::class , 'accountAllList']);
+Route::get('/admin/account/alllist',[AdminApiController::class , 'accountAllList'])->middleware('AdminApiAuth');
